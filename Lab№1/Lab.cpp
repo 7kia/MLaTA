@@ -58,6 +58,51 @@ size_t CLabAaSD::GetAmountWallsForTrees(forest &forest)
 	return amountWalls;
 }
 
+void CLabAaSD::RemoveInsideWalls(size_t & amount , forest & forest)
+{
+	size_t amountNeightbos = 0;
+	for (size_t y = 0; y < forest.size(); y++)
+	{
+		for (size_t x = 0; x < forest[y].size(); x++)
+		{
+			amountNeightbos = 0;
+			for (int x1 = -1; x1 <= 1; x1++)
+			{
+				for (int y1 = -1; y1 <= 1; y1++)
+				{
+
+
+					if (abs(x1) != abs(y1))
+					{
+						// Проверка допустимости
+						//std::cout << x1 << " " << y1 << std::endl;
+						//std::cout << (x + x1) << " " << widthMap << " || " << (y + y1) << " " << (forest.size() - 1) << std::endl;
+						//std::cout << ((x + x1) < widthMap) << " " << ((y + y1) < (forest.size() - 1)) << std::endl;
+
+
+						if ((((x + x1) >= 0) && ((y + y1) >= 0))
+								&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
+						{
+							if (forest[y + y1][x + x1] == charTree)
+							{
+								amountNeightbos++;
+							}
+						}
+
+					}
+				}
+			}
+
+
+
+			if (amountNeightbos == 4)
+			{
+				amount -= 4;
+			}
+		}
+	}
+}
+
 size_t CLabAaSD::GetAmountWallsForTree(forest &forest, int x , int y)
 {
 	size_t amountWalls = 4;

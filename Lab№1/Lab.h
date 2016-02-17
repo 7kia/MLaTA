@@ -39,5 +39,6 @@ private:
 public:
 	void FillForestMap(std::ifstream &file , forest &forest);
 	size_t GetAmountWallsForTrees(forest &forest);
+	void RemoveInsideWalls(size_t &amount , forest &forest);
 };
 #endif

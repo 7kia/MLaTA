@@ -33,7 +33,7 @@ bool CApplication::Run()
 			forest forest;
 			FillForestMap(inputFile , forest);
 			size_t amountWalls = GetAmountWallsForTrees(forest);
-			
+			RemoveInsideWalls(amountWalls , forest);
 			outputFile << amountWalls;
 
 			}
