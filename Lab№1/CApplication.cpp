@@ -32,9 +32,11 @@ bool CApplication::Run()
 			{
 			forest forest;
 			FillForestMap(inputFile , forest);
+			FillIInsidePlace(forest);
 			size_t amountWalls = GetAmountWallsForTrees(forest);
-			RemoveInsideWalls(amountWalls , forest);
+			//RemoveInsideWalls(amountWalls , forest);
 			outputFile << amountWalls;
+
 
 			}
 			catch(std::exception e)

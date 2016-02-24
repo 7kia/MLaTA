@@ -18,6 +18,7 @@ struct point
 };
 
 typedef std::vector<std::string> forest;
+typedef std::vector<point> Queue;
 
 class CLabAaSD
 {
@@ -28,12 +29,16 @@ private:
 
 	const char charTree = '1';
 	const char emptyChar = '0';
+	const char searchChar = '+';
 
 	int widthMap = 0;
 	int heightMap = 0;
 	size_t countWidth = 0;
 	size_t countHeight = 0;
 private:
+	bool CheckBorderSymbols(forest & forest);
+	void ReplaceSymbol(forest & forest, char search, char replace);
+
 	size_t GetAmountWallsForTree(forest &forest , int x , int y);
 
 	bool checkWidthAndHeight();
@@ -44,6 +49,10 @@ public:
 	size_t GetAmountWallsForTrees(forest &forest);
 	size_t GetInsideWalls(size_t x, size_t y, forest & forest);
 	bool SearchEmptyPlace(int & x, int & y, forest & forest);
-	void RemoveInsideWalls(size_t &amount , forest &forest);
+
+	void Push(forest & forest, size_t x, size_t y, Queue & paths);
+	void Fill(forest & forest, size_t x, size_t y);
+
+	void FillIInsidePlace(forest &forest);
 };
 #endif

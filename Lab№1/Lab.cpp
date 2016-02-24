@@ -97,10 +97,6 @@ size_t CLabAaSD::GetInsideWalls(size_t x, size_t y, forest & forest)
 	int X = static_cast<int>(x);
 	int Y = static_cast<int>(y);
 
-	std::vector<point> foundNeighbors;
-
-
-
 	for (int x1 = -1; x1 <= 1; x1++)
 	{
 		for (int y1 = -1; y1 <= 1; y1++)
@@ -114,10 +110,6 @@ size_t CLabAaSD::GetInsideWalls(size_t x, size_t y, forest & forest)
 					if (forest[Y + y1][X + x1] == charTree)
 					{
 						amountNeightbos++;
-					}
-					else
-					{
-						foundNeighbors.push_back(point(X + x1, Y + y1));
 					}
 				}
 				//
@@ -137,40 +129,49 @@ bool CLabAaSD::SearchEmptyPlace(int &x, int &y, forest & forest)
 		for (int y1 = -1; y1 <= 1; y1++)
 		{
 
-			/*
 			if (abs(x1) != abs(y1))
 			{
-			// Проверка допустимости
-			if ((((x + x1) >= 0) && ((y + y1) >= 0))
-			&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
-			{
-			if (forest[y + y1][x + x1] == charTree)
-			{
-			amountNeightbos++;
-			}
-			}
-
-			}
-
-			*/
-			// Проверка допустимости
-			if ((((x + x1) >= 0) && ((y + y1) >= 0))
-				&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
-			{
-				if (forest[y + y1][x + x1] != charTree)
+				// Проверка допустимости
+				if ((((x + x1) >= 0) && ((y + y1) >= 0))
+					&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
 				{
-					forest[y + y1][x + x1] = charTree;
-					x += x1;
-					y += y1;
-					return true;
+					if ((forest[y + y1][x + x1] == emptyChar))
+					{
+						// Проверка боковых значений
+						if (((x1 != 0)
+							&&
+							((forest[y + 1][x + x1] == charTree)
+								^
+							(forest[y - 1][x + x1] == charTree))
+								)
+							//
+							||
+							//
+							((y1 != 0)
+								&&
+								((forest[y + y1][x + 1] == charTree)
+									^
+									(forest[y + y1][x - 1] == charTree))
+								)
+							)
+							//
+						{
+							forest[y][x] = searchChar;
+							x += x1;
+							y += y1;
+							return true;
+						}
+					}
 				}
+				else
+				{
+					x++;
+					return false;
+				}
+				//
 			}
-			else
-			{
-				x++;
-				return false;
-			}
-			//
+
+			
 
 		}
 	}
@@ -178,113 +179,112 @@ bool CLabAaSD::SearchEmptyPlace(int &x, int &y, forest & forest)
 	return false;
 }
 
-void CLabAaSD::RemoveInsideWalls(size_t & amount , forest & forest)
-{
-	bool removeInsideWall = false;
-	size_t amountNeightbos = 0;
-	size_t subtrahend = 0;
 
-	size_t amountInCurrentPlace = 0;
-
-	int y = 1;
-	int x = 1;
-	removeInsideWall = false;
-	while (y < (forest.size() - 1))
+void CLabAaSD::Push(forest & forest, size_t x, size_t y, Queue & paths) {
+	if (x < forest[0].size() && x >= 0)
 	{
-		while (x < (forest[y].size() - 1))
+		if (y < forest.size() && y >= 0)
 		{
-			//amountNeightbos = 0;
-			
-
-			if (forest[y][x] != charTree)
-			{
-				amountInCurrentPlace += GetInsideWalls(x, y, forest);
-
-
-				// Поиск соседа
-				/*
-				for (int x1 = -1; x1 <= 1; x1++)
-				{
-					for (int y1 = -1; y1 <= 1; y1++)
-					{
-
-						/.*
-											if (abs(x1) != abs(y1))
-						{
-							// Проверка допустимости
-							if ((((x + x1) >= 0) && ((y + y1) >= 0))
-									&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
-							{
-								if (forest[y + y1][x + x1] == charTree)
-								{
-									amountNeightbos++;
-								}
-							}
-
-						}
-
-						//*-/
-						// Проверка допустимости
-						if ((((x + x1) >= 0) && ((y + y1) >= 0))
-							&& ((x + x1) <= widthMap) && ((y + y1) < forest.size()))
-						{
-							if (forest[y + y1][x + x1] != charTree)
-							{
-								forest[y + y1][x + x1] = charTree;
-								x += x1;
-								y += y1;
-								removeInsideWall = false;
-								continue;
-							}
-						}
-						else
-						{
-							x++;
-							break;
-						}
-						//
-
-					}
-				}
-
-				*/
-				
-				if (SearchEmptyPlace(x, y, forest))
-				{
-					continue;
-				}
-
-			}
-
-			if ((amountInCurrentPlace == 4) && (subtrahend == 0))
-			{
-				amount -= 4;
-				std::cout << amount << std::endl;
-				std::cout << subtrahend << std::endl;
-				std::cout << amountInCurrentPlace << std::endl;
-
-				std::cout << std::endl;
-			}
-			else if (subtrahend > 0)
-			{
-				subtrahend += amountInCurrentPlace;
-				subtrahend -= 1;
-				amount -= subtrahend;
-				std::cout << amount << std::endl;
-				std::cout << subtrahend << std::endl;
-				std::cout << amountInCurrentPlace << std::endl;
-				std::cout << std::endl;
-
-
-			}
-			subtrahend = 0;
-			amountInCurrentPlace = 0;
-
-			x++;
+			if (forest[y][x] == charTree)
+				return;
+			if (forest[y][x] == searchChar)
+				return;
+			if (forest[y][x] == emptyChar)
+				forest[y][x] = searchChar;
+			paths.push_back({ x + 1, y });
+			paths.push_back({ x - 1, y });
+			paths.push_back({ x, y - 1 });
+			paths.push_back({ x, y + 1 });
 		}
+	}
+}
 
-		x = 1;
-		y++;
+void CLabAaSD::Fill(forest & forest, size_t x, size_t y)
+{
+	Queue paths;
+	do
+	{
+		if (paths.size() > 0)
+		{
+			x = paths[0].x;
+			y = paths[0].y;
+			paths.erase(paths.begin());
+			if (x < 0 || x >= forest.size())
+				continue;
+			if (x < forest.size() && x >= 0)
+			{
+				if (y >= forest[x].size() || y < 0)
+					continue;
+			}
+		}
+		Push(forest, x, y, paths);
+	} while (!paths.empty());
+}
+
+
+void CLabAaSD::FillIInsidePlace(forest & forest)
+{
+
+	for (size_t y = 1; y < (forest.size() - 1); y++)
+	{
+		for (size_t x = 1; x < (forest[y].size() - 1); x++)
+		{
+			if (forest[y][x] == emptyChar)
+			{
+				Fill(forest, x, y);
+				if (CheckBorderSymbols(forest))
+				{
+					ReplaceSymbol(forest, searchChar, charTree);
+				}
+			}
+
+		}
+	}
+}
+
+bool CLabAaSD::CheckBorderSymbols(forest & forest)
+{
+	// Поиск вверху
+	for (size_t x = 0, y = 0; x < forest[y].size(); x++)
+	{
+		if (forest[y][x] == searchChar)
+		{
+			return false;
+		}
+	}
+
+	// Поиск посередине
+	for (size_t y = 1; y < forest.size(); y++)
+	{
+		if ((forest[y][0] == searchChar) || ((forest[y].size() - 1) == searchChar))
+		{
+			return false;
+		}
+	}
+
+	// Поиск внизу
+	for (size_t x = 0, y = forest.size() - 1; x < forest.size(); x++)
+	{
+		if (forest[y][x] == searchChar)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void CLabAaSD::ReplaceSymbol(forest & forest, char search, char replace)
+{
+	for (auto &y : forest)
+	{
+		for (auto &x : y)
+		{
+			if (x == search)
+			{
+				x = replace;
+			}
+		}
 	}
 }
 
