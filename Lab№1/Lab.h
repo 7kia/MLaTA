@@ -11,6 +11,8 @@
 
 struct point
 {
+	point();
+	point(size_t first, size_t second);
 	size_t x;
 	size_t y;
 };
@@ -25,6 +27,7 @@ private:
 	const std::string MESSAGE_HEIGHT_MORE_EXPECTED = "Height map more expected!!!";
 
 	const char charTree = '1';
+	const char emptyChar = '0';
 
 	int widthMap = 0;
 	int heightMap = 0;
@@ -39,6 +42,8 @@ private:
 public:
 	void FillForestMap(std::ifstream &file , forest &forest);
 	size_t GetAmountWallsForTrees(forest &forest);
+	size_t GetInsideWalls(size_t x, size_t y, forest & forest);
+	bool SearchEmptyPlace(int & x, int & y, forest & forest);
 	void RemoveInsideWalls(size_t &amount , forest &forest);
 };
 #endif
