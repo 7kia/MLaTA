@@ -236,6 +236,10 @@ void CLabAaSD::FillIInsidePlace(forest & forest)
 				{
 					ReplaceSymbol(forest, searchChar, charTree);
 				}
+				else
+				{
+					ReplaceSymbol(forest, searchChar, emptyChar);
+				}
 			}
 
 		}
@@ -257,6 +261,10 @@ bool CLabAaSD::CheckBorderSymbols(forest & forest)
 	for (size_t y = 1; y < forest.size(); y++)
 	{
 		if ((forest[y][0] == searchChar) || ((forest[y].size() - 1) == searchChar))
+		{
+			return false;
+		}
+		if ((forest[y][forest[y].size() - 1] == searchChar) || ((forest[y].size() - 1) == searchChar))
 		{
 			return false;
 		}
