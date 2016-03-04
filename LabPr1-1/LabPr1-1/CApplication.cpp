@@ -32,9 +32,12 @@ bool CApplication::Run()
 			{
 			intVec vec;
 			FillVector(inputFile , vec);
-			FindAmountRepeat(vec);
+			point outputValues = FindAmountRepeat(vec);
 
-			//outputFile << amountWalls;
+			outputFile << outputValues.x;
+			outputFile << " ";
+			outputFile << outputValues.y;
+
 
 
 			}

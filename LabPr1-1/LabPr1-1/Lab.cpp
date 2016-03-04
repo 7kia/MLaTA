@@ -8,7 +8,11 @@ bool CLabAaSD::checkAmountElements()
 
 bool CLabAaSD::checkCounterElements()
 {
-	return true;
+	if (countElements <= amountElements)
+	{
+		return true;
+	}
+	return false;
 }
 
 void CLabAaSD::FillVector(std::ifstream &file, intVec &vec)
@@ -32,7 +36,7 @@ void CLabAaSD::FillVector(std::ifstream &file, intVec &vec)
 
 			file >> element;
 
-			amountElements += 1;
+			countElements += 1;
 			if (checkCounterElements())
 			{
 				vec.push_back(element);
@@ -43,9 +47,9 @@ void CLabAaSD::FillVector(std::ifstream &file, intVec &vec)
 	}
 }
 
-void CLabAaSD::FindAmountRepeat(intVec & vec)
+point CLabAaSD::FindAmountRepeat(intVec & vec)
 {
-	std::sort(vec.begin(), vec.end());
+	//std::sort(vec.begin(), vec.end());
 
 	std::map<int, size_t> mapIntVec;
 
@@ -97,7 +101,7 @@ void CLabAaSD::FindAmountRepeat(intVec & vec)
 		}
 	}
 
-
+	return point(minKey, maxKey);
 }
 
 /*
@@ -137,7 +141,7 @@ point::point()
 {
 }
 
-point::point(size_t first, size_t second)
+point::point(int first, int second)
 {
 	x = first;
 	y = second;

@@ -16,9 +16,9 @@
 struct point
 {
 	point();
-	point(size_t first, size_t second);
-	size_t x;
-	size_t y;
+	point(int first, int second);
+	int x;
+	int y;
 };
 
 typedef std::vector<int> intVec;
@@ -36,6 +36,6 @@ private:
 	bool checkCounterElements();
 public:
 	void FillVector(std::ifstream &file , intVec &vec);
-	void FindAmountRepeat(intVec &vec);
+	point FindAmountRepeat(intVec &vec);
 };
 #endif
