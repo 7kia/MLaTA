@@ -35,7 +35,7 @@ bool CApplication::Run()
 			size_t maxCost = GetMaxCost(prises);
 
 			size_t secondMaxCost = GetLessMaxCost(prises);
-			//outputFile << maxCost;
+			outputFile << secondMaxCost;
 
 
 			}
