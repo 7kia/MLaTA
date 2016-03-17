@@ -95,7 +95,6 @@ size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 			if (indexEnd < prises.size())
 			{
 				summa += prises[indexEnd];
-
 			}							
 		}
 		else
@@ -111,13 +110,18 @@ size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 				//indexStart += 1;// TODO : might error
 				//summa = 0;
 			}
+			if (result <= summa)
+			{
+				indexMaxStart = indexStart;
+				indexMaxEnd = indexEnd;
+
+
+			}
 			indexEnd = indexStart;
 
 			indexStart += 1;
+			
 			summa = 0;
-
-			indexMaxStart = indexStart - 1;
-			indexMaxEnd = indexEnd + 1;
 
 		}
 		indexEnd++;		
@@ -138,9 +142,9 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 	indexStart = 0;
 	indexEnd = 0;
 
-	while (indexStart < prises.size())// Optima
+	while ((indexStart < prises.size()) && (indexEnd <= prises.size()))// Optima
 	{
-		if ((indexMaxStart != indexStart) || (indexMaxEnd != indexEnd))
+		if ((indexMaxStart != indexStart) && (indexMaxEnd != indexEnd))			
 		{
 			if ((indexEnd - indexStart) < amountNumbers)
 			{
@@ -163,20 +167,24 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 					//indexStart += 1;// TODO : might error
 					//summa = 0;
 				}
+				if (result <= summa)
+				{
+					indexSecondMaxStart = indexStart;
+					indexSecondMaxEnd = indexEnd;
+				}
 				indexEnd = indexStart;
 
 				indexStart += 1;
+
+				
 				summa = 0;
 
-				indexSeconsMaxStart = indexStart - 1;
-				indexSecondMaxEnd = indexEnd + 1;
-
 			}
+			
+			
 		}
 		indexEnd++;
 	}
-
-	//size_t costLeft
 
 	return result;
 }

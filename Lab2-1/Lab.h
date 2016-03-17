@@ -38,7 +38,7 @@ private:
 	size_t indexMaxStart = 0;
 	size_t indexMaxEnd = 0;
 
-	size_t indexSeconsMaxStart = 0;
+	size_t indexSecondMaxStart = 0;
 	size_t indexSecondMaxEnd = 0;
 
 private:
