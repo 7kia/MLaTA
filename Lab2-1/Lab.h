@@ -34,11 +34,20 @@ private:
 
 	size_t indexStart = 0;
 	size_t indexEnd = 0;
+
+	size_t indexMaxStart = 0;
+	size_t indexMaxEnd = 0;
+
+	size_t indexSeconsMaxStart = 0;
+	size_t indexSecondMaxEnd = 0;
+
 private:
 	bool checkAmountPrisesAndNumbers();
 	bool checkCounterWidthMap();
 public:
-	void GetMaxCost(prises & prises);
+	size_t GetMaxCost(prises & prises);
+
+	size_t GetLessMaxCost(prises & prises);
 
 	void FillPrisesList(std::ifstream & file, prises & prises);
 

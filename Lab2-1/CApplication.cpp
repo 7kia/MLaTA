@@ -32,7 +32,9 @@ bool CApplication::Run()
 			{
 			prises prises;
 			FillPrisesList(inputFile, prises);
-			//size_t maxCost = GetMaxCost(inputFile);
+			size_t maxCost = GetMaxCost(prises);
+
+			size_t secondMaxCost = GetLessMaxCost(prises);
 			//outputFile << maxCost;
 
 

@@ -80,9 +80,100 @@ bool CLabAaSD::checkCounterHeightMap()
 */
 
 
-void CLabAaSD::GetMaxCost(prises & prises)
+size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 {
+	int result = 0;
+	int summa = 0;
+	int lastElement = prises[0];
+
+	//size_t index1 = 0;
+	while (indexStart < prises.size())// Optima
+	{
+
+		if ((indexEnd - indexStart) < amountNumbers)
+		{
+			summa += prises[indexEnd];
+			if (result <= summa)
+			{
+				result = summa;
+			}
+			else
+			{
+				indexEnd = indexStart;
+
+				indexStart += 1;// TODO : might error
+				summa = 0;
+			}
+		}
+		else
+		{
+			indexEnd = indexStart;
+
+			indexStart += 1;
+			summa = 0;
+
+			indexMaxStart = indexStart - 1;
+			indexMaxEnd = indexEnd + 1;
+
+		}
+		indexEnd++;		
+	}
+
+	//size_t costLeft
+
+	return result;
 }
+
+size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
+{
+	int result = 0;
+	int summa = 0;
+	int lastElement = prises[0];
+
+	//size_t index1 = 0;
+	indexStart = 0;
+	indexEnd = 0;
+
+	while (indexStart < prises.size())// Optima
+	{
+		if ((indexMaxStart != indexStart) || (indexMaxEnd != indexEnd))
+		{
+			if ((indexEnd - indexStart) < amountNumbers)
+			{
+				summa += prises[indexEnd];
+				if (result <= summa)
+				{
+					result = summa;
+				}
+				else
+				{
+					indexEnd = indexStart;
+
+					indexStart += 1;// TODO : might error
+					summa = 0;
+				}
+			}
+			else
+			{
+				indexEnd = indexStart;
+
+				indexStart += 1;
+				summa = 0;
+
+				indexSeconsMaxStart = indexStart - 1;
+				indexSecondMaxEnd = indexEnd + 1;
+
+			}
+		}
+		
+		indexEnd++;
+	}
+
+	//size_t costLeft
+
+	return result;
+}
+
 
 point::point()
 {
