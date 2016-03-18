@@ -144,7 +144,12 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 
 	while ((indexStart < prises.size()) && (indexEnd <= prises.size()))// Optima
 	{
-		if ((indexMaxStart != indexStart) && (indexMaxEnd != indexEnd))			
+		if ((indexMaxStart == indexStart))
+		{
+			indexStart = indexMaxEnd + 1;
+			indexEnd = indexStart;
+		}
+		else
 		{
 			if ((indexEnd - indexStart) < amountNumbers)
 			{
@@ -160,13 +165,7 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 				{
 					result = summa;
 				}
-				else
-				{
-					//indexEnd = indexStart;
 
-					//indexStart += 1;// TODO : might error
-					//summa = 0;
-				}
 				if (result <= summa)
 				{
 					indexSecondMaxStart = indexStart;
@@ -176,26 +175,17 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 
 				indexStart += 1;
 
-				
+
 				summa = 0;
 
 			}
-			
-			
 		}
+		
+
+
+
 		indexEnd++;
 	}
 
 	return result;
-}
-
-
-point::point()
-{
-}
-
-point::point(size_t first, size_t second)
-{
-	x = first;
-	y = second;
 }
