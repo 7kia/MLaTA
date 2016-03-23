@@ -36,8 +36,6 @@ bool CApplication::Run()
 
 			size_t secondMaxCost = GetLessMaxCost(prises);
 			outputFile << secondMaxCost;
-
-
 			}
 			catch(std::exception e)
 			{
