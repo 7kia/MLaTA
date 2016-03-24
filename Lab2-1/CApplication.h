@@ -6,8 +6,6 @@
 #include <string>
 #include <iostream>// for std::cin and std::cout
 #include <fstream>
-#include <time.h> // for clock()
-#include <sys/stat.h>// for search file size
 
 #include "Lab.h"
 
@@ -17,7 +15,7 @@ public:
 	CApplication(int argc , char *argv[]);
 	~CApplication();
 
-	bool Run();
+	void Run();
 
 private:
 	const std::string MESSAGE_FAILED_OPEN = "Failed to open ";
@@ -27,8 +25,6 @@ private:
 
 	const int AMOUNT_ARGUMENTS = 3;
 
-	bool isCorrectInputDate = false;
-
 	std::string nameInputFile;
 	std::string nameOutputFile;
 
@@ -36,9 +32,9 @@ private:
 	std::ofstream outputFile;
 
 private:
-	bool CheckParametrs(int argc , char *argv[]);
+	void CheckParametrs(int argc , char *argv[]);
 
-	bool OpenFiles();
+	void OpenFiles();
 	bool CheckFileForReading(std::ifstream &file);
 	bool CheckFileForWriting(std::ofstream &file);
 

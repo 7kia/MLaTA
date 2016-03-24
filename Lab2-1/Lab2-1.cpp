@@ -4,15 +4,20 @@
 #include "stdafx.h"
 #include "CApplication.h"
 
+using namespace std;
 
 int main(int argc, char *argv[])
 {
-	CApplication application(argc, argv);
 
-	bool isError = !application.Run();
-
-	if (isError)
+	try
 	{
+		CApplication application(argc, argv);
+
+		application.Run();
+	}
+	catch (const std::exception& e)
+	{
+		cout << e.what() << endl;
 		return 1;
 	}
 

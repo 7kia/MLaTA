@@ -184,3 +184,15 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 
 	return result;
 }
+
+point::point()
+:x(0),
+y(0)
+{
+}
+
+point::point(size_t first, size_t second)
+	:x(first),
+	y(second)
+{
+}

@@ -5,75 +5,52 @@ using namespace std;
 
 CApplication::CApplication(int argc , char * argv[])
 {
-	if (CheckParametrs(argc , argv))
-	{
-		nameInputFile = argv[1];
-		nameOutputFile = argv[2];
-
-		isCorrectInputDate = true;
-	}
-	else
-	{
-		isCorrectInputDate = false;
-	}
+	CheckParametrs(argc, argv);
+	
+	nameInputFile = argv[1];
+	nameOutputFile = argv[2];	
 }
 
 CApplication::~CApplication()
 {
 }
 
-bool CApplication::Run()
+void CApplication::Run()
 {
-	if (isCorrectInputDate)
-	{
-		if (OpenFiles())
-		{
-			try
-			{
-			prises prises;
-			FillPrisesList(inputFile, prises);
-			size_t maxCost = GetMaxCost(prises);
+	OpenFiles();
 
-			size_t secondMaxCost = GetLessMaxCost(prises);
-			outputFile << secondMaxCost;
-			}
-			catch(std::exception e)
-			{
-				cout << e.what() << endl;
-			}
-			return true;
-		}
-	}
+	prises prises;
+	FillPrisesList(inputFile, prises);
+	size_t maxCost = GetMaxCost(prises);
 
-	return false;
+	size_t secondMaxCost = GetLessMaxCost(prises);
+	outputFile << secondMaxCost;
 }
 
-bool CApplication::CheckParametrs(int argc , char *argv[])
+void CApplication::CheckParametrs(int argc , char *argv[])
 {
-	if (argc == AMOUNT_ARGUMENTS)
+	if (argc != AMOUNT_ARGUMENTS)
 	{
-		return true;
+		throw invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS + to_string(AMOUNT_ARGUMENTS));
 	}
-	cout << MESSAGE_INCORRECT_AMOUNT_ARGUMENTS << AMOUNT_ARGUMENTS << endl;
-
-	return false;
 }
 
-bool CApplication::OpenFiles()
+void CApplication::OpenFiles()
 {
 	inputFile.open(nameInputFile);
+	inputFile.exceptions(ifstream::badbit);
 	if (!CheckFileForReading(inputFile))
 	{
-		return false;
+		throw ifstream::failure(MESSAGE_FAILED_OPEN + nameInputFile + MESSAGE_FAILED_OPEN_FOR_READING);
 	}
 
 	outputFile.open(nameOutputFile);
+	outputFile.exceptions(ofstream::badbit);
 	if (!CheckFileForWriting(outputFile))
 	{
-		return false;
+		throw ofstream::failure(MESSAGE_FAILED_OPEN + nameOutputFile + MESSAGE_FAILED_OPEN_FOR_WRITING);
 	}
 
-	return true;
 }
 
 
@@ -81,7 +58,6 @@ bool CApplication::CheckFileForReading(ifstream & file)
 {
 	if (!file.is_open())
 	{
-		cout << MESSAGE_FAILED_OPEN << nameInputFile << MESSAGE_FAILED_OPEN_FOR_READING << endl;
 		return false;
 	}
 
@@ -92,7 +68,6 @@ bool CApplication::CheckFileForWriting(ofstream & file)
 {
 	if (!file.is_open())
 	{
-		cout << MESSAGE_FAILED_OPEN << nameInputFile << MESSAGE_FAILED_OPEN_FOR_WRITING << endl;
 		return false;
 	}
 
