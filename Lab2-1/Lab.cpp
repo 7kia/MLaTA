@@ -3,82 +3,45 @@
 
 void CLabAaSD::FillPrisesList(std::ifstream &file, prises &prises)
 {
-	countPrises = 0;
+	m_countPrises = 0;
 
 	int number = 0;
 
 	while (!file.eof())
 	{
-		if ((amountPrises == 0) && (amountNumbers == 0))
+		if ((m_amountPrises == 0) && (m_amountNumbers == 0))
 		{
-			file >> amountPrises;
-			file >> amountNumbers;
+			file >> m_amountPrises;
+			file >> m_amountNumbers;
 
 			std::string passString;
 			std::getline(file , passString);
 		}
 
 
-		if (checkAmountPrisesAndNumbers())
-		{
-			/*
-			std::string addString;
-			std::getline(file , addString);
-
-			countNumbers = addString.size();
-			if (checkCounterWidthMap())
-			{
-				forest.push_back(addString);
-
-				if (checkCounterHeightMap())
-				{
-					countHeight++;
-				}
-			}
-			*/
-
-			file >> number;
-
-			prises.push_back(number);
-			//lastNumber = number;
-
-		}
+		CheckAmountPrisesAndNumbers();		
+		file >> number;
+		prises.push_back(number);
+		
 
 	}
 }
 
-bool CLabAaSD::checkAmountPrisesAndNumbers()
+void CLabAaSD::CheckAmountPrisesAndNumbers()
 {
-	if ((amountPrises < 1) && (amountNumbers < 1))
+	if ((m_amountPrises < 1) && (m_amountNumbers < 1))
 	{
-		throw MESSAGE_INCORRECT_SIZE;
-		return false;
+		throw std::invalid_argument(MESSAGE_INCORRECT_SIZE);
 	}
-	return true;
 }
 
-bool CLabAaSD::checkCounterWidthMap()
+void CLabAaSD::CheckCounterWidthMap()
 {
-	if ((static_cast<int>(countPrises) > amountPrises) && (static_cast<int>(countNumbers) < 0) && (amountNumbers > 0))
+	if ((static_cast<int>(m_countPrises) > m_amountPrises) && (static_cast<int>(m_countNumbers) < 0) && (m_amountNumbers > 0))
 	{
-		throw MESSAGE_WIDTH_MORE_EXPECTED;
-		return false;
+		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
 	}
-	return true;
 }
-
-/*
-bool CLabAaSD::checkCounterHeightMap()
-{
-	if ((static_cast<int>(countHeight) > heightMap) && (static_cast<int>(countHeight) < 0) && (heightMap > 0))
-	{
-		throw MESSAGE_HEIGHT_MORE_EXPECTED;
-		return false;
-	}
-	return true;
-}
-*/
-
 
 size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 {
@@ -86,15 +49,13 @@ size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 	int summa = 0;
 	int lastElement = prises[0];
 
-	//size_t index1 = 0;
-	while ((indexStart < prises.size()) && (indexEnd <= prises.size()))// Optima
+	while ((m_indexStart < prises.size()) && (m_indexEnd <= prises.size()))
 	{
-
-		if ((indexEnd - indexStart) < amountNumbers)
+		if ((m_indexEnd - m_indexStart) < m_amountNumbers)
 		{
-			if (indexEnd < prises.size())
+			if (m_indexEnd < prises.size())
 			{
-				summa += prises[indexEnd];
+				summa += prises[m_indexEnd];
 			}							
 		}
 		else
@@ -103,61 +64,46 @@ size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 			{
 				result = summa;
 			}
-			else
-			{
-				//indexEnd = indexStart;
-
-				//indexStart += 1;// TODO : might error
-				//summa = 0;
-			}
 			if (result <= summa)
 			{
-				indexMaxStart = indexStart;
-				indexMaxEnd = indexEnd;
-
-
+				m_indexMaxStart = m_indexStart;
+				m_indexMaxEnd = m_indexEnd;
 			}
-			indexEnd = indexStart;
+			m_indexEnd = m_indexStart;
 
-			indexStart += 1;
+			m_indexStart += 1;
 			
 			summa = 0;
 
 		}
-		indexEnd++;		
+		m_indexEnd++;		
 	}
-
-	//size_t costLeft
-
 	return result;
 }
 
-size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
+size_t CLabAaSD::GetLessMaxCost(prises & prises)
 {
 	int result = 0;
 	int summa = 0;
 	int lastElement = prises[0];
 
-	//size_t index1 = 0;
-	indexStart = 0;
-	indexEnd = 0;
+	m_indexStart = 0;
+	m_indexEnd = 0;
 
-	while ((indexStart < prises.size()) && (indexEnd <= prises.size()))// Optima
+	while ((m_indexStart < prises.size()) && (m_indexEnd <= prises.size()))
 	{
-		if ((indexMaxStart == indexStart))
+		if ((m_indexMaxStart == m_indexStart))
 		{
-			indexStart = indexMaxEnd + 1;
-			indexEnd = indexStart;
+			m_indexStart = m_indexMaxEnd + 1;
+			m_indexEnd = m_indexStart;
 
 		}
-		//else
-		//{
-			if (((indexEnd - indexStart) < amountNumbers)
-				&& (indexMaxStart != indexEnd))
+			if (((m_indexEnd - m_indexStart) < m_amountNumbers)
+				&& (m_indexMaxStart != m_indexEnd))
 			{
-				if (indexEnd < prises.size())
+				if (m_indexEnd < prises.size())
 				{
-					summa += prises[indexEnd];
+					summa += prises[m_indexEnd];
 
 				}
 			}
@@ -166,28 +112,27 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)// Optima
 				if (result <= summa)
 				{
 					result = summa;
-					indexSecondMaxStart = indexStart;
-					indexSecondMaxEnd = indexEnd - 1;
+					m_indexSecondMaxStart = m_indexStart;
+					m_indexSecondMaxEnd = m_indexEnd - 1;
 				}
-				indexEnd = indexStart;
+				m_indexEnd = m_indexStart;
 
-				indexStart += 1;
+				m_indexStart += 1;
 
 
 				summa = 0;
 
 			}
-		//}
 		
-		indexEnd++;
+		m_indexEnd++;
 	}
 
 	return result;
 }
 
 point::point()
-:x(0),
-y(0)
+	:x(0),
+	y(0)
 {
 }
 

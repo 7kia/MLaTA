@@ -1,6 +1,3 @@
-#ifndef LAB_H
-#define LAB_H
-
 #pragma once
 #include "stdafx.h"
 
@@ -18,7 +15,6 @@ struct point
 };
 
 typedef std::vector<int> prises;
-typedef std::vector<point> Queue;
 
 class CLabAaSD
 {
@@ -27,29 +23,28 @@ private:
 	const std::string MESSAGE_WIDTH_MORE_EXPECTED = "Width row more expected!!!";
 	const std::string MESSAGE_HEIGHT_MORE_EXPECTED = "Height map more expected!!!";
 
-	int amountPrises = 0;
-	int amountNumbers = 0;
-	size_t countPrises = 0;
-	size_t countNumbers = 0;
+	int		m_amountPrises = 0;
+	int		m_amountNumbers = 0;
+	size_t	m_countPrises = 0;
+	size_t	m_countNumbers = 0;
 
-	size_t indexStart = 0;
-	size_t indexEnd = 0;
+	size_t	m_indexStart = 0;
+	size_t	m_indexEnd = 0;
 
-	size_t indexMaxStart = 0;
-	size_t indexMaxEnd = 0;
+	size_t	m_indexMaxStart = 0;
+	size_t	m_indexMaxEnd = 0;
 
-	size_t indexSecondMaxStart = 0;
-	size_t indexSecondMaxEnd = 0;
+	size_t	m_indexSecondMaxStart = 0;
+	size_t	m_indexSecondMaxEnd = 0;
 
 private:
-	bool checkAmountPrisesAndNumbers();
-	bool checkCounterWidthMap();
+	void	CheckAmountPrisesAndNumbers();
+	void	CheckCounterWidthMap();
 public:
-	size_t GetMaxCost(prises & prises);
+	size_t	GetMaxCost(prises & prises);
 
-	size_t GetLessMaxCost(prises & prises);
+	size_t	GetLessMaxCost(prises & prises);
 
-	void FillPrisesList(std::ifstream & file, prises & prises);
+	void	FillPrisesList(std::ifstream & file, prises & prises);
 
 };
-#endif

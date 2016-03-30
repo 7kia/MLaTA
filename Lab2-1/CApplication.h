@@ -1,6 +1,3 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
-
 #pragma once
 
 #include <string>
@@ -25,19 +22,17 @@ private:
 
 	const int AMOUNT_ARGUMENTS = 3;
 
-	std::string nameInputFile;
-	std::string nameOutputFile;
+	std::string		m_nameInputFile;
+	std::string		m_nameOutputFile;
 
-	std::ifstream inputFile;
-	std::ofstream outputFile;
+	std::ifstream	m_inputFile;
+	std::ofstream	m_outputFile;
 
 private:
-	void CheckParametrs(int argc , char *argv[]);
+	void			CheckParametrs(int argc , char *argv[]);
 
-	void OpenFiles();
-	bool CheckFileForReading(std::ifstream &file);
-	bool CheckFileForWriting(std::ofstream &file);
+	void			OpenFiles();
+	bool			CheckFileForReading(std::ifstream &file);
+	bool			CheckFileForWriting(std::ofstream &file);
 
 };
-
-#endif

@@ -7,8 +7,8 @@ CApplication::CApplication(int argc , char * argv[])
 {
 	CheckParametrs(argc, argv);
 	
-	nameInputFile = argv[1];
-	nameOutputFile = argv[2];	
+	m_nameInputFile = argv[1];
+	m_nameOutputFile = argv[2];	
 }
 
 CApplication::~CApplication()
@@ -20,11 +20,11 @@ void CApplication::Run()
 	OpenFiles();
 
 	prises prises;
-	FillPrisesList(inputFile, prises);
+	FillPrisesList(m_inputFile, prises);
 	size_t maxCost = GetMaxCost(prises);
 
 	size_t secondMaxCost = GetLessMaxCost(prises);
-	outputFile << secondMaxCost;
+	m_outputFile << secondMaxCost;
 }
 
 void CApplication::CheckParametrs(int argc , char *argv[])
@@ -37,18 +37,18 @@ void CApplication::CheckParametrs(int argc , char *argv[])
 
 void CApplication::OpenFiles()
 {
-	inputFile.open(nameInputFile);
-	inputFile.exceptions(ifstream::badbit);
-	if (!CheckFileForReading(inputFile))
+	m_inputFile.open(m_nameInputFile);
+	m_inputFile.exceptions(ifstream::badbit);
+	if (!CheckFileForReading(m_inputFile))
 	{
-		throw ifstream::failure(MESSAGE_FAILED_OPEN + nameInputFile + MESSAGE_FAILED_OPEN_FOR_READING);
+		throw ifstream::failure(MESSAGE_FAILED_OPEN + m_nameInputFile + MESSAGE_FAILED_OPEN_FOR_READING);
 	}
 
-	outputFile.open(nameOutputFile);
-	outputFile.exceptions(ofstream::badbit);
-	if (!CheckFileForWriting(outputFile))
+	m_outputFile.open(m_nameOutputFile);
+	m_outputFile.exceptions(ofstream::badbit);
+	if (!CheckFileForWriting(m_outputFile))
 	{
-		throw ofstream::failure(MESSAGE_FAILED_OPEN + nameOutputFile + MESSAGE_FAILED_OPEN_FOR_WRITING);
+		throw ofstream::failure(MESSAGE_FAILED_OPEN + m_nameOutputFile + MESSAGE_FAILED_OPEN_FOR_WRITING);
 	}
 
 }
