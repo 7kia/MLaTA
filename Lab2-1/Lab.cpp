@@ -14,17 +14,20 @@ void CLabAaSD::FillPrisesList(std::ifstream &file, prises &prises)
 			file >> m_amountPrises;
 			file >> m_amountNumbers;
 
+			CheckAmountPrisesAndNumbers();
+
 			std::string passString;
 			std::getline(file , passString);
 		}
 
 
-		CheckAmountPrisesAndNumbers();		
 		file >> number;
 		prises.push_back(number);
-		
-
+		m_countPrises++;
+		CheckCountersWidthMap();
 	}
+	CheckCountersWidthMap();
+
 }
 
 void CLabAaSD::CheckAmountPrisesAndNumbers()
@@ -35,15 +38,15 @@ void CLabAaSD::CheckAmountPrisesAndNumbers()
 	}
 }
 
-void CLabAaSD::CheckCounterWidthMap()
+void CLabAaSD::CheckCountersWidthMap()
 {
-	if ((static_cast<int>(m_countPrises) > m_amountPrises) && (static_cast<int>(m_countNumbers) < 0) && (m_amountNumbers > 0))
+	if ((static_cast<int>(m_countPrises) > m_amountPrises) || (static_cast<int>(m_countNumbers) < 0) && (m_amountNumbers > 0))
 	{
 		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
 	}
 }
 
-size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
+size_t CLabAaSD::GetMaxCost(prises & prises)
 {
 	int result = 0;
 	int summa = 0;
@@ -63,18 +66,13 @@ size_t CLabAaSD::GetMaxCost(prises & prises)// Optima
 			if (result <= summa)
 			{
 				result = summa;
-			}
-			if (result <= summa)
-			{
 				m_indexMaxStart = m_indexStart;
 				m_indexMaxEnd = m_indexEnd;
 			}
 			m_indexEnd = m_indexStart;
-
 			m_indexStart += 1;
 			
 			summa = 0;
-
 		}
 		m_indexEnd++;		
 	}
@@ -96,33 +94,29 @@ size_t CLabAaSD::GetLessMaxCost(prises & prises)
 		{
 			m_indexStart = m_indexMaxEnd + 1;
 			m_indexEnd = m_indexStart;
-
 		}
-			if (((m_indexEnd - m_indexStart) < m_amountNumbers)
-				&& (m_indexMaxStart != m_indexEnd))
+
+		if (((m_indexEnd - m_indexStart) < m_amountNumbers)
+			&& (m_indexMaxStart != m_indexEnd))
+		{
+			if (m_indexEnd < prises.size())
 			{
-				if (m_indexEnd < prises.size())
-				{
-					summa += prises[m_indexEnd];
-
-				}
+				summa += prises[m_indexEnd];
 			}
-			else
+		}
+		else
+		{
+			if (result <= summa)
 			{
-				if (result <= summa)
-				{
-					result = summa;
-					m_indexSecondMaxStart = m_indexStart;
-					m_indexSecondMaxEnd = m_indexEnd - 1;
-				}
-				m_indexEnd = m_indexStart;
-
-				m_indexStart += 1;
-
-
-				summa = 0;
-
+				result = summa;
+				m_indexSecondMaxStart = m_indexStart;
+				m_indexSecondMaxEnd = m_indexEnd - 1;
 			}
+			m_indexEnd = m_indexStart;
+			m_indexStart += 1;
+
+			summa = 0;
+		}
 		
 		m_indexEnd++;
 	}
