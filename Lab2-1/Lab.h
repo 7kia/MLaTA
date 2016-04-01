@@ -40,7 +40,7 @@ private:
 private:
 	void	CheckAmountPrisesAndNumbers();
 	void	CheckCountersWidthMap();
-public:
+
 	size_t	GetMaxCost(prises & prises);
 
 	size_t	GetLessMaxCost(prises & prises);

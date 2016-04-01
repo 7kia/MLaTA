@@ -32,7 +32,7 @@ private:
 	void			CheckParametrs(int argc , char *argv[]);
 
 	void			OpenFiles();
-	bool			CheckFileForReading(std::ifstream &file);
-	bool			CheckFileForWriting(std::ofstream &file);
+	void			CheckAndOpenFileForReading(std::ifstream &file, const std::string& fileName);
+	void			CheckAndOpenFileForWriting(std::ofstream &file, const std::string& fileName);
 
 };

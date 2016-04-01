@@ -42,7 +42,7 @@ void CLabAaSD::CheckCountersWidthMap()
 {
 	if ((static_cast<int>(m_countPrises) > m_amountPrises) || (static_cast<int>(m_countNumbers) < 0) && (m_amountNumbers > 0))
 	{
-		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
+		//throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
 	}
 }
 

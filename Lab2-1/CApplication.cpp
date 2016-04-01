@@ -37,39 +37,26 @@ void CApplication::CheckParametrs(int argc , char *argv[])
 
 void CApplication::OpenFiles()
 {
-	m_inputFile.open(m_nameInputFile);
-	m_inputFile.exceptions(ifstream::badbit);
-	if (!CheckFileForReading(m_inputFile))
-	{
-		throw ifstream::failure(MESSAGE_FAILED_OPEN + m_nameInputFile + MESSAGE_FAILED_OPEN_FOR_READING);
-	}
-
-	m_outputFile.open(m_nameOutputFile);
-	m_outputFile.exceptions(ofstream::badbit);
-	if (!CheckFileForWriting(m_outputFile))
-	{
-		throw ofstream::failure(MESSAGE_FAILED_OPEN + m_nameOutputFile + MESSAGE_FAILED_OPEN_FOR_WRITING);
-	}
-
+	CheckAndOpenFileForReading(m_inputFile, m_nameInputFile);
+	CheckAndOpenFileForWriting(m_outputFile, m_nameOutputFile);
 }
 
-
-bool CApplication::CheckFileForReading(ifstream & file)
+void CApplication::CheckAndOpenFileForReading(ifstream & file, const string& fileName)
 {
+	file.open(fileName);
+	file.exceptions(ifstream::badbit);
 	if (!file.is_open())
 	{
-		return false;
+		throw ifstream::failure(MESSAGE_FAILED_OPEN + fileName + MESSAGE_FAILED_OPEN_FOR_READING);
 	}
-
-	return true;
 }
 
-bool CApplication::CheckFileForWriting(ofstream & file)
+void CApplication::CheckAndOpenFileForWriting(ofstream & file, const string& fileName)
 {
+	file.open(fileName);
+	file.exceptions(ofstream::badbit);
 	if (!file.is_open())
 	{
-		return false;
+		throw ofstream::failure(MESSAGE_FAILED_OPEN + fileName + MESSAGE_FAILED_OPEN_FOR_WRITING);
 	}
-
-	return true;
 }
