@@ -30,10 +30,10 @@
     <ClInclude Include="TestApplication.h">
       <Filter>Файлы исходного кода</Filter>
     </ClInclude>
-    <ClInclude Include="..\CApplication.h">
+    <ClInclude Include="..\Solver.h">
       <Filter>TestClasses</Filter>
     </ClInclude>
-    <ClInclude Include="..\Lab.h">
+    <ClInclude Include="..\Runner.h">
       <Filter>TestClasses</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,10 +47,10 @@
     <ClCompile Include="TestApplication.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\CApplication.cpp">
+    <ClCompile Include="..\Solver.cpp">
       <Filter>TestClasses</Filter>
     </ClCompile>
-    <ClCompile Include="..\Lab.cpp">
+    <ClCompile Include="..\Runner.cpp">
       <Filter>TestClasses</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,16 +2,26 @@
 //
 
 #include "stdafx.h"
-#include "CApplication.h"
+#include "Runner.h"
+#include "main.h"
 
 using namespace std;
+
+void CheckParametrs(int argc)
+{
+	if (argc != AMOUNT_ARGUMENTS)
+	{
+		throw invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS + to_string(AMOUNT_ARGUMENTS));
+	}
+}
 
 int main(int argc, char *argv[])
 {
 
 	try
 	{
-		CApplication application(argc, argv);
+		CheckParametrs(argc);
+		CRunner application(argv[1], argv[2]);
 
 		application.Run();
 	}

@@ -1,21 +1,19 @@
 #include "stdafx.h"
-#include "CApplication.h"
+#include "Runner.h"
 
 using namespace std;
 
-CApplication::CApplication(int argc , char * argv[])
+CRunner::CRunner(std::string nameInputFile, std::string nameOutputFile)
 {
-	CheckParametrs(argc, argv);
-	
-	m_nameInputFile = argv[1];
-	m_nameOutputFile = argv[2];	
+	m_nameInputFile = nameInputFile;
+	m_nameOutputFile = nameOutputFile;
 }
 
-CApplication::~CApplication()
+CRunner::~CRunner()
 {
 }
 
-void CApplication::Run()
+void CRunner::Run()
 {
 	OpenFiles();
 
@@ -27,21 +25,13 @@ void CApplication::Run()
 	m_outputFile << secondMaxCost;
 }
 
-void CApplication::CheckParametrs(int argc , char *argv[])
-{
-	if (argc != AMOUNT_ARGUMENTS)
-	{
-		throw invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS + to_string(AMOUNT_ARGUMENTS));
-	}
-}
-
-void CApplication::OpenFiles()
+void CRunner::OpenFiles()
 {
 	CheckAndOpenFileForReading(m_inputFile, m_nameInputFile);
 	CheckAndOpenFileForWriting(m_outputFile, m_nameOutputFile);
 }
 
-void CApplication::CheckAndOpenFileForReading(ifstream & file, const string& fileName)
+void CRunner::CheckAndOpenFileForReading(ifstream & file, const string& fileName)
 {
 	file.open(fileName);
 	file.exceptions(ifstream::badbit);
@@ -51,7 +41,7 @@ void CApplication::CheckAndOpenFileForReading(ifstream & file, const string& fil
 	}
 }
 
-void CApplication::CheckAndOpenFileForWriting(ofstream & file, const string& fileName)
+void CRunner::CheckAndOpenFileForWriting(ofstream & file, const string& fileName)
 {
 	file.open(fileName);
 	file.exceptions(ofstream::badbit);
