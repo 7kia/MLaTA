@@ -1,5 +1,5 @@
 #pragma once
-#include "../CApplication.h"
+#include "../Runner.h"
 
-bool TestApplictation(int argc, char *argv[]);
+bool TestApplictation(const std::string & nameInputFile, const std::string & nameOutputFile);
 void CompareFiles(const std::string & first, const std::string & second);

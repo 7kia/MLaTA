@@ -16,16 +16,26 @@
 */
 
 #include "stdafx.h"
-#include "CApplication.h"
+#include "main.h"
+#include "Runner.h"
 
+void CheckParametrs(int argc)
+{
+	if (argc != AMOUNT_ARGUMENTS)
+	{
+		throw std::invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS + std::to_string(AMOUNT_ARGUMENTS));
+	}
+}
 
 int main(int argc , char *argv[])
 {
 	try
 	{
-		CApplication application(argc, argv);
+		CheckParametrs(argc);
 
-		application.Run();
+		CRunner runner(argv[1], argv[2]);
+
+		runner.Run();
 	}
 	catch (const std::exception& e)
 	{

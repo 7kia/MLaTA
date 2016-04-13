@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Lab.h"
+#include "Solver.h"
 
-void CLabAaSD::FillForestMap(std::ifstream &file , forest &forest)
+void CSolver::FillForestMap(std::ifstream &file , Forest &forest)
 {
 	m_widthMap = 0;
 	m_heightMap = 0;
@@ -30,15 +30,10 @@ void CLabAaSD::FillForestMap(std::ifstream &file , forest &forest)
 
 		CheckCountersMap();
 		m_countHeight++;
-				
-			
-
-		
-
 	}
 }
 
-void CLabAaSD::CheckWidthAndHeight()
+void CSolver::CheckWidthAndHeight()
 {
 	if ((m_heightMap < 1) && (m_widthMap < 1))
 	{
@@ -46,15 +41,16 @@ void CLabAaSD::CheckWidthAndHeight()
 	}
 }
 
-void CLabAaSD::CheckCountersMap()
+void CSolver::CheckCountersMap()
 {
-	if ((static_cast<int>(m_countHeight) > m_heightMap) || (static_cast<int>(m_countWidth) < 0) && (m_widthMap > 0))
+	if ((static_cast<long>(m_countHeight) > m_heightMap) 
+		|| ((static_cast<long>(m_countWidth) < 0L) && (m_widthMap > 0L)))
 	{
 		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
 	}
 }
 
-size_t CLabAaSD::GetAmountWallsForTrees(forest &forest)
+size_t CSolver::GetAmountWallsForTrees(Forest &forest)
 {
 	size_t amountWalls = 0;
 
@@ -64,8 +60,7 @@ size_t CLabAaSD::GetAmountWallsForTrees(forest &forest)
 		{
 			if (forest[y][x] == charTree)
 			{
-				amountWalls += GetAmountWallsForTree(forest, x, y);
-
+				amountWalls += GetAmountWallsForTree(forest, static_cast<long>(x), static_cast<long>(y));
 			}
 		}
 	}
@@ -73,12 +68,12 @@ size_t CLabAaSD::GetAmountWallsForTrees(forest &forest)
 	return amountWalls;
 }
 
-size_t CLabAaSD::GetInsideWalls(size_t x, size_t y, forest & forest)
+size_t CSolver::GetInsideWalls(size_t x, size_t y, const Forest & forest) const
 {
 	size_t amountNeightbos = 0;
 
-	int X = static_cast<int>(x);
-	int Y = static_cast<int>(y);
+	long X = static_cast<long>(x);
+	long Y = static_cast<long>(y);
 
 	for (int x1 = -1; x1 <= 1; x1++)
 	{
@@ -88,7 +83,7 @@ size_t CLabAaSD::GetInsideWalls(size_t x, size_t y, forest & forest)
 			{
 				// Проверка допустимости
 				if ((((X + x1) >= 0) && ((Y + y1) >= 0))
-					&& ((X + x1) <= m_widthMap) && ((Y + y1) < forest.size()))
+					&& (static_cast<long>(X + x1) <= m_widthMap) && (static_cast<long>(Y + y1) < forest.size()))
 				{
 					if (forest[Y + y1][X + x1] == charTree)
 					{
@@ -103,68 +98,7 @@ size_t CLabAaSD::GetInsideWalls(size_t x, size_t y, forest & forest)
 	return amountNeightbos;
 }
 
-bool CLabAaSD::SearchEmptyPlace(int &x, int &y, forest & forest)
-{
-	// Поиск соседа
-	for (int x1 = -1; x1 <= 1; x1++)
-	{
-		for (int y1 = -1; y1 <= 1; y1++)
-		{
-			// X+X
-			// +X+     X - не проходит проверку
-			// X+X     + - проходит проверку
-
-			if (abs(x1) != abs(y1))
-			{
-				// Проверка допустимости
-				if ((((x + x1) >= 0) && ((y + y1) >= 0))
-					&& ((x + x1) <= m_widthMap) && ((y + y1) < forest.size()))
-				{
-					if ((forest[y + y1][x + x1] == emptyChar))
-					{
-						// Проверка боковых значений
-						if (((x1 != 0)
-							&&
-							((forest[y + 1][x + x1] == charTree)
-								^
-							(forest[y - 1][x + x1] == charTree))
-								)
-							//
-							||
-							//
-							((y1 != 0)
-								&&
-								((forest[y + y1][x + 1] == charTree)
-									^
-									(forest[y + y1][x - 1] == charTree))
-								)
-							)
-							//
-						{
-							forest[y][x] = searchChar;
-							x += x1;
-							y += y1;
-							return true;
-						}
-					}
-				}
-				else
-				{
-					x++;
-					return false;
-				}
-				//
-			}
-
-			
-
-		}
-	}
-
-	return false;
-}
-
-void CLabAaSD::Push(forest & forest, size_t x, size_t y, Queue & paths) {
+void CSolver::Push(Forest & forest, size_t x, size_t y, Queue & paths) {
 	if (x < forest[0].size() && x >= 0)
 	{
 		if (y < forest.size() && y >= 0)
@@ -183,7 +117,7 @@ void CLabAaSD::Push(forest & forest, size_t x, size_t y, Queue & paths) {
 	}
 }
 
-void CLabAaSD::Fill(forest & forest, size_t x, size_t y)
+void CSolver::Fill(Forest & forest, size_t x, size_t y)
 {
 	Queue paths;
 	do
@@ -205,7 +139,7 @@ void CLabAaSD::Fill(forest & forest, size_t x, size_t y)
 	} while (!paths.empty());
 }
 
-void CLabAaSD::FillIInsidePlace(forest & forest)
+void CSolver::FillIInsidePlace(Forest & forest)
 {
 
 	for (size_t y = 1; y < (forest.size() - 1); y++)
@@ -229,7 +163,7 @@ void CLabAaSD::FillIInsidePlace(forest & forest)
 	}
 }
 
-bool CLabAaSD::CheckBorderSymbols(forest & forest)
+bool CSolver::CheckBorderSymbols(const Forest & forest) const
 {
 	for (size_t x = 0, y = 0; x < forest[y].size(); x++)
 	{
@@ -241,11 +175,11 @@ bool CLabAaSD::CheckBorderSymbols(forest & forest)
 
 	for (size_t y = 1; y < forest.size(); y++)
 	{
-		if ((forest[y][0] == searchChar) || ((forest[y].size() - 1) == searchChar))
+		if (forest[y][0] == searchChar)
 		{
 			return false;
 		}
-		if ((forest[y][forest[y].size() - 1] == searchChar) || ((forest[y].size() - 1) == searchChar))
+		if (forest[y][forest[y].size() - 1] == searchChar)
 		{
 			return false;
 		}
@@ -262,21 +196,21 @@ bool CLabAaSD::CheckBorderSymbols(forest & forest)
 	return true;
 }
 
-void CLabAaSD::ReplaceSymbol(forest & forest, char search, char replace)
+void CSolver::ReplaceSymbol(Forest & forest, char search, char replace)
 {
-	for (auto &y : forest)
+	for (auto &column : forest)
 	{
-		for (auto &x : y)
+		for (auto &row : column)
 		{
-			if (x == search)
+			if (row == search)
 			{
-				x = replace;
+				row = replace;
 			}
 		}
 	}
 }
 
-size_t CLabAaSD::GetAmountWallsForTree(forest &forest, int x , int y)
+size_t CSolver::GetAmountWallsForTree(const Forest &forest, long x , long y) const
 {
 	size_t amountWalls = 4;
 
@@ -309,12 +243,14 @@ size_t CLabAaSD::GetAmountWallsForTree(forest &forest, int x , int y)
 	return amountWalls;
 }
 
-point::point()
+SPoint::SPoint()
+	: x(0)
+	, y(0)
 {
 }
 
-point::point(size_t first, size_t second)
+SPoint::SPoint(size_t first, size_t second)
+	: x(first)
+	, y(second)
 {
-	x = first;
-	y = second;
 }
