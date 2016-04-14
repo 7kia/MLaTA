@@ -21,13 +21,14 @@ Graph CSolver::ReadGraph(std::ifstream &file)
 			std::string passString;
 			std::getline(file , passString);
 
-			result.resize(m_amountTowns, std::vector<int>(m_amountTowns, 0));
+			result.resize(m_amountTowns, std::vector<int>(m_amountTowns, std::numeric_limits<int>::min()));
 		}
 
 		file >> firstTown;
 		file >> secondTown;
 		file >> cargo;
 		result[--firstTown][--secondTown] = cargo;
+		result[secondTown][firstTown] = cargo;
 
 		m_countRoads++;
 		CheckRoadCounters();
@@ -44,6 +45,7 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 	std::vector<bool> isVisited(graphSize, false);
 
 	int indexMaxCargo = std::numeric_limits<int>::min();
+	int valueMaxCargo = 0;
 	///////
 	for (size_t index1 = 0; index1 < graphSize; index1++)// XXX
 	{
@@ -51,22 +53,35 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 
 		for (size_t index2 = 0; index2 < graphSize; index2++)
 		{
-			if ((graph[index1][index2] > label[index2]) && !isVisited[index2])
+			if ((graph[index1][index2] > label[index2])
+				&& !isVisited[index2]
+				&& (label[index2] == std::numeric_limits<int>::min()))
 			{
 				label[index2] = graph[index1][index2];
-				indexMaxCargo = index2;
+				if (valueMaxCargo < label[index2])
+				{
+					valueMaxCargo = label[index2];
+					indexMaxCargo = index2;
+				}
 			}
 		}
 		isVisited[indexMaxCargo] = true;
+		valueMaxCargo = 0;
 		//
 		for (size_t index2 = 0; index2 < graphSize; index2++)
 		{
-			if (!isVisited[index2]
-				&& graph[indexMaxCargo][index2]
-				&& (label[indexMaxCargo] != std::numeric_limits<int>::min())
-				&& ((graph[indexMaxCargo][index2]) >= label[index2]))
+			if (//!isVisited[index2]
+				//&& graph[indexMaxCargo][index2]
+				//&& 
+				
+				( (label[indexMaxCargo] != std::numeric_limits<int>::min())
+				&& (graph[indexMaxCargo][index2] >= label[indexMaxCargo])
+				&& (graph[indexMaxCargo][index2] != std::numeric_limits<int>::min())
+				)
+				
+				)
 			{
-				label[index2] = graph[indexMaxCargo][index2];
+				label[index2] = label[indexMaxCargo];
 			}
 		}
 		///////
@@ -89,16 +104,22 @@ int *Dijkstra(int **GR, int V, int st) {
  for (i=0; i<V; i++) { distance[i]=INT_MAX; visited[i]=false; }
  distance[st]=0;
 
- for (count=0; count<V-1; count++) { 
+ for (count=0; count<V-1; count++)
+ { 
   int min=INT_MAX;
   for (i=0; i<V; i++)
   if (!visited[i] && distance[i]<=min) { min=distance[i]; index=i; }
   u=index;
   visited[u]=true;
-  for (i=0; i<V; i++)--------------
-  if (!visited[i] && GR[u][i] && distance[u]!=INT_MAX &&
+  for (i=0; i<V; i++)
+  {--------------
+	if (!visited[i] && GR[u][i] && distance[u]!=INT_MAX &&
        distance[u]+GR[u][i]<distance[i])
-   distance[i]=distance[u]+GR[u][i];
+	   {
+			distance[i]=distance[u]+GR[u][i];
+	}
+  }
+
  }
  return distance;
 }
