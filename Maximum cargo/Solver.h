@@ -5,6 +5,7 @@
 #include <iostream>// for std::cin and std::cout
 #include <fstream>
 #include <vector>
+#include <limits>
 
 struct SPoint
 {
@@ -23,6 +24,7 @@ struct SRange
 };
 
 typedef std::vector<std::vector<int>> Graph;
+ 
 
 class CSolver
 {
@@ -42,9 +44,10 @@ private:
 
 private:
 	void	CheckAmountTownsAndRoads();
-	void	CheckCountersWidthMap();
+	void	CheckRoadCounters();
 protected:
 	Graph	ReadGraph(std::ifstream & file);
+	std::vector<int>	GetMaxCargoForOtherTowns(const Graph & graph);
 
 public:
 	//size_t	GetMaxCost(PrisesArray & prises);

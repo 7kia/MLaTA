@@ -18,6 +18,9 @@ void CRunner::Run()
 	OpenFiles();
 
 	Graph graph = ReadGraph(m_inputFile);
+
+	WriteVectorInFile(m_outputFile, GetMaxCargoForOtherTowns(graph));
+
 	//PrisesArray prises;
 	//FillPrisesList(m_inputFile, prises);
 	//size_t maxCost = GetMaxCost(prises);
@@ -49,5 +52,13 @@ void CRunner::CheckAndOpenFileForWriting(ofstream & file, const string& fileName
 	if (!file.is_open())
 	{
 		throw ofstream::failure(MESSAGE_FAILED_OPEN + fileName + MESSAGE_FAILED_OPEN_FOR_WRITING);
+	}
+}
+
+void CRunner::WriteVectorInFile(std::ofstream & file, const std::vector<int>& vector)
+{
+	for (auto & element : vector)
+	{
+		file << element << '\n';
 	}
 }

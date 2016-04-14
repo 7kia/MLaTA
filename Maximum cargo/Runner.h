@@ -30,4 +30,6 @@ private:
 	void			OpenFiles();
 	void			CheckAndOpenFileForReading(std::ifstream &file, const std::string& fileName);
 	void			CheckAndOpenFileForWriting(std::ofstream &file, const std::string& fileName);
+
+	void			WriteVectorInFile(std::ofstream &file, const std::vector<int> &vector);
 };
