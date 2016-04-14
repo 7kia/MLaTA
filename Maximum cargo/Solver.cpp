@@ -61,7 +61,7 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 				if (valueMaxCargo < label[index2])
 				{
 					valueMaxCargo = label[index2];
-					indexMaxCargo = index2;
+					indexMaxCargo = static_cast<int>(index2);
 				}
 			}
 		}
@@ -82,7 +82,7 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 				)
 			{
 				label[index2] = label[indexMaxCargo];
-			}
+			};
 		}
 		///////
 	}
