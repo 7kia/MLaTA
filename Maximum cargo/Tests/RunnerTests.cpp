@@ -50,6 +50,15 @@ BOOST_AUTO_TEST_CASE(Check_graph_with_vertex_have_path_to_every_vertex)
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
+
+
+BOOST_AUTO_TEST_CASE(Check_graph_with_vertexes_have_one_path_to_start)
+{
+	std::string nameInputFile = "input3.txt";
+	std::string nameOutputFile = "output3.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
 /*
 BOOST_AUTO_TEST_CASE(Check_big_test_2)
 {

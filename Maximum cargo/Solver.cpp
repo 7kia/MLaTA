@@ -44,29 +44,40 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 	std::vector<int> label(graphSize, std::numeric_limits<int>::min());
 	std::vector<bool> isVisited(graphSize, false);
 
+
+	// TODO : redesign
+	std::vector<std::vector<bool>> isVisitedPath(graphSize, std::vector<bool>(graphSize, false));
+	///////
+
 	int indexMaxCargo = std::numeric_limits<int>::min();
 	int valueMaxCargo = 0;
 	///////
 	for (size_t index1 = 0; index1 < graphSize; index1++)// XXX
 	{
 		///////
+		valueMaxCargo = -1;
 
-		for (size_t index2 = 0; index2 < graphSize; index2++)
+		for (size_t index2 = 1; index2 < graphSize; index2++)
 		{
 			if ((graph[index1][index2] > label[index2])
 				&& !isVisited[index2]
 				&& (label[index2] == std::numeric_limits<int>::min()))
 			{
+
+
 				label[index2] = graph[index1][index2];
+
+				//label[index2] = graph[index1][index2];
 				if (valueMaxCargo < label[index2])
 				{
 					valueMaxCargo = label[index2];
 					indexMaxCargo = static_cast<int>(index2);
 				}
 			}
+			isVisitedPath[index1][index2] = true;
+
 		}
 		isVisited[indexMaxCargo] = true;
-		valueMaxCargo = 0;
 		//
 		for (size_t index2 = 0; index2 < graphSize; index2++)
 		{
@@ -74,13 +85,16 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 				//&& graph[indexMaxCargo][index2]
 				//&& 
 				
-				( (label[indexMaxCargo] != std::numeric_limits<int>::min())
-				&& (graph[indexMaxCargo][index2] >= label[indexMaxCargo])
+				( (!isVisited[index2]
+				&& label[indexMaxCargo] != std::numeric_limits<int>::min())
+				&& (graph[indexMaxCargo][index2] > label[indexMaxCargo])
 				&& (graph[indexMaxCargo][index2] != std::numeric_limits<int>::min())
 				)
 				
 				)
 			{
+				isVisitedPath[indexMaxCargo][index2] = true;
+
 				label[index2] = label[indexMaxCargo];
 			};
 		}
@@ -156,6 +170,66 @@ void main() {
  system("pause>>void");
 }
 	*/
+
+	////
+	// —мотрим на макс груз с точки откуда можно попасть
+	// «аписываем все пути в эту точку
+	for (size_t index2 = 1; index2 < graphSize; index2++)
+	{
+		std::vector<int> cargoInTheVertex;
+		bool isFind = false;
+		for (size_t index3 = 0; index3 < graphSize; index3++)
+		{
+			if (isVisitedPath[index3][index2] && graph[index3][index2] > std::numeric_limits<int>::min())
+			{
+				if ((label[index3] < graph[index3][index2])
+					&& (label[index3] > std::numeric_limits<int>::min()))
+				{
+					if (!isFind)
+					{
+						isFind = true;
+						cargoInTheVertex.clear();
+						cargoInTheVertex.push_back(label[index3]);
+					}
+					else if(cargoInTheVertex[0] > label[index3])
+					{
+						cargoInTheVertex[0] = label[index3];
+					}
+				}
+				else
+				{
+					cargoInTheVertex.push_back(graph[index3][index2]);
+				}
+			}
+		}
+
+		std::vector<int> cargoFromPath;
+		for (size_t index3 = 0; index3 < cargoInTheVertex.size(); index3++)
+		{
+			if (cargoInTheVertex[index3] > 0)
+			{
+				cargoFromPath.push_back(cargoInTheVertex[index3]);
+			}
+		}
+
+		auto iter = std::max_element(cargoFromPath.begin(), cargoFromPath.end());
+		if (iter != cargoFromPath.end())
+		{
+			int max = *iter;
+			if (label[index2] > max)
+			{
+				label[index2] = max;
+			}
+		}
+		//if ((graph[index1][index2] > label[index1])
+		//	&& (label[index1] != std::numeric_limits<int>::min()
+		//		))
+		//{
+		
+		//}
+		////
+	}
+
 
 	label.erase(label.begin());
 

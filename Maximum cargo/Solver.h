@@ -2,6 +2,7 @@
 #include "stdafx.h"
 
 #include <string>
+#include <algorithm>
 #include <iostream>// for std::cin and std::cout
 #include <fstream>
 #include <vector>
