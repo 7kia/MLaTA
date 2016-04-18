@@ -59,6 +59,14 @@ BOOST_AUTO_TEST_CASE(Check_graph_with_vertexes_have_one_path_to_start)
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
+
+BOOST_AUTO_TEST_CASE(Check_graph_with_several_loop)
+{
+	std::string nameInputFile = "input4.txt";
+	std::string nameOutputFile = "output4.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
 /*
 BOOST_AUTO_TEST_CASE(Check_big_test_2)
 {

@@ -209,7 +209,6 @@ void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Gra
 			&& (label[index2] == std::numeric_limits<int>::min()))
 		{
 
-			label[index2] = graph[index1][index2];
 
 			if ((label[index1] > std::numeric_limits<int>::min())
 				&& (graph[index2][index1] > label[index1]))
@@ -217,6 +216,10 @@ void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Gra
 		
 			{
 				label[index2] = label[index1];
+			}
+			else
+			{
+				label[index2] = graph[index1][index2];
 			}
 
 			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, index1));
@@ -254,7 +257,10 @@ void CSolver::SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graph
 
 
 			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, indexMaxCargo));
-			label[index2] = label[indexMaxCargo];
+			if (label[index2] < label[indexMaxCargo])
+			{
+				label[index2] = label[indexMaxCargo];
+			}
 		};
 	}
 }
