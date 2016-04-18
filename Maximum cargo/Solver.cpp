@@ -6,8 +6,8 @@ Graph CSolver::ReadGraph(std::ifstream &file)
 	Graph result;
 	m_countRoads = 0;
 
-	int firstTown = 0;
-	int secondTown = 0;
+	size_t firstTown = 0;
+	size_t secondTown = 0;
 	int cargo = 0;
 	while (!file.eof())
 	{
@@ -58,7 +58,7 @@ void CSolver::CheckRoadCounters()
 
 std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 {
-	int graphSize = static_cast<int>(graph.size());
+	size_t graphSize = graph.size();
 	std::vector<int> label(graphSize, std::numeric_limits<int>::min());
 
 	std::vector<bool> isVisited(graphSize, false);// Отладочная информация
@@ -72,70 +72,13 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 
 		isVisited[indexMaxCargo] = true;
 
-		SearchPathFromVertexWithMaxCargo(graph, graphSize,
-										isVisited, label,
+		SearchPathFromVertexWithMaxCargo(graph, graphSize, label,
 										isVisitedPath, indexMaxCargo);
 
-
-		SearchPathFromVertexWithMaxCargo(graph, graphSize,
-			isVisited, label,
-			isVisitedPath, index1);
-	}
-
-
-	////
-	// Смотрим на макс груз с точки откуда можно попасть
-	// Записываем все пути в эту точку
-	/*
-	for (size_t index2 = 1; index2 < graphSize; index2++)
-	{
-		std::vector<int> cargoInTheVertex;
-		bool isFind = false;
-		for (size_t index3 = 0; index3 < graphSize; index3++)
-		{
-			if (graph[index3][index2] > std::numeric_limits<int>::min())
-			{
-				if ((label[index3] > label[index2])///
-					&& (label[index3] > std::numeric_limits<int>::min()))
-				{
-					
-						cargoInTheVertex.push_back(label[index2]);
-					
-				}
-				else
-				{
-					cargoInTheVertex.push_back(label[index3]);
-				}
-			}
-		}
-
-		std::vector<int> cargoFromPath;
-		for (size_t index3 = 0; index3 < cargoInTheVertex.size(); index3++)
-		{
-			if (cargoInTheVertex[index3] > 0)
-			{
-				cargoFromPath.push_back(cargoInTheVertex[index3]);
-			}
-		}
-
-		auto iter = std::max_element(cargoFromPath.begin(), cargoFromPath.end());
-		if (iter != cargoFromPath.end())
-		{
-			int max = *iter;
-			if (label[index2] > max)
-			{
-				label[index2] = max;
-			}
-		}
-		//if ((graph[index1][index2] > label[index1])
-		//	&& (label[index1] != std::numeric_limits<int>::min()
-		//		))
-		//{
 		
-		//}
-		////
+		SearchPathFromVertexWithMaxCargo(graph, graphSize, label,
+										isVisitedPath, index1);
 	}
-	//*/
 
 	label.erase(label.begin());
 
@@ -180,8 +123,7 @@ void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Gra
 
 
 void CSolver::SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graphSize,
-	std::vector<bool> &isVisited, std::vector<int> &label,
-	ExploredPaths &isVisitedPath, size_t indexMaxCargo)
+	std::vector<int> &label, ExploredPaths &isVisitedPath, size_t indexMaxCargo)
 {
 	for (size_t index2 = 0; index2 < graphSize; index2++)
 	{
@@ -201,38 +143,13 @@ void CSolver::SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graph
 	}
 }
 
-void CSolver::SearchMaxPath(size_t graphSize, const Graph & graph, 
-	ExploredPaths &isVisitedPath, std::vector<int> &label,
-	const SPoint &coordinates)
-{
-
-	std::vector<int> paths;
-	for (size_t index1 = 0; index1 < graphSize; index1++)
-	{
-		//			откуда       куда
-		if (graph[index1][coordinates.x] > std::numeric_limits<int>::min())
-		{
-			paths.push_back(label[index1]);
-		}
-	}
-
-	auto iter = std::max_element(paths.begin(), paths.end());
-	if (iter != paths.end())
-	{
-		int max = *iter;
-		if (label[coordinates.x] > max)
-		{
-			label[coordinates.x] = max;
-		}
-	}
-}
-
+// TODO : delete
 void CSolver::NoteThatThePathIsTraveled(const Graph & graph, ExploredPaths &isVisitedPath,
-										SPoint position)
+										SPoint path)
 {
-	if (graph[position.y][position.x] > std::numeric_limits<int>::min())
+	if (graph[path.y][path.x] > std::numeric_limits<int>::min())
 	{
-		isVisitedPath[position.y][position.x] = true;
+		isVisitedPath[path.y][path.x] = true;
 	}
 }
 
@@ -242,19 +159,8 @@ SPoint::SPoint()
 {
 }
 
-SPoint::SPoint(size_t first, size_t second)
-	: x(first)
-	, y(second)
+SPoint::SPoint(size_t x, size_t y)
+	: x(x)
+	, y(y)
 {
 }
-
-SRange::SRange()
-{
-}
-
-SRange::SRange(size_t indexStart, size_t indexEnd)
-{
-	m_indexStart = indexStart;
-	m_indexEnd = indexEnd;
-}
-

@@ -20,13 +20,6 @@ void CRunner::Run()
 	Graph graph = ReadGraph(m_inputFile);
 
 	WriteVectorInFile(m_outputFile, GetMaxCargoForOtherTowns(graph));
-
-	//PrisesArray prises;
-	//FillPrisesList(m_inputFile, prises);
-	//size_t maxCost = GetMaxCost(prises);
-
-	//size_t secondMaxCost = GetLessMaxCost(prises);
-	//m_outputFile << secondMaxCost;
 }
 
 void CRunner::OpenFiles()

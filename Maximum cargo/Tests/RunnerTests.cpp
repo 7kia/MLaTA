@@ -67,6 +67,7 @@ BOOST_AUTO_TEST_CASE(Check_graph_with_several_loop)
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
+
 /*
 BOOST_AUTO_TEST_CASE(Check_big_test_2)
 {
