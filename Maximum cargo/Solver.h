@@ -25,6 +25,7 @@ struct SRange
 };
 
 typedef std::vector<std::vector<int>> Graph;
+typedef std::vector<std::vector<bool>> ExploredPaths;
  
 
 class CSolver
@@ -46,6 +47,20 @@ private:
 private:
 	void	CheckAmountTownsAndRoads();
 	void	CheckRoadCounters();
+
+	void FindPath(size_t graphSize, const Graph & graph,
+		ExploredPaths& isVisitedPath, std::vector<int>& label);
+
+	void SearchPathToNotExplored(size_t index1, size_t graphSize, const Graph & graph,
+		ExploredPaths& isVisitedPath, std::vector<int>& label, size_t &indexMaxCargo);
+
+	void SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graphSize,
+		std::vector<bool>& isVisited, std::vector<int>& label,
+		ExploredPaths& isVisitedPath, size_t indexMaxCargo);
+
+	void NoteThatThePathIsTraveled(const Graph & graph, ExploredPaths & isVisitedPath,
+									SPoint position);
+
 protected:
 	Graph	ReadGraph(std::ifstream & file);
 	std::vector<int>	GetMaxCargoForOtherTowns(const Graph & graph);
