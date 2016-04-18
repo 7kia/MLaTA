@@ -60,8 +60,8 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 {
 	int graphSize = static_cast<int>(graph.size());
 	std::vector<int> label(graphSize, std::numeric_limits<int>::min());
-	std::vector<bool> isVisited(graphSize, false);
 
+	std::vector<bool> isVisited(graphSize, false);// Отладочная информация
 	ExploredPaths isVisitedPath(graphSize, std::vector<bool>(graphSize, false));
 	size_t indexMaxCargo = 0;
 	for (size_t index1 = 0; index1 < graphSize; index1++)
@@ -76,7 +76,13 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 										isVisited, label,
 										isVisitedPath, indexMaxCargo);
 
+
+		SearchPathFromVertexWithMaxCargo(graph, graphSize,
+			isVisited, label,
+			isVisitedPath, index1);
 	}
+
+
 	////
 	// Смотрим на макс груз с точки откуда можно попасть
 	// Записываем все пути в эту точку
@@ -136,67 +142,6 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 	return label;
 }
 
-void CSolver::FindPath(size_t graphSize, const Graph & graph,
-						ExploredPaths &isVisitedPath, std::vector<int> &label)
-{
-	for (size_t index2 = 1; index2 < graphSize; index2++)
-	{
-		std::vector<int> cargoInTheVertex;
-		bool isFind = false;
-		for (size_t index3 = 0; index3 < graphSize; index3++)
-		{
-			if (isVisitedPath[index3][index2] && graph[index3][index2] > std::numeric_limits<int>::min())
-			{
-				if ((label[index3] > graph[index3][index2])
-					&& (label[index3] > std::numeric_limits<int>::min()))
-				{
-					if (!isFind)
-					{
-						isFind = true;
-						cargoInTheVertex.clear();
-						cargoInTheVertex.push_back(label[index3]);
-					}
-					else if (cargoInTheVertex[0] > label[index3])
-					{
-						cargoInTheVertex[0] = label[index3];
-					}
-				}
-				else
-				{
-					cargoInTheVertex.push_back(graph[index3][index2]);
-				}
-			}
-		}
-
-		std::vector<int> cargoFromPath;
-		for (size_t index3 = 0; index3 < cargoInTheVertex.size(); index3++)
-		{
-			if (cargoInTheVertex[index3] > 0)
-			{
-				cargoFromPath.push_back(cargoInTheVertex[index3]);
-			}
-		}
-
-		auto iter = std::max_element(cargoFromPath.begin(), cargoFromPath.end());
-		if (iter != cargoFromPath.end())
-		{
-			int max = *iter;
-			if (label[index2] > max)
-			{
-				label[index2] = max;
-			}
-		}
-		//if ((graph[index1][index2] > label[index1])
-		//	&& (label[index1] != std::numeric_limits<int>::min()
-		//		))
-		//{
-
-		//}
-		////
-	}
-
-}
-
 void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Graph & graph,
 	ExploredPaths &isVisitedPath, std::vector<int> &label, size_t &indexMaxCargo)
 {
@@ -205,24 +150,20 @@ void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Gra
 	for (size_t index2 = 1; index2 < graphSize; index2++)
 	{
 		if ((graph[index1][index2] > label[index2])
-			//&& !isVisited[index2]
 			&& (label[index2] == std::numeric_limits<int>::min()))
 		{
-
-
 			if ((label[index1] > std::numeric_limits<int>::min())
-				&& (graph[index2][index1] > label[index1]))
-
-		
+				&& (graph[index2][index1] > label[index1]))	
 			{
+				// Грузоподъёмность от соседнего города
 				label[index2] = label[index1];
 			}
 			else
 			{
-				label[index2] = graph[index1][index2];
+				// Грузоподъёмность взятой дуги
+				label[index2] = graph[index2][index1];
 			}
 
-			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, index1));
 			NoteThatThePathIsTraveled(graph, isVisitedPath, SPoint(index2, index1));
 
 			if (valueMaxCargo < label[index2])
@@ -245,18 +186,13 @@ void CSolver::SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graph
 	for (size_t index2 = 0; index2 < graphSize; index2++)
 	{
 		if (
-			((!isVisited[index2]
-				&& (label[indexMaxCargo] != std::numeric_limits<int>::min())
-				&& (graph[indexMaxCargo][index2] >= label[indexMaxCargo])
-				&& (graph[indexMaxCargo][index2] != std::numeric_limits<int>::min()))
-				)
-
+			(label[indexMaxCargo] != std::numeric_limits<int>::min())
+			&& (graph[indexMaxCargo][index2] >= label[indexMaxCargo])
+			&& (graph[indexMaxCargo][index2] != std::numeric_limits<int>::min())
 			)
 		{
 			isVisitedPath[indexMaxCargo][index2] = true;
 
-
-			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, indexMaxCargo));
 			if (label[index2] < label[indexMaxCargo])
 			{
 				label[index2] = label[indexMaxCargo];
