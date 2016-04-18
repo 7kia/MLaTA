@@ -58,6 +58,9 @@ private:
 		std::vector<bool>& isVisited, std::vector<int>& label,
 		ExploredPaths& isVisitedPath, size_t indexMaxCargo);
 
+	void SearchMaxPath(size_t graphSize, const Graph & graph, ExploredPaths & isVisitedPath,
+						std::vector<int>& label, const SPoint & coordinates);
+
 	void NoteThatThePathIsTraveled(const Graph & graph, ExploredPaths & isVisitedPath,
 									SPoint position);
 

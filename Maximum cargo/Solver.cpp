@@ -89,24 +89,16 @@ std::vector<int> CSolver::GetMaxCargoForOtherTowns(const Graph & graph)
 		{
 			if (graph[index3][index2] > std::numeric_limits<int>::min())
 			{
-				if ((label[index3] > graph[index3][index2])///
+				if ((label[index3] > label[index2])///
 					&& (label[index3] > std::numeric_limits<int>::min()))
 				{
-					if (!isFind)
-					{
-						isFind = true;
-						cargoInTheVertex.clear();
-						cargoInTheVertex.push_back(label[index3]);
-					}
-					else if(cargoInTheVertex[0] > label[index3])
-					{
-						cargoInTheVertex[0] = label[index3];
-					}
-
+					
+						cargoInTheVertex.push_back(label[index2]);
+					
 				}
 				else
 				{
-					cargoInTheVertex.push_back(graph[index3][index2]);
+					cargoInTheVertex.push_back(label[index3]);
 				}
 			}
 		}
@@ -216,8 +208,18 @@ void CSolver::SearchPathToNotExplored(size_t index1, size_t graphSize, const Gra
 			//&& !isVisited[index2]
 			&& (label[index2] == std::numeric_limits<int>::min()))
 		{
+
 			label[index2] = graph[index1][index2];
 
+			if ((label[index1] > std::numeric_limits<int>::min())
+				&& (graph[index2][index1] > label[index1]))
+
+		
+			{
+				label[index2] = label[index1];
+			}
+
+			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, index1));
 			NoteThatThePathIsTraveled(graph, isVisitedPath, SPoint(index2, index1));
 
 			if (valueMaxCargo < label[index2])
@@ -250,8 +252,36 @@ void CSolver::SearchPathFromVertexWithMaxCargo(const Graph & graph, size_t graph
 		{
 			isVisitedPath[indexMaxCargo][index2] = true;
 
+
+			//SearchMaxPath(graphSize, graph, isVisitedPath, label, SPoint(index2, indexMaxCargo));
 			label[index2] = label[indexMaxCargo];
 		};
+	}
+}
+
+void CSolver::SearchMaxPath(size_t graphSize, const Graph & graph, 
+	ExploredPaths &isVisitedPath, std::vector<int> &label,
+	const SPoint &coordinates)
+{
+
+	std::vector<int> paths;
+	for (size_t index1 = 0; index1 < graphSize; index1++)
+	{
+		//			откуда       куда
+		if (graph[index1][coordinates.x] > std::numeric_limits<int>::min())
+		{
+			paths.push_back(label[index1]);
+		}
+	}
+
+	auto iter = std::max_element(paths.begin(), paths.end());
+	if (iter != paths.end())
+	{
+		int max = *iter;
+		if (label[coordinates.x] > max)
+		{
+			label[coordinates.x] = max;
+		}
 	}
 }
 
