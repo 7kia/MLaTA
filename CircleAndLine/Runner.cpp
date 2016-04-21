@@ -20,12 +20,18 @@ void CRunner::Run()
 	std::string inputString;
 	while (getline(m_inputFile, inputString))
 	{
+		if (m_countStrings == 0)
+		{
+			m_countStrings = stoull(inputString);
+			continue;
+		}
+		m_countStrings++;
+
 		m_outputFile << GetLengthLineConectTwoPoints(inputString);
 		m_outputFile << std::endl;
-	}
-	//Graph graph = ReadGraph(m_inputFile);
 
-	//WriteVectorInFile(m_outputFile, GetMaxCargoForOtherTowns(graph));
+		CheckStringsCounters();
+	}
 }
 
 void CRunner::OpenFiles()

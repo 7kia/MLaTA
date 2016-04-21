@@ -55,7 +55,7 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 
 	result.A = (secondPosition.y - firstPosition.y) / (secondPosition.x - firstPosition.x);
 
-	result.B = 1.f / result.A;
+	result.B = -1.f / result.A;
 
 	result.C = -firstPosition.x / (secondPosition.x - firstPosition.x);
 	result.C *= (secondPosition.y - firstPosition.y);
@@ -66,15 +66,13 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 	return result;
 }
 
-float CSolver::GetDiscriminant(const float A, const float B, const float C)
+float CSolver::GetDiscriminant(const float A, const float B, const float C) const
 {
-
+	return sqrt((B * B) - (4.f * A * C));
 }
 
-float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
+std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & data)
 {
-	SDataForSolver data = ExtractData(inputString);
-
 	SCoefficientForLineEquation lineEquation = GetLineEquation(data.firstPoint, data.secondPoint);
 
 	float A = lineEquation.B * lineEquation.B + lineEquation.A * lineEquation.A;
@@ -83,17 +81,47 @@ float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
 	C -= lineEquation.B * lineEquation.B * data.radiusCircle * data.radiusCircle;
 
 	float discriminant = GetDiscriminant(A, B, C);
+	float firstRoot = 0.f;
+	float secondRoot = 0.f;
+	if (discriminant >= 0)
+	{
+		float denumerator = 2.f * A;
+
+		firstRoot = -(B * B) + discriminant;
+		firstRoot /= denumerator;
+
+		secondRoot = -(B * B) - discriminant;
+		secondRoot /= denumerator;
+	}
+
+	SPoint firstPoint;
+	firstPoint.x = firstRoot;
+	firstPoint.y = -(lineEquation.A * firstRoot + lineEquation.C) / lineEquation.B;
+
+	SPoint secomdPoint;
+	secomdPoint.x = secondRoot;
+	secomdPoint.y = -(lineEquation.A * secondRoot + lineEquation.C) / lineEquation.B;
+
+	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);
+}
+
+float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
+{
+	SDataForSolver data = ExtractData(inputString);
+
+	std::pair<SPoint, SPoint> pointsIntersection = GetPointsIntersection(data);
+
 
 	return 0.0f;
 }
 
 SPoint::SPoint()
-	: x(0)
-	, y(0)
+	: x(0.f)
+	, y(0.f)
 {
 }
 
-SPoint::SPoint(size_t x, size_t y)
+SPoint::SPoint(float x, float y)
 	: x(x)
 	, y(y)
 {
