@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Solver.h"
 
+using namespace boost::numeric::ublas;
+
 void CSolver::CheckAmountStrings()
 {
 	if (m_amountStrings < 1)
@@ -66,6 +68,7 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 	return result;
 }
 
+// TODO: remove useless const
 float CSolver::GetDiscriminant(const float A, const float B, const float C) const
 {
 	return sqrt((B * B) - (4.f * A * C));
@@ -83,6 +86,10 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 	float discriminant = GetDiscriminant(A, B, C);
 	float firstRoot = 0.f;
 	float secondRoot = 0.f;
+
+	SPoint firstPoint;
+	SPoint secomdPoint;
+
 	if (discriminant >= 0)
 	{
 		float denumerator = 2.f * A;
@@ -92,19 +99,126 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 
 		secondRoot = -(B * B) - discriminant;
 		secondRoot /= denumerator;
+
+		firstPoint.x = firstRoot;
+		firstPoint.y = -(lineEquation.A * firstRoot + lineEquation.C) / lineEquation.B;
+
+		secomdPoint.x = secondRoot;
+		secomdPoint.y = -(lineEquation.A * secondRoot + lineEquation.C) / lineEquation.B;
 	}
 
-	SPoint firstPoint;
-	firstPoint.x = firstRoot;
-	firstPoint.y = -(lineEquation.A * firstRoot + lineEquation.C) / lineEquation.B;
-
-	SPoint secomdPoint;
-	secomdPoint.x = secondRoot;
-	secomdPoint.y = -(lineEquation.A * secondRoot + lineEquation.C) / lineEquation.B;
-
-	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);
+	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);// TOOD : event when points no
 }
 
+// TODO : rename for correct words order
+float CSolver::GetLengthLine(const SPoint & firstPosition, const SPoint & secondPosition)
+{
+	float differenceX = firstPosition.x - secondPosition.x;
+	float differenceY = firstPosition.y - secondPosition.y;
+
+	return sqrt(differenceX * differenceX + differenceY * differenceY);
+}
+
+// TODO : rename for correct words order
+float CSolver::GetLengthLine(const std::pair<SPoint, SPoint>& pair)
+{
+	return GetLengthLine(pair.first, pair.second);
+}
+
+// TODO : rename for correct words order
+float CSolver::GetLengthCircleArc(const std::pair<SPoint, SPoint>& pair, float radius)
+{
+	return GetLengthCircleArc(pair.first, pair.second, radius);
+}
+
+// TODO : rename for correct words order
+float CSolver::GetLengthCircleArc(const SPoint & firstPosition, const SPoint & secondPosition, float radius)
+{
+	float lenthFirst = radius;
+	float lenthSecond = radius;
+
+	// TODO: move to function Dot()
+	float scalarMultiply = (firstPosition.x * secondPosition.x) + (firstPosition.y * secondPosition.y);
+
+	float cosinus = scalarMultiply / (lenthFirst * lenthSecond);
+
+	return abs(acosf(cosinus)) * radius;
+}
+
+float  CSolver::GetDistanseBetweenPointAndTangent(const SPoint & point, const float radius)
+{
+	float distanseBetweenPointAndCenter = GetLengthLine(SPoint(), point);
+
+	return sqrt(distanseBetweenPointAndCenter * distanseBetweenPointAndCenter
+				- radius * radius);
+}
+
+float CSolver::GetAngleBetweenCathetusAndHypotenuse(const float cathetus, const float hypotenuse)
+{
+	return abs(acosf(cathetus / hypotenuse));
+}
+
+matrix<float> CSolver::GetAngleMatrix(const float angle, const bool considered—ounterclockwise)
+{
+	float coefficient = 1.f;
+
+	if (considered—ounterclockwise)
+	{
+		coefficient *= -1.f;
+	}
+
+	matrix<float> result(2, 2);
+	result.at_element(0, 0) = cos(angle);
+	result.at_element(1, 1) = cos(angle);
+
+	result.at_element(0, 1) = coefficient * sin(angle);
+	result.at_element(1, 0) = coefficient  * -sin(angle);
+
+	return result;
+}
+
+SPoint CSolver::GetPointTangent(const SPoint & point, const SPoint & pointIntersection, const float radius)
+{
+	float hypotenuse = GetLengthLine(SPoint(), point);
+
+	// R -radiuse circle
+	float angleBetweenRAndCathtus = GetAngleBetweenCathetusAndHypotenuse(radius, hypotenuse);
+
+	// ÔÓÚË‚˜‡ÒÓ‚ÓÈ
+	bool considered—ounterclockwise = point.x < 0.f;
+
+	matrix<float> angleMatrix = GetAngleMatrix(angleBetweenRAndCathtus, considered—ounterclockwise);
+
+	matrix<float> vector(1, 2);
+	vector.at_element(0, 0) = pointIntersection.x;
+	vector.at_element(0, 1) = pointIntersection.y;
+
+	vector = prod(vector, angleMatrix);// multiply
+
+	return SPoint(vector.at_element(0, 0), vector.at_element(0, 1));
+}
+
+
+SPoint CSolver::GetNearPoint(const SPoint & point, const std::pair<SPoint, SPoint> &pointsIntersection)
+{
+	float firstDistance = GetLengthLine(point, pointsIntersection.first);
+	float secondDistance = GetLengthLine(point, pointsIntersection.second);
+
+	SPoint result;
+
+	if (firstDistance > secondDistance)
+	{
+		result = pointsIntersection.second;
+	}
+	else
+	{
+		result = pointsIntersection.first;
+	}
+
+	return result;
+}
+
+// TODO : rename for correct words order
 float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
 {
 	SDataForSolver data = ExtractData(inputString);
@@ -112,7 +226,42 @@ float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
 	std::pair<SPoint, SPoint> pointsIntersection = GetPointsIntersection(data);
 
 
-	return 0.0f;
+	float result = 0.f;//lengthOutLine - lengthInsideLine;
+
+	/*
+		// r2 - distanse between second point and center
+	float r2 = GetLengthLine(SPoint(), data.secondPoint);
+	// L1 - distanse between first point and point tangent
+	float L1 = GetDistanseBetweenPointAndTangent(data.firstPoint, data.radiusCircle);
+	// L2 - distanse between second point and point tangent
+	float L2 = GetDistanseBetweenPointAndTangent(data.secondPoint, data.radiusCircle);
+
+	// R -radiuse circle
+	float angleBetweenRAndL1 = GetAngleBetweenCathetusAndHypotenuse(data.radiusCircle, L1);
+	float angleBetweenRAndL2 = GetAngleBetweenCathetusAndHypotenuse(data.radiusCircle, L2);
+
+	*/
+
+	SPoint nearAboutFirst = GetNearPoint(data.firstPoint, pointsIntersection);
+	SPoint nearAboutSecond = GetNearPoint(data.secondPoint, pointsIntersection);
+
+	SPoint firstPointTangent = GetPointTangent(data.firstPoint, nearAboutFirst, data.radiusCircle);
+	SPoint secondPointTangent = GetPointTangent(data.secondPoint, nearAboutSecond, data.radiusCircle);
+
+
+	/*
+	float lengthInsideLine = GetLengthLine(pointsIntersection);
+	float lengthOutLine = GetLengthLine(data.firstPoint, data.secondPoint);
+
+
+		if (lengthInsideLine > 0)
+	{
+		result += GetLengthCircleArc(pointsIntersection, data.radiusCircle);
+	}
+	*/
+
+
+	return result;
 }
 
 SPoint::SPoint()

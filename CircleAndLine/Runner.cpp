@@ -20,17 +20,18 @@ void CRunner::Run()
 	std::string inputString;
 	while (getline(m_inputFile, inputString))
 	{
-		if (m_countStrings == 0)
+		if (m_amountStrings == 0)
 		{
-			m_countStrings = stoull(inputString);
+			m_amountStrings = stoull(inputString);
 			continue;
 		}
-		m_countStrings++;
+		m_amountStrings++;
 
 		m_outputFile << GetLengthLineConectTwoPoints(inputString);
 		m_outputFile << std::endl;
 
 		CheckStringsCounters();
+
 	}
 }
 
