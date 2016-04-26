@@ -225,41 +225,19 @@ float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
 
 	std::pair<SPoint, SPoint> pointsIntersection = GetPointsIntersection(data);
 
-
-	float result = 0.f;//lengthOutLine - lengthInsideLine;
-
-	/*
-		// r2 - distanse between second point and center
-	float r2 = GetLengthLine(SPoint(), data.secondPoint);
-	// L1 - distanse between first point and point tangent
-	float L1 = GetDistanseBetweenPointAndTangent(data.firstPoint, data.radiusCircle);
-	// L2 - distanse between second point and point tangent
-	float L2 = GetDistanseBetweenPointAndTangent(data.secondPoint, data.radiusCircle);
-
-	// R -radiuse circle
-	float angleBetweenRAndL1 = GetAngleBetweenCathetusAndHypotenuse(data.radiusCircle, L1);
-	float angleBetweenRAndL2 = GetAngleBetweenCathetusAndHypotenuse(data.radiusCircle, L2);
-
-	*/
-
 	SPoint nearAboutFirst = GetNearPoint(data.firstPoint, pointsIntersection);
 	SPoint nearAboutSecond = GetNearPoint(data.secondPoint, pointsIntersection);
 
 	SPoint firstPointTangent = GetPointTangent(data.firstPoint, nearAboutFirst, data.radiusCircle);
 	SPoint secondPointTangent = GetPointTangent(data.secondPoint, nearAboutSecond, data.radiusCircle);
 
+	float result = GetLengthLine(data.firstPoint, firstPointTangent);
+	result += GetLengthLine(data.secondPoint, secondPointTangent);
 
-	/*
-	float lengthInsideLine = GetLengthLine(pointsIntersection);
-	float lengthOutLine = GetLengthLine(data.firstPoint, data.secondPoint);
-
-
-		if (lengthInsideLine > 0)
+	if ((pointsIntersection.first != SPoint()) && (pointsIntersection.second != SPoint()))
 	{
-		result += GetLengthCircleArc(pointsIntersection, data.radiusCircle);
+		result +=GetLengthCircleArc(firstPointTangent, secondPointTangent, data.radiusCircle);
 	}
-	*/
-
 
 	return result;
 }
@@ -274,4 +252,14 @@ SPoint::SPoint(float x, float y)
 	: x(x)
 	, y(y)
 {
+}
+
+bool const operator ==(SPoint const & first, SPoint const & second)
+{
+	return ((first.x == second.x) && (first.y == second.y));
+}
+
+bool const operator!=(SPoint const & first, SPoint const & second)
+{
+	return !(first == second);
 }
