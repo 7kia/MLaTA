@@ -8,11 +8,8 @@
 #include <vector>
 #include <limits>
 #include <array>
-#include <boost/algorithm/string.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/operation.hpp>
 
-#include "SPoint.h"
+#include "SRange.h"
 
 struct SDataForSolver
 {
@@ -21,15 +18,6 @@ struct SDataForSolver
 	float radiusCircle;
 };
 
-struct SCoefficientForLineEquation
-{
-	// TODO: rename
-	float A;
-	float B;
-	float C;
-};
-
-typedef std::vector<std::string> Words;
 typedef std::vector<SRange<size_t>> FindPositions;
 typedef std::vector<size_t> PrefixFunction;
 
@@ -45,6 +33,6 @@ protected:
 	const std::string				SYMBOL_DIVIDER = "#";
 protected:
 	void							WritePositions(std::ostream &strm, size_t sizeSearchString,
-													const PrefixFunction & prefixFunction);
+													const PrefixFunction & prefixFunction, size_t anchorPosition);
 	PrefixFunction					GetPrefixFunction(const std::string & inputString);
 };

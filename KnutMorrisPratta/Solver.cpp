@@ -1,29 +1,17 @@
 #include "stdafx.h"
 #include "Solver.h"
 
-using namespace boost::numeric::ublas;
 using namespace std;
 
-// TODO : delete
-std::vector<string> SplitWords(string const& text)
-{
-	string trimmed = boost::trim_copy(text);
-
-	std::vector<string> words;
-	boost::split(words, trimmed, boost::is_space(), boost::token_compress_on);
-	return words;
-}
-
-
 void CSolver::WritePositions(ostream & strm, size_t sizeSearchString,
-							const PrefixFunction & prefixFunction)
+							const PrefixFunction & prefixFunction, size_t anchorPosition)
 {
 	SRange<size_t> range;
 	for (size_t index = 0; index < prefixFunction.size(); index++)
 	{
 		if (prefixFunction[index] == sizeSearchString)
 		{
-			range.end = index + 1 - sizeSearchString - SYMBOL_DIVIDER.size();
+			range.end = anchorPosition + (index + 1 - sizeSearchString - SYMBOL_DIVIDER.size());
 			range.start = range.end - prefixFunction[index] + 1;
 
 			strm << range.start << ' ' << range.end << endl;

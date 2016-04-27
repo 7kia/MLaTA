@@ -29,10 +29,15 @@ void CRunner::Run()
 
 	std::string inputString;
 	FindPositions findPositions;
+
+	size_t anchor = 0;
+	string investigateString;
 	while (getline(m_investigateFile, inputString))
 	{
-		PrefixFunction prefixFunction = GetPrefixFunction(m_searchString + SYMBOL_DIVIDER + inputString);
-		WritePositions(m_outputFile, m_searchString.size(), prefixFunction);
+		investigateString = m_searchString + SYMBOL_DIVIDER + inputString;
+		PrefixFunction prefixFunction = GetPrefixFunction(investigateString);
+		WritePositions(m_outputFile, m_searchString.size(), prefixFunction, anchor);
+		anchor += inputString.size();
 	}
 
 }
