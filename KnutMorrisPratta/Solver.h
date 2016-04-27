@@ -44,5 +44,5 @@ private:
 protected:
 	void							WritePositions(std::ostream &strm, size_t sizeSearchString,
 													const PrefixFunction & prefixFunction);
-	PrefixFunction					GetPrefixFunction(const std::string & searchString, const std::string & inputString);
+	PrefixFunction					GetPrefixFunction(const std::string & searchString, std::string inputString);
 };
