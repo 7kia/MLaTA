@@ -27,7 +27,7 @@ void CRunner::Run()
 		}
 		m_amountStrings++;
 
-		m_outputFile << GetLengthLineConectTwoPoints(inputString);
+		m_outputFile << GetDistanseLineConectTwoPoints(inputString);
 		m_outputFile << std::endl;
 
 		CheckStringsCounters();

@@ -27,7 +27,7 @@ void CompareFiles(const std::string & first, const std::string & second)
 	double secondNumber;
 	resultFile >> firstNumber;
 	rightResultFile >> secondNumber;
-	BOOST_CHECK_CLOSE(firstNumber, secondNumber, 0.2);
+	BOOST_CHECK_CLOSE(firstNumber, secondNumber, 4.f);
 };
 
 BOOST_AUTO_TEST_CASE(Throw_exception_for_nonexistent_file)
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(Throw_exception_for_nonexistent_file)
 
 BOOST_AUTO_TEST_CASE(Throw_exception_for_incorrect_arguments)
 {
-	BOOST_CHECK(TestApplictation("input0.txt", "output1.txt"));
+	BOOST_CHECK_THROW(TestApplictation("input0.txt", "output1.txt"), std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_CASE(length_with_points_intersection)

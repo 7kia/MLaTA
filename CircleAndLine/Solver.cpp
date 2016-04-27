@@ -11,6 +11,7 @@ void CSolver::CheckAmountStrings()
 	}
 }
 
+
 void CSolver::CheckStringsCounters()
 {
 	if ((static_cast<int>(m_countStrings) > m_amountStrings))
@@ -18,6 +19,7 @@ void CSolver::CheckStringsCounters()
 		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
 	}
 }
+
 
 std::vector<std::string> CSolver::SplitWords(std::string const& text)
 {
@@ -27,6 +29,7 @@ std::vector<std::string> CSolver::SplitWords(std::string const& text)
 	boost::split(words, trimmed, boost::is_space(), boost::token_compress_on);
 	return words;
 }
+
 
 SDataForSolver CSolver::ExtractData(const std::string & inputString)
 {
@@ -51,6 +54,7 @@ SDataForSolver CSolver::ExtractData(const std::string & inputString)
 	return result;
 }
 
+
 SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition, const SPoint & secondPosition)
 {
 	SCoefficientForLineEquation result;
@@ -68,11 +72,12 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 	return result;
 }
 
-// TODO: remove useless const
-float CSolver::GetDiscriminant(const float A, const float B, const float C) const
+
+float GetDiscriminant(float A, float B, float C)
 {
 	return sqrt((B * B) - (4.f * A * C));
 }
+
 
 std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & data)
 {
@@ -110,8 +115,8 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);// TOOD : event when points no
 }
 
-// TODO : rename for correct words order
-float CSolver::GetLengthLine(const SPoint & firstPosition, const SPoint & secondPosition)
+
+float CSolver::GetLineLength(const SPoint & firstPosition, const SPoint & secondPosition)
 {
 	float differenceX = firstPosition.x - secondPosition.x;
 	float differenceY = firstPosition.y - secondPosition.y;
@@ -119,46 +124,53 @@ float CSolver::GetLengthLine(const SPoint & firstPosition, const SPoint & second
 	return sqrt(differenceX * differenceX + differenceY * differenceY);
 }
 
-// TODO : rename for correct words order
-float CSolver::GetLengthLine(const std::pair<SPoint, SPoint>& pair)
+
+float CSolver::GetLineLength(const std::pair<SPoint, SPoint>& pair)
 {
-	return GetLengthLine(pair.first, pair.second);
+	return GetLineLength(pair.first, pair.second);
 }
 
-// TODO : rename for correct words order
-float CSolver::GetLengthCircleArc(const std::pair<SPoint, SPoint>& pair, float radius)
+
+float CSolver::GetCircleArcLength(const std::pair<SPoint, SPoint>& pair, float radius)
 {
-	return GetLengthCircleArc(pair.first, pair.second, radius);
+	return GetCircleArcLength(pair.first, pair.second, radius);
 }
 
-// TODO : rename for correct words order
-float CSolver::GetLengthCircleArc(const SPoint & firstPosition, const SPoint & secondPosition, float radius)
+
+// —Í‡ÎˇÌÓÂ ÛÏÌÓÊÂÌËÂ
+float Dot(const SPoint & firstPosition, const SPoint & secondPosition)
+{
+	return (firstPosition.x * secondPosition.x) + (firstPosition.y * secondPosition.y);
+}
+
+
+float CSolver::GetCircleArcLength(const SPoint & firstPosition, const SPoint & secondPosition, float radius)
 {
 	float lenthFirst = radius;
 	float lenthSecond = radius;
 
-	// TODO: move to function Dot()
-	float scalarMultiply = (firstPosition.x * secondPosition.x) + (firstPosition.y * secondPosition.y);
-
-	float cosinus = scalarMultiply / (lenthFirst * lenthSecond);
+	float cosinus = Dot(firstPosition, secondPosition) / (lenthFirst * lenthSecond);
 
 	return abs(acosf(cosinus)) * radius;
 }
 
+
 float  CSolver::GetDistanseBetweenPointAndTangent(const SPoint & point, const float radius)
 {
-	float distanseBetweenPointAndCenter = GetLengthLine(SPoint(), point);
+	float distanseBetweenPointAndCenter = GetLineLength(SPoint(), point);
 
 	return sqrt(distanseBetweenPointAndCenter * distanseBetweenPointAndCenter
 				- radius * radius);
 }
 
-float CSolver::GetAngleBetweenCathetusAndHypotenuse(const float cathetus, const float hypotenuse)
+
+float CSolver::GetAngleBetweenCathetusAndHypotenuse(float cathetus, float hypotenuse)
 {
 	return abs(acosf(cathetus / hypotenuse));
 }
 
-matrix<float> CSolver::GetAngleMatrix(const float angle, const bool considered—ounterclockwise)
+
+matrix<float> CSolver::GetRotationMatrix(float angle, bool considered—ounterclockwise)
 {
 	float coefficient = 1.f;
 
@@ -177,23 +189,22 @@ matrix<float> CSolver::GetAngleMatrix(const float angle, const bool considered—o
 	return result;
 }
 
+
 SPoint CSolver::GetPointTangent(const SPoint & point, const SPoint & pointIntersection, const float radius)
 {
-	float hypotenuse = GetLengthLine(SPoint(), point);
-
+	float hypotenuse = GetLineLength(SPoint(), point);
 	// R -radiuse circle
 	float angleBetweenRAndCathtus = GetAngleBetweenCathetusAndHypotenuse(radius, hypotenuse);
 
 	// ÔÓÚË‚˜‡ÒÓ‚ÓÈ
 	bool considered—ounterclockwise = point.x < 0.f;
 
-	matrix<float> angleMatrix = GetAngleMatrix(angleBetweenRAndCathtus, considered—ounterclockwise);
-
 	matrix<float> vector(1, 2);
 	vector.at_element(0, 0) = pointIntersection.x;
 	vector.at_element(0, 1) = pointIntersection.y;
 
-	vector = prod(vector, angleMatrix);// multiply
+	matrix<float> rotationMatrix = GetRotationMatrix(angleBetweenRAndCathtus, considered—ounterclockwise);
+	vector = prod(vector, rotationMatrix);// prod - multiply
 
 	return SPoint(vector.at_element(0, 0), vector.at_element(0, 1));
 }
@@ -201,8 +212,8 @@ SPoint CSolver::GetPointTangent(const SPoint & point, const SPoint & pointInters
 
 SPoint CSolver::GetNearPoint(const SPoint & point, const std::pair<SPoint, SPoint> &pointsIntersection)
 {
-	float firstDistance = GetLengthLine(point, pointsIntersection.first);
-	float secondDistance = GetLengthLine(point, pointsIntersection.second);
+	float firstDistance = GetLineLength(point, pointsIntersection.first);
+	float secondDistance = GetLineLength(point, pointsIntersection.second);
 
 	SPoint result;
 
@@ -218,8 +229,8 @@ SPoint CSolver::GetNearPoint(const SPoint & point, const std::pair<SPoint, SPoin
 	return result;
 }
 
-// TODO : rename for correct words order
-float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
+
+float CSolver::GetDistanseLineConectTwoPoints(const std::string & inputString)
 {
 	SDataForSolver data = ExtractData(inputString);
 
@@ -231,35 +242,19 @@ float CSolver::GetLengthLineConectTwoPoints(const std::string & inputString)
 	SPoint firstPointTangent = GetPointTangent(data.firstPoint, nearAboutFirst, data.radiusCircle);
 	SPoint secondPointTangent = GetPointTangent(data.secondPoint, nearAboutSecond, data.radiusCircle);
 
-	float result = GetLengthLine(data.firstPoint, firstPointTangent);
-	result += GetLengthLine(data.secondPoint, secondPointTangent);
+	float result = 0.f;
 
 	if ((pointsIntersection.first != SPoint()) && (pointsIntersection.second != SPoint()))
 	{
-		result +=GetLengthCircleArc(firstPointTangent, secondPointTangent, data.radiusCircle);
+		result += GetLineLength(data.firstPoint, firstPointTangent);
+		result += GetLineLength(data.secondPoint, secondPointTangent);
+
+		result += GetCircleArcLength(firstPointTangent, secondPointTangent, data.radiusCircle);
+	}
+	else
+	{
+		result = GetLineLength(data.firstPoint, data.secondPoint);
 	}
 
 	return result;
-}
-
-SPoint::SPoint()
-	: x(0.f)
-	, y(0.f)
-{
-}
-
-SPoint::SPoint(float x, float y)
-	: x(x)
-	, y(y)
-{
-}
-
-bool const operator ==(SPoint const & first, SPoint const & second)
-{
-	return ((first.x == second.x) && (first.y == second.y));
-}
-
-bool const operator!=(SPoint const & first, SPoint const & second)
-{
-	return !(first == second);
 }
