@@ -1,12 +1,16 @@
 #pragma once
 
+template<typename T>
 struct SRange
 {
 	SRange();
-	SRange(float start, float end);
-	float start;
-	float end;
-
+	SRange(T start, T end);
+	T start;
+	T end;
 };
-bool const operator ==(SRange const& first, SRange const& second);
-bool const operator !=(SRange const& first, SRange const& second);
+
+template<typename T>
+bool const operator ==(SRange<T> const& first, SRange<T> const& second);
+
+template<typename T>
+bool const operator !=(SRange<T> const& first, SRange<T> const& second);

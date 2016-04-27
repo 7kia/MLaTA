@@ -1,27 +1,36 @@
 #include "stdafx.h"
 #include "SPoint.h"
 
-
-SRange::SRange()
-	: start(0.f)
-	, end(0.f)
+template<typename T>
+SRange<T>::SRange()
+	: start(T())
+	, end(T())
 {
 }
 
-SRange::SRange(float start, float end)
+template<>
+SRange<size_t>::SRange<size_t>()
+	: start(0)
+	, end(0)
+{
+}
+
+
+template<typename T>
+SRange<T>::SRange(T start, T end)
 	: start(start)
 	, end(end)
 {
 }
 
-
-bool const operator ==(SRange const & first, SRange const & second)
+template<typename T>
+bool const operator ==(SRange<T> const & first, SRange<T> const & second)
 {
 	return ((first.start == second.start) && (first.end == second.end));
 }
 
-
-bool const operator!=(SRange const & first, SRange const & second)
+template<typename T>
+bool const operator!=(SRange<T> const & first, SRange<T> const & second)
 {
 	return !(first == second);
 }

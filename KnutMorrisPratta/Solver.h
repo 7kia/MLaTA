@@ -16,8 +16,8 @@
 
 struct SDataForSolver
 {
-	SRange firstPoint;
-	SRange secondPoint;
+	SRange<size_t> firstPoint;
+	SRange<size_t> secondPoint;
 	float radiusCircle;
 };
 
@@ -30,7 +30,7 @@ struct SCoefficientForLineEquation
 };
 
 typedef std::vector<std::string> Words;
-typedef std::vector<SRange> FindPositions;
+typedef std::vector<SRange<size_t>> FindPositions;
 typedef std::vector<size_t> PrefixFunction;
 
 class CSolver
@@ -42,31 +42,7 @@ private:
 
 	const int						AMOUNT_ARGUMENTS = 5;
 protected:
-	void							CheckStringsCounters();
-
-	float							GetDistanseLineConectTwoPoints(const std::string & inputString);
-	Words							SplitWords(std::string const & text);
-	SDataForSolver					ExtractData(const std::string & inputString);
-	SCoefficientForLineEquation		GetLineEquation(const SRange & firstPosition, const SRange & secondPosition);
-
-	std::pair<SRange, SRange>		GetPointsIntersection(const SDataForSolver & data);
-	float							GetLineLength(const SRange & firstPosition, const SRange & secondPosition);
-	float							GetLineLength(const std::pair<SRange, SRange> & pair);
-
-	float							GetCircleArcLength(const std::pair<SRange, SRange>& pair, float radius);
-	float							GetCircleArcLength(const SRange & firstPosition, const SRange & secondPosition, float radius);
-
-	float							GetDistanseBetweenPointAndTangent(const SRange & point, const float radius);
-	float							GetAngleBetweenCathetusAndHypotenuse(float cathetus, float hypotenuse);
-
-	boost::numeric::ublas::matrix<float>	GetRotationMatrix(float angle, bool considered—ounterclockwise);
-
-	SRange							GetPointTangent(const SRange & point, const SRange & pointIntersection, const float radius);
-	SRange							GetNearPoint(const SRange & point, const std::pair<SRange, SRange>& pointsIntersection);
-
-	//////////////////////////////////////////////////////////////////
-	void							WritePositions(std::ostream &strm, const PrefixFunction & prefixFunction);
+	void							WritePositions(std::ostream &strm, size_t sizeSearchString,
+													const PrefixFunction & prefixFunction);
+	PrefixFunction					GetPrefixFunction(const std::string & searchString, const std::string & inputString);
 };
-
-float GetDiscriminant(float A, float B, float C);
-float Dot(const SRange & firstPosition, const SRange & secondPosition);

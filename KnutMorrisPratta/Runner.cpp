@@ -29,14 +29,10 @@ void CRunner::Run()
 
 	std::string inputString;
 	FindPositions findPositions;
-	while (getline(m_inputFile, inputString))
+	while (getline(m_investigateFile, inputString))
 	{
 		PrefixFunction prefixFunction = GetPrefixFunction(m_searchString, inputString);
-		m_outputFile << GetDistanseLineConectTwoPoints(inputString);
-		m_outputFile << std::endl;
-
-		CheckStringsCounters();
-
+		WritePositions(m_outputFile, m_searchString.size(), prefixFunction);
 	}
 
 
