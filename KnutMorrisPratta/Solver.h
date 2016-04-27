@@ -42,7 +42,9 @@ private:
 
 	const int						AMOUNT_ARGUMENTS = 5;
 protected:
+	const std::string				SYMBOL_DIVIDER = "#";
+protected:
 	void							WritePositions(std::ostream &strm, size_t sizeSearchString,
 													const PrefixFunction & prefixFunction);
-	PrefixFunction					GetPrefixFunction(const std::string & searchString, std::string inputString);
+	PrefixFunction					GetPrefixFunction(const std::string & inputString);
 };

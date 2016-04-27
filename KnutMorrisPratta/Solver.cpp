@@ -18,24 +18,26 @@ std::vector<string> SplitWords(string const& text)
 void CSolver::WritePositions(ostream & strm, size_t sizeSearchString,
 							const PrefixFunction & prefixFunction)
 {
+	SRange<size_t> range;
 	for (size_t index = 0; index < prefixFunction.size(); index++)
 	{
 		if (prefixFunction[index] == sizeSearchString)
 		{
-			strm << index + 1 << ' ' << index + sizeSearchString << endl;
+			range.end = index + 1 - sizeSearchString - SYMBOL_DIVIDER.size();
+			range.start = range.end - prefixFunction[index] + 1;
+
+			strm << range.start << ' ' << range.end << endl;
 		}
 	}
-
 }
 
-PrefixFunction CSolver::GetPrefixFunction(const string & searchString, string inputString)
+PrefixFunction CSolver::GetPrefixFunction(const string & inputString)
 {
 	PrefixFunction result;
 
-	// TODO : delete
+	// TODO : delete // value counter for check effect optimization 45 // 37 // 19
 	size_t counter = 0;
-	//inputString.insert(inputString.begin(), '#');
-	//inputString.insert(inputString.begin(), searchString.begin(), searchString.end());
+
 	result.resize(inputString.size(), 0);
 
 	string prefix;
@@ -44,9 +46,7 @@ PrefixFunction CSolver::GetPrefixFunction(const string & searchString, string in
 	{
 		////////////////////
 		// First optimization
-
 		size_t startIndex = 1;
-		///*
 		if ((index - 1) != std::numeric_limits<size_t>::max())
 		{
 			if (result[index - 1] > 0)
@@ -54,8 +54,6 @@ PrefixFunction CSolver::GetPrefixFunction(const string & searchString, string in
 				startIndex += result[index - 1];
 			}
 		}
-		//*/
-
 		////////////////////
 		// Second optimization
 		if (startIndex != 1)
@@ -71,47 +69,8 @@ PrefixFunction CSolver::GetPrefixFunction(const string & searchString, string in
 				continue;
 			}
 		}
-		/*
-		for (size_t index2 = index - 1; (index2) >= startIndex; index2--)
-		{
-			counter++;// TODO : delete // 45 // 37
-
-			//prefix = inputString.substr(0, index2);
-			//suffix = inputString.substr(index - index2 + 1, index2);
-
-			char lastInPrefix = inputString[index2];
-			char lastInSuffix= inputString[index];
-
-			bool symbolsIsEqual = (lastInPrefix == lastInSuffix);
-
-
-			if (symbolsIsEqual)
-			{
-				result[index]++;
-			}
-
-			if (startIndex != 1)
-			{
-				result[index] += result[index - 1];
-				break;
-			}
-
-			/.*
-						if ((!suffix.empty() && !prefix.empty()) && (prefix == suffix))
-			{
-				result[index] = index2;
-				break;
-			}
-			*./
-
-
-		}
-		*/
 		////////////////////
-		// TODO n ^ 3
-		////////////////////
-		///*
-		for (size_t index2 = startIndex; (index2)  < index; index2++)
+		for (size_t index2 = 1; (index2)  < index; index2++)
 		{
 			prefix = inputString.substr(0, index2);
 			suffix = inputString.substr(index - index2 + 1, index2);
@@ -120,10 +79,10 @@ PrefixFunction CSolver::GetPrefixFunction(const string & searchString, string in
 				result[index] = index2;
 			}
 
-			counter++;// TODO : delete // 45 // 37 // 19
+			counter++;// TODO : delete // value counter for check effect optimization 45 // 37 // 19
 		}
-		//*/
-		////////////////////
+		
 	}
+
 	return result;// TODO
 }

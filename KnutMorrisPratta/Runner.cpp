@@ -31,11 +31,9 @@ void CRunner::Run()
 	FindPositions findPositions;
 	while (getline(m_investigateFile, inputString))
 	{
-		PrefixFunction prefixFunction = GetPrefixFunction(m_searchString, inputString);
+		PrefixFunction prefixFunction = GetPrefixFunction(m_searchString + SYMBOL_DIVIDER + inputString);
 		WritePositions(m_outputFile, m_searchString.size(), prefixFunction);
 	}
-
-
 
 }
 
