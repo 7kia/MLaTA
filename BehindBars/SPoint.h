@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 struct SPoint
 {
 	SPoint();
@@ -9,7 +11,7 @@ struct SPoint
 
 };
 
-static const SPoint NO_POINT = SPoint(-INFINITY, -INFINITY);
+static const SPoint NO_POINT = SPoint(std::numeric_limits<float>::min(), std::numeric_limits<float>::min());
 
 bool const operator ==(SPoint const& first, SPoint const& second);
 bool const operator !=(SPoint const& first, SPoint const& second);

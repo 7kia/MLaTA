@@ -52,6 +52,12 @@ protected:
 	SDataForSolver					ExtractData(std::istream & strm);
 	float							GetDistanseBetweenLines(const SDataForSolver & data);
 
+	float							SearchFromNearPoints(const SDataForSolver & data);
+
+	bool							CheckIntersection(const SPoint & point
+														, const SPoint & startLine
+														, const SPoint & endLine);
+
 	SCoefficientForLineEquation		GetLineEquation(const SPoint & firstPosition, const SPoint & secondPosition);
 	SCoefficientForLineEquation		GetLineEquationForPerpendicular(const SPoint & point
 																	, const SCoefficientForLineEquation & equation);
