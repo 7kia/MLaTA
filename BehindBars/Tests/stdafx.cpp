@@ -13,11 +13,6 @@
 // подключаем реализацию boost test
 #include <boost/test/included/unit_test.hpp>
 
-bool IsEqual(float a, float b)
-{
-	return fabs(a - b) < 0.001f;
-}
-
 void VerifyVector2f(const sf::Vector2f & vector, const sf::Vector2f & expectedVector)
 {
 	BOOST_CHECK(IsEqual(vector.x, expectedVector.x));

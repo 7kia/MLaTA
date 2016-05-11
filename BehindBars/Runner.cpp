@@ -17,22 +17,7 @@ void CRunner::Run()
 {
 	OpenFiles();
 
-	std::string inputString;
-	while (getline(m_inputFile, inputString))
-	{
-		if (m_amountStrings == 0)
-		{
-			m_amountStrings = stoull(inputString);
-			continue;
-		}
-		m_amountStrings++;
-
-		m_outputFile << GetDistanseLineConectTwoPoints(inputString);
-		m_outputFile << std::endl;
-
-		CheckStringsCounters();
-
-	}
+	m_outputFile << GetDistanseBetweenLines(ExtractData(m_inputFile));
 }
 
 void CRunner::OpenFiles()

@@ -13,22 +13,27 @@
 
 #include "SPoint.h"
 
+
 struct SDataForSolver
 {
-	SPoint firstPoint;
-	SPoint secondPoint;
-	float radiusCircle;
+	SPoint startFirstLine;
+	SPoint endFirstLine;
+	SPoint startSecondLine;
+	SPoint endSecondLine;
 };
+
+
 
 struct SCoefficientForLineEquation
 {
 	// TODO: rename
-	float A;
-	float B;
-	float C;
+	float A = 0.f;
+	float B = 0.f;
+	float C = 0.f;
 };
 
 typedef std::vector<std::string> Words;
+static const float ACCURACY = 0.01f;
 
 class CSolver
 {
@@ -38,36 +43,43 @@ private:
 	const std::string				MESSAGE_WIDTH_MORE_EXPECTED = "Amount strings more expected!!!";
 
 	const int						AMOUNT_ARGUMENTS = 5;
+	const int						AMOUNT_POINTS = 4;
 private:
-	void							CheckAmountStrings();
+	// TODO
 protected:
-	size_t							m_amountStrings = 0;
-	size_t							m_countStrings = 0;
-
+	// TODO
 protected:
-	void							CheckStringsCounters();
+	SDataForSolver					ExtractData(std::istream & strm);
+	float							GetDistanseBetweenLines(const SDataForSolver & data);
 
-	float							GetDistanseLineConectTwoPoints(const std::string & inputString);
-	Words							SplitWords(std::string const & text);
-	SDataForSolver					ExtractData(const std::string & inputString);
 	SCoefficientForLineEquation		GetLineEquation(const SPoint & firstPosition, const SPoint & secondPosition);
 
-	std::pair<SPoint, SPoint>		GetPointsIntersection(const SDataForSolver & data);
 	float							GetLineLength(const SPoint & firstPosition, const SPoint & secondPosition);
 	float							GetLineLength(const std::pair<SPoint, SPoint> & pair);
 
-	float							GetCircleArcLength(const std::pair<SPoint, SPoint>& pair, float radius);
-	float							GetCircleArcLength(const SPoint & firstPosition, const SPoint & secondPosition, float radius);
+	SPoint							GetNearPoint(const SPoint & point
+												, const std::pair<SPoint, SPoint>& pointsIntersection);
+	SPoint							GetNearPoint(const SPoint & point
+												, const SPoint & startPointLine
+												, const SPoint & endPointLine);
 
-	float							GetDistanseBetweenPointAndTangent(const SPoint & point, const float radius);
-	float							GetAngleBetweenCathetusAndHypotenuse(float cathetus, float hypotenuse);
+	//Words							SplitWords(std::string const & text);
+	//SDataForSolver					ExtractData(const std::string & inputString);
 
-	boost::numeric::ublas::matrix<float>	GetRotationMatrix(float angle, bool considered—ounterclockwise);
+	//std::pair<SPoint, SPoint>		GetPointsIntersection(const SDataForSolver & data);
 
-	SPoint							GetPointTangent(const SPoint & point, const SPoint & pointIntersection, const float radius);
-	SPoint							GetNearPoint(const SPoint & point, const std::pair<SPoint, SPoint>& pointsIntersection);
+	//float							GetCircleArcLength(const std::pair<SPoint, SPoint>& pair, float radius);
+	//float							GetCircleArcLength(const SPoint & firstPosition, const SPoint & secondPosition, float radius);
+
+	//float							GetDistanseBetweenPointAndTangent(const SPoint & point, const float radius);
+	//float							GetAngleBetweenCathetusAndHypotenuse(float cathetus, float hypotenuse);
+
+
+	//SPoint							GetPointTangent(const SPoint & point, const SPoint & pointIntersection, const float radius);
 
 };
 
 float GetDiscriminant(float A, float B, float C);
 float Dot(const SPoint & firstPosition, const SPoint & secondPosition);
+
+bool IsEqual(float first, float second);
