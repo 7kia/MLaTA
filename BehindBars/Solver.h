@@ -52,6 +52,14 @@ protected:
 	SDataForSolver					ExtractData(std::istream & strm);
 	float							GetDistanseBetweenLines(const SDataForSolver & data);
 
+	bool							IsParallel(const SCoefficientForLineEquation & firstLineEquation
+												, const SCoefficientForLineEquation & secondLineEquation);
+
+	bool							IsNotPerdendiculars(SPoint firstSourceNormal
+														, SPoint secondSourceNormal
+														, SPoint startCheckLine
+														, SPoint endCheckLine);
+
 	float							SearchFromNearPoints(const SDataForSolver & data);
 
 	bool							CheckIntersection(const SPoint & point
