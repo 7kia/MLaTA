@@ -228,18 +228,20 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 	SCoefficientForLineEquation firstLineEquation = GetLineEquation(data.startFirstLine, data.endFirstLine);
 	SCoefficientForLineEquation secondLineEquation = GetLineEquation(data.startSecondLine, data.endSecondLine);
 
+
+	if (IsEqual(firstLineEquation.C, secondLineEquation.C))
+	{
+		return 0.f;
+	}
+
+	//////////////////////////////////////////////////////////
+	// if is parallel
 	if ((IsEqual(firstLineEquation.A, secondLineEquation.A))
 		&&
 		(IsEqual(firstLineEquation.B, secondLineEquation.B)))
 	{
-		//
-		if (IsEqual(firstLineEquation.C, secondLineEquation.C))
-		{
-			return 0.f;
-		}
-		// if is parallel
 
-		// first point is point start first line
+// first point is point start first line
 		// second point is point end first line
 		SPoint nearPointToFirst = GetNearPoint(data.startFirstLine, data.startSecondLine, data.endSecondLine);
 		SPoint nearPointToSecond = GetNearPoint(data.endFirstLine, data.startSecondLine, data.endSecondLine);
@@ -248,6 +250,23 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 		float distanseFromSecond = GetLineLength(data.endFirstLine, nearPointToSecond);
 
 		return std::min(distanseFromFirst, distanseFromSecond);
+
+
+
+		// p1 - point intersection by perpendicular by first point
+		SPoint p1 = GetPointIntersectionByPerpendicular(data.startFirstLine, data.startSecondLine, data.endSecondLine);
+		SPoint p2 = GetPointIntersectionByPerpendicular(data.endFirstLine, data.startSecondLine, data.endSecondLine);
+
+		///////////////////////
+		// try on second line
+		if ((p1 == NO_POINT) && (p2 == NO_POINT))
+		{
+			p1 = GetPointIntersectionByPerpendicular(data.startSecondLine, data.startFirstLine, data.endFirstLine);
+			p2 = GetPointIntersectionByPerpendicular(data.endSecondLine, data.startFirstLine, data.endFirstLine);
+		}
+		///////////////////////
+
+		
 	}
 	else
 	{
@@ -255,6 +274,8 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 	}
 	return 0.0f;
 }
+
+
 
 SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition, const SPoint & secondPosition)
 {
@@ -286,6 +307,20 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 	}
 	return result;
 }
+
+
+SCoefficientForLineEquation CSolver::GetLineEquationForPerpendicular(const SPoint &point
+																	, const SCoefficientForLineEquation & equation)
+{
+	SCoefficientForLineEquation result;
+
+	result.A = -equation.A;
+	result.B = equation.B;
+	result.C = (result.A * point.x) - (point.y * result.B);
+	
+	return result;
+}
+
 
 
 float GetDiscriminant(float A, float B, float C)
@@ -338,4 +373,51 @@ SPoint CSolver::GetNearPoint(const SPoint & point, const SPoint & startPointLine
 	}
 
 	return result;
+}
+
+SPoint CSolver::GetPointIntersectionByPerpendicular(const SPoint & point
+													, const SPoint & startPointLine
+													, const SPoint & endPointLine)
+{
+	SCoefficientForLineEquation lineEquation = GetLineEquation(startPointLine, endPointLine);
+	SCoefficientForLineEquation lineEquationForPerpendicular = GetLineEquationForPerpendicular(point, lineEquation);
+
+	/*
+		SPoint nearLinePointToSourcePoint = GetNearPoint(point, startPointLine, endPointLine);
+	SPoint farLinePointToSourcePoint = (nearLinePointToSourcePoint == startPointLine) ? endPointLine : startPointLine;
+	float hypotenuse = GetLineLength(point, nearLinePointToSourcePoint);
+
+	// cosinus - angle between hypotenuse and cathtus
+	float cosinus = GetAngleBetweenVectors(point
+											, nearLinePointToSourcePoint
+											, nearLinePointToSourcePoint
+											, farLinePointToSourcePoint);
+	float sinAngle = sqrt(1.f - cosinus * cosinus);
+
+	*/
+
+	return GetPointIntersection(lineEquation, lineEquationForPerpendicular);
+}
+
+
+
+float CSolver::GetAngleBetweenVectors(SPoint startFirst
+									, SPoint endFirst
+									, SPoint startSecond
+									, SPoint endSecond)
+{
+	float lenthFirst = GetLineLength(startFirst, endFirst);
+	float lenthSecond = GetLineLength(startSecond, endSecond);
+
+	// p1 - coordinate end vector in system in start coordinate system
+	SPoint p1 = SPoint(endFirst.x - startFirst.x, endFirst.y - startFirst.y);
+	SPoint p2 = SPoint(endSecond.x - startSecond.x, endSecond.y - startSecond.y);
+
+	return Dot(p1, p2) / (lenthFirst * lenthSecond);
+}
+
+SPoint CSolver::GetPointIntersection(const SCoefficientForLineEquation & first
+									, const SCoefficientForLineEquation & second)
+{
+	return NO_POINT;
 }

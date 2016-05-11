@@ -53,6 +53,8 @@ protected:
 	float							GetDistanseBetweenLines(const SDataForSolver & data);
 
 	SCoefficientForLineEquation		GetLineEquation(const SPoint & firstPosition, const SPoint & secondPosition);
+	SCoefficientForLineEquation		GetLineEquationForPerpendicular(const SPoint & point
+																	, const SCoefficientForLineEquation & equation);
 
 	float							GetLineLength(const SPoint & firstPosition, const SPoint & secondPosition);
 	float							GetLineLength(const std::pair<SPoint, SPoint> & pair);
@@ -63,6 +65,15 @@ protected:
 												, const SPoint & startPointLine
 												, const SPoint & endPointLine);
 
+	SPoint							GetPointIntersectionByPerpendicular(const SPoint & point
+																		, const SPoint & startPointLine
+																		, const SPoint & endPointLine);
+
+	float							GetAngleBetweenVectors(SPoint startFirst
+															, SPoint endFirst
+															, SPoint startSecond
+															, SPoint endSecond);
+	SPoint							GetPointIntersection(const SCoefficientForLineEquation & first, const SCoefficientForLineEquation & second);
 	//Words							SplitWords(std::string const & text);
 	//SDataForSolver					ExtractData(const std::string & inputString);
 
