@@ -3,13 +3,11 @@
 
 BOOST_AUTO_TEST_SUITE(ApplicationTestModule)
 
-bool TestApplictation(const std::string & nameInputFile, const std::string & nameOutputFile)
+void TestApplictation(const std::string & nameInputFile, const std::string & nameOutputFile)
 {
 	CRunner application(nameInputFile, nameOutputFile);
 
 	application.Run();
-
-	return true;
 }
 
 const std::string PATH_RIGHT_DATA = "Right\\";
@@ -43,37 +41,41 @@ BOOST_AUTO_TEST_CASE(Throw_exception_for_incorrect_arguments)
 // 1
 BOOST_AUTO_TEST_CASE(lines_is_parallel_and_is_parallel_to_y_axis___conectLine_not_perpendicular)
 {
-	//std::string nameInputFile = "input1.txt";
-	//std::string nameOutputFile = "output1.txt";
-	BOOST_CHECK(false);
-	//CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+	std::string nameInputFile = "input1.txt";
+	std::string nameOutputFile = "output1.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
 // 2
 BOOST_AUTO_TEST_CASE(lines_is_parallel_and_is_not_parallel_to_any_axis___conectLine_not_perpendicular)
 {
-	//std::string nameInputFile = "input1.txt";
-	//std::string nameOutputFile = "output1.txt";
-	BOOST_CHECK(false);
-	//CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+	std::string nameInputFile = "input2.txt";
+	std::string nameOutputFile = "output2.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
 // 3
 BOOST_AUTO_TEST_CASE(lines_is_parallel_and_is_parallel_to_y_axis___conectLine_is_perpendicular)
 {
-	//std::string nameInputFile = "input1.txt";
-	//std::string nameOutputFile = "output1.txt";
-	BOOST_CHECK(false);
-	//CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+	std::string nameInputFile = "input3.txt";
+	std::string nameOutputFile = "output3.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
 // 4
 BOOST_AUTO_TEST_CASE(lines_is_parallel_and_is_not_parallel_to_any_axis___conectLine_is_perpendicular)
 {
-	//std::string nameInputFile = "input1.txt";
-	//std::string nameOutputFile = "output1.txt";
-	BOOST_CHECK(false);
-	//CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+	std::string nameInputFile = "input4.txt";
+	std::string nameOutputFile = "output4.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
 // 5
