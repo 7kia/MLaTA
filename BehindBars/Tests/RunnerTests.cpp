@@ -52,6 +52,7 @@ BOOST_AUTO_TEST_CASE(_1___lines_is_parallel_and_is_parallel_to_y_axis___conectLi
 
 // 2
 BOOST_AUTO_TEST_CASE(_2___lines_is_parallel_and_is_not_parallel_to_any_axis___conectLine_not_perpendicular)
+
 {
 	std::string nameInputFile = "input2.txt";
 	std::string nameOutputFile = "output2.txt";

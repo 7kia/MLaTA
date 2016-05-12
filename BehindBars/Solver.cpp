@@ -239,26 +239,42 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 								, data.startSecondLine
 								, data.endSecondLine))
 		{
-			p1 = GetPointIntersectionByPerpendicular(data.startSecondLine, data.startFirstLine, data.endFirstLine);
-			p2 = GetPointIntersectionByPerpendicular(data.endSecondLine, data.startFirstLine, data.endFirstLine);
+			SPoint p3 = GetPointIntersectionByPerpendicular(data.startSecondLine, data.startFirstLine, data.endFirstLine);
+			SPoint p4 = GetPointIntersectionByPerpendicular(data.endSecondLine, data.startFirstLine, data.endFirstLine);
 
 			///////////////////////
 			// try on second line
-			if (IsNotPerdendiculars(p1
-									, p2
-									, data.startSecondLine
-									, data.endSecondLine))
+			if (IsNotPerdendiculars(p3
+									, p4
+									, data.startFirstLine
+									, data.endFirstLine))
 			{
 				return SearchFromNearPoints(data);
+			}
+			if (CheckIntersection(p3
+								, data.startFirstLine
+								, data.endFirstLine))
+			{
+				return GetLineLength(p1, data.startFirstLine);
+			}
+			else if (CheckIntersection(p4
+									, data.startFirstLine
+									, data.endFirstLine))
+			{
+				return GetLineLength(p2, data.endFirstLine);
 			}
 		}
 		///////////////////////
 		// if not intersect
-		if (p1 != NO_POINT)
+		if (CheckIntersection(p1
+							, data.startSecondLine
+							, data.endSecondLine))
 		{
 			return GetLineLength(p1, data.startFirstLine);
 		}
-		else if (p2 != NO_POINT)
+		else if (CheckIntersection(p2
+								, data.startSecondLine
+								, data.endSecondLine))
 		{
 			return GetLineLength(p2, data.endFirstLine);
 		}
@@ -266,6 +282,7 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 	}
 	else
 	{
+
 		SPoint pointIntersection = GetPointIntersection(firstLineEquation, secondLineEquation);
 		if (pointIntersection == NO_POINT)
 		{
@@ -299,9 +316,13 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 bool CSolver::IsParallel(const SCoefficientForLineEquation & firstLineEquation
 											, const SCoefficientForLineEquation & secondLineEquation)
 {
-	return IsEqual(firstLineEquation.A, secondLineEquation.A)
+	float firstProportion = firstLineEquation.A / secondLineEquation.A;
+	float secondProportion = firstLineEquation.B / secondLineEquation.B;
+
+	return (IsEqual(firstLineEquation.A, secondLineEquation.A)
 			&&
-			IsEqual(firstLineEquation.B, secondLineEquation.B);
+			IsEqual(firstLineEquation.B, secondLineEquation.B))
+		|| (IsEqual(firstProportion, secondProportion));
 }
 
 bool CSolver::IsNotPerdendiculars(SPoint firstSourceNormal
@@ -342,7 +363,8 @@ bool CSolver::CheckIntersection(const SPoint & point
 	}
 
 
-	return substitutionIsSuccessful && (y <= endLine.y) && (y >= startLine.y);
+	return (y == point.y) && (y <= endLine.y) && (y >= startLine.y)
+		&& (point.x <= endLine.x) && (point.x >= startLine.x);
 }
 
 
@@ -366,13 +388,13 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 		else
 		{
 			result.B = 1;
-			result.C = secondPosition.y;
+			result.C = -secondPosition.y;
 		}
 	}
 	else
 	{
 		result.A = 1;
-		result.C = secondPosition.x;		
+		result.C = -secondPosition.x;		
 	}
 	return result;
 }
@@ -385,7 +407,10 @@ SCoefficientForLineEquation CSolver::GetLineEquationForPerpendicular(const SPoin
 
 	result.A = -equation.B;
 	result.B = equation.A;
-	result.C = (equation.A * point.x) - (point.y * equation.B);
+	result.C = (equation.A + equation.B) * point.x;
+	
+	result.C += (equation.B - equation.A) * point.y;
+	//result.C += equation.C;
 	
 	return result;
 }
@@ -488,16 +513,17 @@ float CSolver::GetAngleBetweenVectors(SPoint startFirst
 SPoint CSolver::GetPointIntersection(const SCoefficientForLineEquation & first
 									, const SCoefficientForLineEquation & second)
 {
-	float y = ((second.C * first.A) - (first.C * second.A));
+	float y = -((first.C * second.A) - (second.C * first.A));//((first.C * second.A) - (second.C * first.A));
 
-	float denumerator = ((second.B * first.A) - (first.B * second.A));
-	if (denumerator != 0.f)
+	float denumerator = ((first.B * second.A) - (first.A * second.B));//((second.B * first.A) - (first.B * second.A));
+	if (denumerator == 0.f)
 	{
-		y /= denumerator;
+		y = denumerator;
 	}
 	else
 	{
-		return NO_POINT;
+		y /= denumerator;
+		//return NO_POINT;
 	}
 
 	float x = (first.C + first.B * y);
@@ -508,7 +534,8 @@ SPoint CSolver::GetPointIntersection(const SCoefficientForLineEquation & first
 	}
 	else
 	{
-		return NO_POINT;
+		x = denumerator;
+		//return NO_POINT;
 	}
 	///*
 	//float x2 = -(second.C + second.B * y);
