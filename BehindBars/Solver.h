@@ -61,10 +61,19 @@ protected:
 	bool							IsParallel(const SCoefficientForLineEquation & firstLineEquation
 												, const SCoefficientForLineEquation & secondLineEquation);
 
+	bool IsPerpendicularLines(const SCoefficientForLineEquation & firstLineEquation
+								, const SCoefficientForLineEquation & secondLineEquation);
+
 	bool							IsNotPerdendiculars(SPoint firstSourceNormal
 														, SPoint secondSourceNormal
 														, SPoint startCheckLine
 														, SPoint endCheckLine);
+
+	bool							IsIntersectionpoint(SPoint intersectionPoint
+														, SPoint startFirstLine
+														, SPoint endFirstLine
+														, SPoint startSecondLine
+														, SPoint endSecondLine);
 
 	float							SearchFromNearPoints(const SDataForSolver & data);
 

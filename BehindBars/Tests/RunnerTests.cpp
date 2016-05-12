@@ -27,8 +27,8 @@ void CompareFiles(const std::string & first, const std::string & second)
 	std::istream_iterator<char> iterRightRsultFile(rightResultFile);
 
 	//BOOST_CHECK_EQUAL_COLLECTIONS(iterResultFile, endIter, iterRightRsultFile, endIter);
-	//BOOST_CHECK_CLOSE(firstNumber, secondNumber, 4.f);
-	BOOST_CHECK(IsEqual(firstNumber, secondNumber));
+	BOOST_CHECK_CLOSE(firstNumber, secondNumber, 4.f);
+	//BOOST_CHECK(IsEqual(firstNumber, secondNumber));
 };
 
 BOOST_AUTO_TEST_CASE(Throw_exception_for_nonexistent_file)
