@@ -311,6 +311,8 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 											, data.endSecondLine);
 			return std::min(GetLineLength(pointIntersection, nearPoint), near);
 		}
+
+		return near;
 	}
 	return 0.0f;
 }
@@ -325,7 +327,7 @@ bool CSolver::IsParallel(const SCoefficientForLineEquation & firstLineEquation
 	return (IsEqual(firstLineEquation.A, secondLineEquation.A)
 			&&
 			IsEqual(firstLineEquation.B, secondLineEquation.B))
-		|| (!IsEqual(firstProportion, secondProportion));
+		|| (IsEqual(firstProportion, secondProportion));
 }
 
 bool CSolver::IsNotPerdendiculars(SPoint firstSourceNormal
@@ -356,18 +358,14 @@ bool CSolver::CheckIntersection(const SPoint & point
 {
 	SCoefficientForLineEquation lineEquation = GetLineEquation(startLine, endLine);
 
-	float y = -((lineEquation.A * point.x) + lineEquation.C);
-	bool substitutionIsSuccessful = (lineEquation.B == 0);
+	float result = (lineEquation.A * point.x) + (lineEquation.B * point.y) + lineEquation.C;
+	
 
-	if (!substitutionIsSuccessful)
-	{
-		y /= lineEquation.B;
-		substitutionIsSuccessful = (y == point.y);
-	}
+	bool intersectX = (point.x <= endLine.x) && (point.x >= startLine.x);
+	bool intersectY = (point.y <= endLine.y) && (point.y >= startLine.y);
 
-
-	return (y == point.y) && (y <= endLine.y) && (y >= startLine.y)
-		&& (point.x <= endLine.x) && (point.x >= startLine.x);
+	return (result == 0.f) && intersectY
+				&& intersectX;
 }
 
 
