@@ -17,15 +17,18 @@ void CompareFiles(const std::string & first, const std::string & second)
 	std::ifstream resultFile(first);
 	std::ifstream rightResultFile(second);
 
+	float firstNumber;
+	float secondNumber;
+	resultFile >> firstNumber;
+	rightResultFile >> secondNumber;
+
+
 	std::istream_iterator<char> iterResultFile(resultFile), endIter;
 	std::istream_iterator<char> iterRightRsultFile(rightResultFile);
 
 	//BOOST_CHECK_EQUAL_COLLECTIONS(iterResultFile, endIter, iterRightRsultFile, endIter);
-	double firstNumber;
-	double secondNumber;
-	resultFile >> firstNumber;
-	rightResultFile >> secondNumber;
-	BOOST_CHECK_CLOSE(firstNumber, secondNumber, 4.f);
+	//BOOST_CHECK_CLOSE(firstNumber, secondNumber, 4.f);
+	BOOST_CHECK(IsEqual(firstNumber, secondNumber));
 };
 
 BOOST_AUTO_TEST_CASE(Throw_exception_for_nonexistent_file)
@@ -176,6 +179,26 @@ BOOST_AUTO_TEST_CASE(_14___lines_is_not_parallel_and_is_not_parallel_to_any_axis
 {
 	std::string nameInputFile = "input14.txt";
 	std::string nameOutputFile = "output14.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
+// 15
+BOOST_AUTO_TEST_CASE(_15___lines_is_perpendicular_and_parallel_every_axis)
+{
+	std::string nameInputFile = "input15.txt";
+	std::string nameOutputFile = "output15.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
+// 16
+BOOST_AUTO_TEST_CASE(_16___lines_is_perpendicular_and_not_parallel_every_axis)
+{
+	std::string nameInputFile = "input16.txt";
+	std::string nameOutputFile = "output16.txt";
 
 	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);

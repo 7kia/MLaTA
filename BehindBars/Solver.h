@@ -33,7 +33,7 @@ struct SCoefficientForLineEquation
 };
 
 typedef std::vector<std::string> Words;
-static const float ACCURACY = 0.01f;
+static const float ACCURACY = 0.2f;
 
 class CSolver
 {
@@ -51,6 +51,12 @@ protected:
 protected:
 	SDataForSolver					ExtractData(std::istream & strm);
 	float							GetDistanseBetweenLines(const SDataForSolver & data);
+
+	float							GetLengthPerdendicular(SPoint intersectionPoint
+															, SPoint startFirstLine
+															, SPoint endFirstLine
+															, SPoint startSecondLine
+															, SPoint endSecondLine);
 
 	bool							IsParallel(const SCoefficientForLineEquation & firstLineEquation
 												, const SCoefficientForLineEquation & secondLineEquation);

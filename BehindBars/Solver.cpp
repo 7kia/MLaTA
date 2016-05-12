@@ -251,6 +251,7 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 			{
 				return SearchFromNearPoints(data);
 			}
+
 			if (CheckIntersection(p3
 								, data.startFirstLine
 								, data.endFirstLine))
@@ -285,14 +286,13 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 		float near = SearchFromNearPoints(data);
 
 		SPoint pointIntersection = GetPointIntersection(firstLineEquation, secondLineEquation);
-		SPoint pointIntersection2 = GetPointIntersection(secondLineEquation, firstLineEquation);
 
 		if (pointIntersection == NO_POINT)
 		{
 			return near;
-
 		}
 
+		/*
 		if (CheckIntersection(pointIntersection
 							, data.startFirstLine
 							, data.endFirstLine))
@@ -300,8 +300,10 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 			SPoint nearPoint = GetNearPoint(pointIntersection
 											, data.startSecondLine
 											, data.endSecondLine);
+
 			return std::min(GetLineLength(pointIntersection, nearPoint), near);
 		}
+
 		if (CheckIntersection(pointIntersection
 			, data.startSecondLine
 			, data.endSecondLine))
@@ -311,12 +313,53 @@ float CSolver::GetDistanseBetweenLines(const SDataForSolver & data)
 											, data.endSecondLine);
 			return std::min(GetLineLength(pointIntersection, nearPoint), near);
 		}
+		*/
+
+		// L1 - length Perdendicular From First To Second
+		float L1 = GetLengthPerdendicular(pointIntersection
+										, data.startFirstLine
+										, data.endFirstLine
+										, data.startSecondLine
+										, data.endSecondLine);
+
+		// L2 - length Perdendicular From Second To First
+		float L2 = GetLengthPerdendicular(pointIntersection
+										, data.startSecondLine
+										, data.endSecondLine
+										, data.startFirstLine
+										, data.endFirstLine);
+
+		if (L1 > ACCURACY)
+		{
+			return std::min(near, L1);
+		}
+		else if (L2 > ACCURACY)
+		{
+			return std::min(near, L2);
+		}
 
 		return near;
 	}
 	return 0.0f;
 }
 
+float CSolver::GetLengthPerdendicular(SPoint intersectionPoint
+									, SPoint startFirstLine
+									, SPoint endFirstLine
+									, SPoint startSecondLine
+									, SPoint endSecondLine)
+{
+	if (CheckIntersection(intersectionPoint
+						, startFirstLine
+						, endFirstLine))
+	{
+		SPoint nearPoint = GetNearPoint(intersectionPoint
+										, startSecondLine
+										, endSecondLine);
+
+		return GetLineLength(intersectionPoint, nearPoint);
+	}
+}
 
 bool CSolver::IsParallel(const SCoefficientForLineEquation & firstLineEquation
 											, const SCoefficientForLineEquation & secondLineEquation)
@@ -324,10 +367,7 @@ bool CSolver::IsParallel(const SCoefficientForLineEquation & firstLineEquation
 	float firstProportion = firstLineEquation.A / secondLineEquation.A;
 	float secondProportion = firstLineEquation.B / secondLineEquation.B;
 
-	return (IsEqual(firstLineEquation.A, secondLineEquation.A)
-			&&
-			IsEqual(firstLineEquation.B, secondLineEquation.B))
-		|| (IsEqual(firstProportion, secondProportion));
+	return IsEqual(firstProportion, secondProportion);
 }
 
 bool CSolver::IsNotPerdendiculars(SPoint firstSourceNormal
