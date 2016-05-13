@@ -204,4 +204,14 @@ BOOST_AUTO_TEST_CASE(_16___lines_is_perpendicular_and_not_parallel_every_axis)
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
+// 17
+BOOST_AUTO_TEST_CASE(_17___lines_is_match)
+{
+	std::string nameInputFile = "input17.txt";
+	std::string nameOutputFile = "output17.txt";
+
+	BOOST_CHECK_NO_THROW(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -26,6 +26,8 @@ struct SDataForSolver
 
 struct SCoefficientForLineEquation
 {
+	SCoefficientForLineEquation();
+	SCoefficientForLineEquation(float a, float b, float c);
 	// TODO: rename
 	float A = 0.f;
 	float B = 0.f;
