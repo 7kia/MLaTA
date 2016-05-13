@@ -15,202 +15,6 @@ bool IsBetween(T value, T first, T second)
 	return (second >= value) && (first <= value);
 }
 
-// TODO delete
-/*
-void CSolver::CheckAmountStrings()
-{
-	if (m_amountStrings < 1)
-	{
-		throw std::invalid_argument(MESSAGE_INCORRECT_SIZE);
-	}
-}
-
-
-void CSolver::CheckStringsCounters()
-{
-	if ((static_cast<int>(m_countStrings) > m_amountStrings))
-	{
-		throw std::invalid_argument(MESSAGE_WIDTH_MORE_EXPECTED);
-	}
-}
-
-
-std::vector<std::string> CSolver::SplitWords(std::string const& text)
-{
-	std::string trimmed = boost::trim_copy(text);
-
-	std::vector<std::string> words;
-	boost::split(words, trimmed, boost::is_space(), boost::token_compress_on);
-	return words;
-}
-
-
-SDataForSolver CSolver::ExtractData(const std::string & inputString)
-{
-	SDataForSolver result;
-	Words arguments = SplitWords(inputString);
-
-	if (arguments.size() == AMOUNT_ARGUMENTS)
-	{
-		result.firstPoint.x = stof(arguments[0]);
-		result.firstPoint.y = stof(arguments[1]);
-
-		result.secondPoint.x = stof(arguments[2]);
-		result.secondPoint.y = stof(arguments[3]);
-
-		result.radiusCircle = stof(arguments[4]);
-	}
-	else
-	{
-		throw std::invalid_argument(MESSAGE_INCORRECT_AMOUNT_ARGUMENTS);
-	}
-
-	return result;
-}
-
-
-
-std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & data)
-{
-SCoefficientForLineEquation lineEquation = GetLineEquation(data.firstPoint, data.secondPoint);
-
-float A = lineEquation.B * lineEquation.B + lineEquation.A * lineEquation.A;
-float B = 2.f * lineEquation.A * lineEquation.C;
-float C = lineEquation.C * lineEquation.C;
-C -= lineEquation.B * lineEquation.B * data.radiusCircle * data.radiusCircle;
-
-float discriminant = GetDiscriminant(A, B, C);
-float firstRoot = 0.f;
-float secondRoot = 0.f;
-
-SPoint firstPoint;
-SPoint secomdPoint;
-
-if (discriminant >= 0)
-{
-float denumerator = 2.f * A;
-
-firstRoot = -(B * B) + discriminant;
-firstRoot /= denumerator;
-
-secondRoot = -(B * B) - discriminant;
-secondRoot /= denumerator;
-
-firstPoint.x = firstRoot;
-firstPoint.y = -(lineEquation.A * firstRoot + lineEquation.C) / lineEquation.B;
-
-secomdPoint.x = secondRoot;
-secomdPoint.y = -(lineEquation.A * secondRoot + lineEquation.C) / lineEquation.B;
-}
-
-return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);// TOOD : event when points no
-}
-
-
-float CSolver::GetCircleArcLength(const std::pair<SPoint, SPoint>& pair, float radius)
-{
-return GetCircleArcLength(pair.first, pair.second, radius);
-}
-
-
-float CSolver::GetCircleArcLength(const SPoint & firstPosition, const SPoint & secondPosition, float radius)
-{
-float lenthFirst = radius;
-float lenthSecond = radius;
-
-float cosinus = Dot(firstPosition, secondPosition) / (lenthFirst * lenthSecond);
-
-return abs(acosf(cosinus)) * radius;
-}
-
-
-float  CSolver::GetDistanseBetweenPointAndTangent(const SPoint & point, const float radius)
-{
-float distanseBetweenPointAndCenter = GetLineLength(SPoint(), point);
-
-return sqrt(distanseBetweenPointAndCenter * distanseBetweenPointAndCenter
-- radius * radius);
-}
-
-
-float CSolver::GetAngleBetweenCathetusAndHypotenuse(float cathetus, float hypotenuse)
-{
-return abs(acosf(cathetus / hypotenuse));
-}
-
-
-matrix<float> CSolver::GetRotationMatrix(float angle, bool considered—ounterclockwise)
-{
-float coefficient = 1.f;
-
-if (considered—ounterclockwise)
-{
-coefficient *= -1.f;
-}
-
-matrix<float> result(2, 2);
-result.at_element(0, 0) = cos(angle);
-result.at_element(1, 1) = cos(angle);
-
-result.at_element(0, 1) = coefficient * sin(angle);
-result.at_element(1, 0) = coefficient  * -sin(angle);
-
-return result;
-}
-
-
-SPoint CSolver::GetPointTangent(const SPoint & point, const SPoint & pointIntersection, const float radius)
-{
-float hypotenuse = GetLineLength(SPoint(), point);
-// R -radiuse circle
-float angleBetweenRAndCathtus = GetAngleBetweenCathetusAndHypotenuse(radius, hypotenuse);
-
-// ÔÓÚË‚˜‡ÒÓ‚ÓÈ
-bool considered—ounterclockwise = point.x < 0.f;
-
-matrix<float> vector(1, 2);
-vector.at_element(0, 0) = pointIntersection.x;
-vector.at_element(0, 1) = pointIntersection.y;
-
-matrix<float> rotationMatrix = GetRotationMatrix(angleBetweenRAndCathtus, considered—ounterclockwise);
-vector = prod(vector, rotationMatrix);// prod - multiply
-
-return SPoint(vector.at_element(0, 0), vector.at_element(0, 1));
-}
-
-
-float CSolver::GetDistanseLineConectTwoPoints(const std::string & inputString)
-{
-SDataForSolver data = ExtractData(inputString);
-
-std::pair<SPoint, SPoint> pointsIntersection = GetPointsIntersection(data);
-
-SPoint nearAboutFirst = GetNearPoint(data.firstPoint, pointsIntersection);
-SPoint nearAboutSecond = GetNearPoint(data.secondPoint, pointsIntersection);
-
-SPoint firstPointTangent = GetPointTangent(data.firstPoint, nearAboutFirst, data.radiusCircle);
-SPoint secondPointTangent = GetPointTangent(data.secondPoint, nearAboutSecond, data.radiusCircle);
-
-float result = 0.f;
-
-if ((pointsIntersection.first != SPoint()) && (pointsIntersection.second != SPoint()))
-{
-result += GetLineLength(data.firstPoint, firstPointTangent);
-result += GetLineLength(data.secondPoint, secondPointTangent);
-
-result += GetCircleArcLength(firstPointTangent, secondPointTangent, data.radiusCircle);
-}
-else
-{
-result = GetLineLength(data.firstPoint, data.secondPoint);
-}
-
-return result;
-}
-
-*/
-
-
 bool IsEqual(float a, float b)
 {
 	return fabs(a - b) < ACCURACY;
@@ -398,13 +202,6 @@ bool CSolver::IsParallel(const SCoefficientForLineEquation & firstLineEquation
 	return IsEqual(firstProportion, secondProportion);// && (aHaveEqualSign && bHaveEqualSign);
 }
 
-bool CSolver::IsPerpendicularLines(const SCoefficientForLineEquation & firstLineEquation
-									, const SCoefficientForLineEquation & secondLineEquation)
-{
-	return ((firstLineEquation.A == -secondLineEquation.B) && (firstLineEquation.B == secondLineEquation.B))
-		||
-		((firstLineEquation.B == -secondLineEquation.A) && (firstLineEquation.A == secondLineEquation.A));
-}
 
 bool CSolver::IsNotPerdendiculars(SPoint firstSourceNormal
 								, SPoint secondSourceNormal
@@ -452,44 +249,27 @@ bool CSolver::CheckIntersection(const SPoint & point
 	bool intersectX = IsBetween(point.x, startLine.x, endLine.x);
 	bool intersectY = IsBetween(point.y, startLine.y, endLine.y);
 
-	return (result == 0.f) && intersectY
-				&& intersectX;
+	return (result == 0.f)
+			&& intersectY
+			&& intersectX;
 }
 
 
 SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition, const SPoint & secondPosition)
 {
 	SCoefficientForLineEquation result;
-	///*
+
 	if (secondPosition.x != firstPosition.x)
 	{
 		if (secondPosition.y != firstPosition.y)
 		{
-			
-			
-			
-						//result.A = (secondPosition.y - firstPosition.y) / (secondPosition.x - firstPosition.x);
-
-				///*
 			result.C = -firstPosition.x / (secondPosition.x - firstPosition.x);
 			result.C *= (secondPosition.y - firstPosition.y);
 			result.C -= -firstPosition.y / (secondPosition.y - firstPosition.y)
 				*  (secondPosition.x - firstPosition.x);
-			//*/
-			//result.B = -1.f / result.A;
-
-			//result.C = firstPosition.x * (firstPosition.y - secondPosition.y);
-			//result.C += firstPosition.y * (firstPosition.x - secondPosition.x);
-
 
 			result.A = secondPosition.y - firstPosition.y;
 			result.B = firstPosition.x - secondPosition.x;
-
-			//result.C = -firstPosition.x * secondPosition.y;
-			//result.C += firstPosition.x * firstPosition.y;
-			//result.C -= firstPosition.y * secondPosition.x;
-			//result.C += firstPosition.y * firstPosition.x;
-
 		}
 		else
 		{
@@ -502,7 +282,7 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 		result.A = 1;
 		result.C = -secondPosition.x;		
 	}
-	//*/
+
 	if (result.B != 0.f)
 	{
 		result.A /= abs(result.B);
@@ -510,7 +290,6 @@ SCoefficientForLineEquation CSolver::GetLineEquation(const SPoint &firstPosition
 		result.C /= abs(result.B);
 	}
 
-	//result.C = GetPointIntersection(result, SCoefficientForLineEquation(0.f, 1.f, 0.f)).y;
 	return result;
 }
 
@@ -591,23 +370,8 @@ SPoint CSolver::GetPointIntersectionByPerpendicular(const SPoint & point
 	SCoefficientForLineEquation lineEquation = GetLineEquation(startPointLine, endPointLine);
 	SCoefficientForLineEquation lineEquationForPerpendicular = GetLineEquationForPerpendicular(point, lineEquation);
 
-	/*
-		SPoint nearLinePointToSourcePoint = GetNearPoint(point, startPointLine, endPointLine);
-	SPoint farLinePointToSourcePoint = (nearLinePointToSourcePoint == startPointLine) ? endPointLine : startPointLine;
-	float hypotenuse = GetLineLength(point, nearLinePointToSourcePoint);
-
-	// cosinus - angle between hypotenuse and cathtus
-	float cosinus = GetAngleBetweenVectors(point
-											, nearLinePointToSourcePoint
-											, nearLinePointToSourcePoint
-											, farLinePointToSourcePoint);
-	float sinAngle = sqrt(1.f - cosinus * cosinus);
-
-	*/
-
 	return GetPointIntersection(lineEquation, lineEquationForPerpendicular);
 }
-
 
 
 float CSolver::GetAngleBetweenVectors(SPoint startFirst
@@ -633,18 +397,16 @@ SPoint CSolver::GetPointIntersection(const SCoefficientForLineEquation & first
 	{
 		return NO_POINT;
 	}
-	float y = -((first.C * second.A) - (second.C * first.A));//((first.C * second.A) - (second.C * first.A));
+	float y = -((first.C * second.A) - (second.C * first.A));
 
-	float denumerator = ((first.B * second.A) - (first.A * second.B));//((second.B * first.A) - (first.B * second.A));
+	float denumerator = ((first.B * second.A) - (first.A * second.B));
 	if (denumerator == 0.f)
 	{
-//return NO_POINT;
 		y = denumerator;
 	}
 	else
 	{
 		y /= denumerator;
-		//
 	}
 
 	float x = (first.C + first.B * y);
@@ -655,16 +417,9 @@ SPoint CSolver::GetPointIntersection(const SCoefficientForLineEquation & first
 	}
 	else
 	{
-return NO_POINT;
-		x = denumerator;
-		//
+		return NO_POINT;
 	}
-	///*
-	//float x2 = -(second.C + second.B * y);
-	//x2 /= second.A;
-	//assert(x != x2);
 
-	//*/
 	return SPoint(x, y);
 }
 
