@@ -5,7 +5,7 @@ void CShapeConverter::Convert(const CLineSegment & data)
 {
 	std::shared_ptr<sf::RectangleShape> line(new sf::RectangleShape);
 
-	line->setFillColor(DEFAULT_COLOR);
+	line->setFillColor(data.GetFillColor());
 	line->setSize(sf::Vector2f(THIKNESS_LINE, data.GetPerimeter()));
 	line->setOrigin(ORIGIN_LINE);
 	line->setPosition(data.GetPositiionFirstPoint());

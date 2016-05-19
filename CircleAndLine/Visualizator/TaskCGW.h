@@ -18,7 +18,6 @@ class TaskCGW
 {
 public:
 	TaskCGW();
-	TaskCGW(const std::string & namedataFile);
 	~TaskCGW();
 	
 	ListShape		GetRenderShape(const std::string & namedataFile);// TODO : rename
@@ -32,7 +31,7 @@ public:
 		float radius;
 	};
 private:
-	const float					THIKNESS_LINE = 5;
+	const float					THIKNESS_LINE = 3;
 	const sf::Vector2f			ORIGIN_LINE = { THIKNESS_LINE / 2.f, 0.f };
 	const float					RADIUS_POINT = 2.f;
 

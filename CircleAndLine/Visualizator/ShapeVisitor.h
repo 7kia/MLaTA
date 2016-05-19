@@ -12,7 +12,7 @@ typedef std::vector<std::shared_ptr<sf::Shape>> ListRenderShapes;
 class CShapeConverter : public IVisitor
 {
 public:
-	const float					THIKNESS_LINE = 5;
+	const float					THIKNESS_LINE = 3;
 	const sf::Vector2f			ORIGIN_LINE = { THIKNESS_LINE / 2.f, 0.f };
 	const float					RADIUS_POINT = 2.f;
 	const sf::Color				DEFAULT_COLOR = sf::Color(255, 255, 25, 255);

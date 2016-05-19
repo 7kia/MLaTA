@@ -8,11 +8,6 @@ TaskCGW::TaskCGW()
 {
 }
 
-TaskCGW::TaskCGW(const string & namedataFile)
-{
-	
-}
-
 TaskCGW::~TaskCGW()
 {
 }
