@@ -24,9 +24,16 @@ ListShape TaskCGW::GetRenderShape(const string & namedataFile)
 	DataForDraw dataForDraw = ExtractDataForDraw(namedataFile);
 	AddCircle(result, dataForDraw);
 
-	AddTangentLines(result, dataForDraw);
-	AddArc(result, dataForDraw);
 
+	if (dataForDraw.tangentPointFromFirst != SPoint())
+	{
+		AddTangentLines(result, dataForDraw);
+		AddArc(result, dataForDraw);
+	}
+	else
+	{
+		AddLine(result, dataForDraw);
+	}
 	//result.push_back(CreateRenderLine(dataForDraw.firstPoint, dataForDraw.tangentPointFromFirst));
 
 	return result;
@@ -129,4 +136,16 @@ void TaskCGW::AddCircle(ListShape & list, const DataForDraw & dataForDraw)
 	circle->setOrigin(Vector2f(circle->getRadius() , circle->getRadius() ));
 
 	list.push_back(circle);
+}
+
+void TaskCGW::AddLine(ListShape & list, const DataForDraw & dataForDraw)
+{
+	CShapeConverter shapeConverter;
+
+	CLineSegment firstLine(Vector2f(dataForDraw.firstPoint) * SCALING_FACTOR
+							, Vector2f(dataForDraw.secondPoint)  * SCALING_FACTOR
+							, INTERSECTION_COLOR);
+
+	shapeConverter.Convert(firstLine);
+	list.push_back(shapeConverter.GetConvertShape());
 }

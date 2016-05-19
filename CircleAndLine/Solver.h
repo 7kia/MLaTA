@@ -38,8 +38,6 @@ private:
 	const std::string				MESSAGE_WIDTH_MORE_EXPECTED = "Amount strings more expected!!!";
 
 	const int						AMOUNT_ARGUMENTS = 5;
-	const float						COEFICIENT_FOR_Y = -1.f;// Y axis in SFML is invert
-
 private:
 	void							CheckAmountStrings();
 protected:

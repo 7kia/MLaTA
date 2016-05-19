@@ -12,7 +12,7 @@ CApplication::CApplication()
 void CApplication::Run()
 {
 	TaskCGW task;
-	AcceptShape(task.GetRenderShape("task1.txt"));
+	AcceptShape(task.GetRenderShape("input2.txt"));
 
 	while (m_window.isOpen())
 	{
@@ -30,7 +30,7 @@ void CApplication::AcceptShape(const ListShape & list)
 
 	for (auto & shape : m_renderShape)
 	{
-		shape->move(sf::Vector2f(WIDTH_WINDOW / 2.f, HEIGHT_WINDOW / 2.f));
+		shape->move(sf::Vector2f(WIDTH_WINDOW / 2.f, HEIGHT_WINDOW / 2.f ));
 	}
 }
 
