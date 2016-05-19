@@ -5,25 +5,23 @@
 #include <fstream>
 #include <memory>
 
-#include "Solver.h"
-#include "FileManager.h"
 
-class CRunner 
-	 :	public CSolver
-	,	public CFileManager
+class CFileManager
 {
 public:
-	CRunner();
-	~CRunner();
+	CFileManager();
+	virtual ~CFileManager();
 
-	void			Run(const std::string & nameInputFile
-						, const std::string & nameOutputFile);
+protected:
+	void			SetInputFile(const std::string & nameInputFile);
+	void			SetOutputFile(const std::string & nameOutputFile);
 
-
-private:
+protected:
 	const std::string MESSAGE_FAILED_OPEN = "Failed to open ";
 	const std::string MESSAGE_FAILED_OPEN_FOR_READING = " for reading!";
 	const std::string MESSAGE_FAILED_OPEN_FOR_WRITING = " for writing!";
+	const std::string MESSAGE_FILE_IS_OPEN = "Exist open file ";
+
 
 	std::string		m_nameInputFile;
 	std::string		m_nameOutputFile;
@@ -31,5 +29,8 @@ private:
 	std::ifstream	m_inputFile;
 	std::ofstream	m_outputFile;
 
-private:
+
+protected:
+	void			CheckAndOpenFileForReading(std::ifstream &file, const std::string& fileName);
+	void			CheckAndOpenFileForWriting(std::ofstream &file, const std::string& fileName);
 };

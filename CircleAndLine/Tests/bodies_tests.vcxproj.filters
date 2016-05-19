@@ -42,6 +42,9 @@
     <ClInclude Include="..\SPoint.h">
       <Filter>TestApplication\TestClasess</Filter>
     </ClInclude>
+    <ClInclude Include="..\FileManager.h">
+      <Filter>TestApplication\TestClasess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SPoint.cpp">
+      <Filter>TestApplication\TestClasess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FileManager.cpp">
       <Filter>TestApplication\TestClasess</Filter>
     </ClCompile>
   </ItemGroup>
