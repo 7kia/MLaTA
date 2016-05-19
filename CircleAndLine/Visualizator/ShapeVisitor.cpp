@@ -10,15 +10,15 @@ void CShapeConverter::Convert(const CLineSegment & data)
 	line->setOrigin(ORIGIN_LINE);
 	line->setPosition(data.GetPositiionFirstPoint());
 
-	sf::Vector2f coordinateSecondPointInZeroSystemCoordinates = data.GetPositiionSecondPoint();
+	sf::Vector2f coordinateSecondPointInZeroSystemCoordinates = data.GetPositiionSecondPoint();//
 	coordinateSecondPointInZeroSystemCoordinates -= data.GetPositiionFirstPoint();
 
 	float angle = (atan2(coordinateSecondPointInZeroSystemCoordinates.x,
 						coordinateSecondPointInZeroSystemCoordinates.y)) 
 					* 180.f 
-					/ static_cast<float>(M_PI);
+					/ static_cast<float>(M_PI) ;// TODO
 	if (angle < 0) {
-		angle += 180;
+		angle *= -1.f;
 	}
 
 	line->setRotation(angle);

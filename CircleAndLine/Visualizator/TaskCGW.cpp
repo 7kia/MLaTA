@@ -90,7 +90,7 @@ void TaskCGW::AddArc(ListShape & list, const DataForDraw & dataForDraw)
 
 	float step = (startPoint.x - endPoint.x) / AMOUNT_POINT_IN_ARC;
 	sf::Vector2f startLine = startPoint;
-	for (size_t index = 1; index < AMOUNT_POINT_IN_ARC; index++)
+	for (size_t index = 1; index <= AMOUNT_POINT_IN_ARC; index++)
 	{
 		float currentX = startPoint.x - (step * index);
 		float currentY =  (dataForDraw.radius * dataForDraw.radius) - (currentX * currentX);
@@ -104,7 +104,7 @@ void TaskCGW::AddArc(ListShape & list, const DataForDraw & dataForDraw)
 
 		sf::Vector2f endLine = Vector2f(currentX, currentY);
 
-		CLineSegment partArc(startLine  * SCALING_FACTOR
+		CLineSegment partArc(startLine  * SCALING_FACTOR//
 							, endLine * SCALING_FACTOR
 							, INTERSECTION_COLOR);
 
@@ -126,7 +126,7 @@ void TaskCGW::AddCircle(ListShape & list, const DataForDraw & dataForDraw)
 	circle->setOutlineColor(NOT_INTERSECTION_COLOR);
 
 	circle->setPosition(sf::Vector2f());
-	//circle->setOrigin(Vector2f(circle->getRadius() / 2.f, circle->getRadius() / 2.f));
+	circle->setOrigin(Vector2f(circle->getRadius() , circle->getRadius() ));
 
 	list.push_back(circle);
 }

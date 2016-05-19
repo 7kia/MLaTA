@@ -35,7 +35,7 @@ private:
 
 	const sf::Color				INTERSECTION_COLOR = sf::Color(0, 255, 0, 255);
 	const sf::Color				NOT_INTERSECTION_COLOR = sf::Color(255, 0, 0, 255);
-	const int					AMOUNT_POINT_IN_ARC = 20;
+	const int					AMOUNT_POINT_IN_ARC = 8;
 	const float					SCALING_FACTOR = 50.f;
 private:
 	DataForDraw				ExtractDataForDraw(const std::string & namedataFile);
