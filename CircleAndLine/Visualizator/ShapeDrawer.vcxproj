@@ -162,7 +162,12 @@
     <ClCompile Include="..\SPoint.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shapes\CShape.cpp" />
+    <ClCompile Include="Shapes\IShape.cpp" />
+    <ClCompile Include="Shapes\LineSegment.cpp" />
+    <ClCompile Include="ShapeVisitor.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TaskCGW.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FileManager.h" />
@@ -171,7 +176,14 @@
     <ClInclude Include="..\SPoint.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Shapes\CShape.h" />
+    <ClInclude Include="Shapes\IAccepter.h" />
+    <ClInclude Include="Shapes\IShape.h" />
+    <ClInclude Include="Shapes\IVisitor.h" />
+    <ClInclude Include="Shapes\LineSegment.h" />
+    <ClInclude Include="ShapeVisitor.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TaskCGW.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

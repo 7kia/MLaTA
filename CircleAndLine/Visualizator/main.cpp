@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
 {
 	try
 	{
-		CheckParametrs(argc);
+		//CheckParametrs(argc);
 
-		CApplication application(argv[1], argv[2]);
+		CApplication application;
 		application.Run();
 	}
 	catch (const exception& e)

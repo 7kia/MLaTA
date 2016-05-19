@@ -49,6 +49,7 @@ protected:
 
 	float							GetDistanseLineConectTwoPoints(const std::string & inputString);
 	Words							SplitWords(std::string const & text);
+	SDataForSolver					ExtractData(std::ifstream & file);
 	SDataForSolver					ExtractData(const std::string & inputString);
 	SCoefficientForLineEquation		GetLineEquation(const SPoint & firstPosition, const SPoint & secondPosition);
 

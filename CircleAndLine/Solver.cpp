@@ -2,6 +2,7 @@
 #include "Solver.h"
 
 using namespace boost::numeric::ublas;
+using namespace std;
 
 void CSolver::CheckAmountStrings()
 {
@@ -28,6 +29,14 @@ std::vector<std::string> CSolver::SplitWords(std::string const& text)
 	std::vector<std::string> words;
 	boost::split(words, trimmed, boost::is_space(), boost::token_compress_on);
 	return words;
+}
+
+SDataForSolver CSolver::ExtractData(std::ifstream & file)
+{
+	string inputString;
+	getline(file, inputString);
+
+	return ExtractData(inputString);
 }
 
 

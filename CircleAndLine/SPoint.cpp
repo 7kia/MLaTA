@@ -14,6 +14,11 @@ SPoint::SPoint(float x, float y)
 {
 }
 
+SPoint::operator sf::Vector2f() const
+{
+	return sf::Vector2f(x, y);
+}
+
 
 bool const operator ==(SPoint const & first, SPoint const & second)
 {

@@ -18,6 +18,21 @@
     <ClCompile Include="..\FileManager.cpp">
       <Filter>Task</Filter>
     </ClCompile>
+    <ClCompile Include="TaskCGW.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeVisitor.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LineSegment.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\IShape.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CShape.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -37,6 +52,27 @@
     <ClInclude Include="..\FileManager.h">
       <Filter>Task</Filter>
     </ClInclude>
+    <ClInclude Include="TaskCGW.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeVisitor.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IAccepter.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IVisitor.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\LineSegment.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IShape.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\CShape.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Task">
@@ -44,6 +80,9 @@
     </Filter>
     <Filter Include="Visual">
       <UniqueIdentifier>{64c4b71f-31df-48ad-afbe-2a6f7dcadac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual\Shapes">
+      <UniqueIdentifier>{f42693bd-04cc-4702-9271-fac06c294b96}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
