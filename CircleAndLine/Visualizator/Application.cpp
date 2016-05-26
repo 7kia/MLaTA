@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "tinyfiledialogs.h"
 #include "Application.h"
 
 using namespace std;
@@ -6,13 +7,26 @@ using namespace sf;
 
 CApplication::CApplication()
 	: m_window(sf::VideoMode(WIDTH_WINDOW, HEIGHT_WINDOW), TITLE_WINDOW, sf::Style::Close)
+	, m_button(featureCheckBox::SIZE_CHECKBOX / 2.f, "Open", featureCheckBox::SIZE_CHECKBOX)
 {
+	m_button.handler = [&](bool cheked) {
+		if (cheked) {
+			TaskCGW task;
+
+			AcceptShape(task.GetRenderShape(AskOpenInput()));
+		}
+		else {
+			
+		}
+	};
+
 }
 
 void CApplication::Run()
 {
 	TaskCGW task;
-	AcceptShape(task.GetRenderShape("input2.txt"));
+
+	AcceptShape(task.GetRenderShape(AskOpenInput()));
 
 	while (m_window.isOpen())
 	{
@@ -34,6 +48,19 @@ void CApplication::AcceptShape(const ListShape & list)
 	}
 }
 
+const char* CApplication::AskOpenInput()
+{
+	const char *filters[] = { "*.txt" };
+	char const *result = tinyfd_openFileDialog("Select input file", "", 1, filters, "", false);
+	// Пользователь отменил выбор файла.
+	if (result == nullptr)
+	{
+		return "";
+	}
+
+	return result;
+}
+
 void CApplication::Render()
 {
 	m_window.clear(CLEAR_DEFAULT_COLOR);
@@ -43,6 +70,7 @@ void CApplication::Render()
 		m_window.draw(*shape);
 	}
 
+	m_button.Draw(m_window);
 	m_window.display();
 }
 
@@ -71,7 +99,7 @@ void CApplication::ProcessEvents()
 
 void CApplication::ProcessGUI(Event& event)
 {
-	//if (m_slider.OnEvent(event)) {
-	//	m_slider.handler(m_slider.IsChecked());
-	//}
+	if (m_button.OnEvent(event)) {
+		m_button.handler(m_button.IsChecked());
+	}
 }

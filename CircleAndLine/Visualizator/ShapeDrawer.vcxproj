@@ -161,6 +161,7 @@
     <ClCompile Include="..\Solver.cpp" />
     <ClCompile Include="..\SPoint.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shapes\CShape.cpp" />
     <ClCompile Include="Shapes\IShape.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="ShapeVisitor.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TaskCGW.cpp" />
+    <ClCompile Include="tinyfiledialogs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\FileManager.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="..\Solver.h" />
     <ClInclude Include="..\SPoint.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Shapes\CShape.h" />
     <ClInclude Include="Shapes\IAccepter.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="ShapeVisitor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TaskCGW.h" />
+    <ClInclude Include="tinyfiledialogs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
