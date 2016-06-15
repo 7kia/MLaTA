@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Application.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Runner.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Solver.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SPoint.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FileManager.cpp">
+      <Filter>Task</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskCGW.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeVisitor.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LineSegment.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\IShape.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\CShape.cpp">
+      <Filter>Visual\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyfiledialogs.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Application.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Runner.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Solver.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SPoint.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FileManager.h">
+      <Filter>Task</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskCGW.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeVisitor.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IAccepter.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IVisitor.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\LineSegment.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IShape.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\CShape.h">
+      <Filter>Visual\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Task">
+      <UniqueIdentifier>{a18b65bd-26e9-4cda-810f-2fb8bd4d1878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual">
+      <UniqueIdentifier>{64c4b71f-31df-48ad-afbe-2a6f7dcadac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual\Shapes">
+      <UniqueIdentifier>{f42693bd-04cc-4702-9271-fac06c294b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{43472d14-79db-48a3-bbab-e8c54c854169}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

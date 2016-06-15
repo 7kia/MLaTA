@@ -11,6 +11,9 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/operation.hpp>
 
+#pragma warning (disable: 4996)
+
+
 #include "SPoint.h"
 
 struct SDataForSolver

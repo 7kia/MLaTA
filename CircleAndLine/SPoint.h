@@ -2,6 +2,8 @@
 
 #include <SFML\Graphics.hpp>
 
+
+
 struct SPoint
 {
 	SPoint();
