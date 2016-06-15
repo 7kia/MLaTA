@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#define _USE_MATH_DEFINES 
 #include "Shapes\IShape.h"
 #include "Shapes\LineSegment.h"
 

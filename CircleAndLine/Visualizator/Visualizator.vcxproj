@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,18 +18,54 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\FileManager.h" />
+    <ClInclude Include="..\Runner.h" />
+    <ClInclude Include="..\Solver.h" />
+    <ClInclude Include="..\SPoint.h" />
+    <ClInclude Include="..\stdafx.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Shapes\AllShapes.h" />
+    <ClInclude Include="Shapes\CShape.h" />
+    <ClInclude Include="Shapes\IAccepter.h" />
+    <ClInclude Include="Shapes\IShape.h" />
+    <ClInclude Include="Shapes\IVisitor.h" />
+    <ClInclude Include="Shapes\LineSegment.h" />
+    <ClInclude Include="ShapeVisitor.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TaskCGW.h" />
+    <ClInclude Include="tinyfiledialogs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\FileManager.cpp" />
+    <ClCompile Include="..\Runner.cpp" />
+    <ClCompile Include="..\Solver.cpp" />
+    <ClCompile Include="..\SPoint.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shapes\CShape.cpp" />
+    <ClCompile Include="Shapes\IShape.cpp" />
+    <ClCompile Include="Shapes\LineSegment.cpp" />
+    <ClCompile Include="ShapeVisitor.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TaskCGW.cpp" />
+    <ClCompile Include="tinyfiledialogs.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5A0A21F4-0C4C-4969-841E-87814F107FAB}</ProjectGuid>
+    <ProjectGuid>{97610519-7F3A-4B3E-935F-D47665F16204}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ShapeDrawer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>GraphVolume</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -41,7 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -100,11 +136,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\SFML\include;C:\Program Files (x86)\Visual Leak Detector\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,40 +191,6 @@
       <AdditionalLibraryDirectories>C:\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\FileManager.cpp" />
-    <ClCompile Include="..\Runner.cpp" />
-    <ClCompile Include="..\Solver.cpp" />
-    <ClCompile Include="..\SPoint.cpp" />
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shapes\CShape.cpp" />
-    <ClCompile Include="Shapes\IShape.cpp" />
-    <ClCompile Include="Shapes\LineSegment.cpp" />
-    <ClCompile Include="ShapeVisitor.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TaskCGW.cpp" />
-    <ClCompile Include="tinyfiledialogs.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\FileManager.h" />
-    <ClInclude Include="..\Runner.h" />
-    <ClInclude Include="..\Solver.h" />
-    <ClInclude Include="..\SPoint.h" />
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Shapes\CShape.h" />
-    <ClInclude Include="Shapes\IAccepter.h" />
-    <ClInclude Include="Shapes\IShape.h" />
-    <ClInclude Include="Shapes\IVisitor.h" />
-    <ClInclude Include="Shapes\LineSegment.h" />
-    <ClInclude Include="ShapeVisitor.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TaskCGW.h" />
-    <ClInclude Include="tinyfiledialogs.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

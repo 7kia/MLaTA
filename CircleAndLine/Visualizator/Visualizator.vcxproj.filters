@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Shapes\CShape.cpp">
+      <Filter>Clasess\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\IShape.cpp">
+      <Filter>Clasess\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Shapes\LineSegment.cpp">
+      <Filter>Clasess\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeVisitor.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskCGW.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyfiledialogs.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SPoint.cpp">
+      <Filter>Clasess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FileManager.cpp">
+      <Filter>Clasess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Runner.cpp">
+      <Filter>Clasess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Solver.cpp">
+      <Filter>Clasess</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Shapes\AllShapes.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\CShape.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IAccepter.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IShape.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\IVisitor.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Shapes\LineSegment.h">
+      <Filter>Clasess\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeVisitor.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskCGW.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyfiledialogs.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SPoint.h">
+      <Filter>Clasess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FileManager.h">
+      <Filter>Clasess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Runner.h">
+      <Filter>Clasess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Solver.h">
+      <Filter>Clasess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\stdafx.h">
+      <Filter>Clasess</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Clasess">
+      <UniqueIdentifier>{3fecace2-0c0c-48fe-bf22-d44ab1cbda56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Clasess\Shape">
+      <UniqueIdentifier>{be70c6a7-cbe7-41b3-837a-a94bdf9dd33f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual">
+      <UniqueIdentifier>{f356de8f-499c-4df5-a3e7-9132e90fe254}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
