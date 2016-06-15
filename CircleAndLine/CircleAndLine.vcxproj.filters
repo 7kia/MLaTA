@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Файлы исходного кода\Classes">
-      <UniqueIdentifier>{935e606f-01d3-4fcc-aa07-91f512b6738d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -27,40 +24,13 @@
     <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Runner.h">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Solver.h">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SPoint.h">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="FileManager.h">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="CircleAndLine.cpp">
       <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Runner.cpp">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Solver.cpp">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="SPoint.cpp">
-      <Filter>Файлы исходного кода\Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>Файлы исходного кода\Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

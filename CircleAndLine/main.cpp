@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
 	try
 	{
 		CheckParametrs(argc);
-		CRunner runner(argv[1], argv[2]);
+		CRunner runner;
 
-		runner.Run();
+		runner.Run(argv[1], argv[2]);
 	}
 	catch (const std::exception& e)
 	{
