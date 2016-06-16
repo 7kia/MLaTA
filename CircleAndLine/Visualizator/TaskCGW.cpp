@@ -47,9 +47,17 @@ TaskCGW::DataForDraw TaskCGW::ExtractDataForDraw(const SDataForSolver & dataForS
 {
 	DataForDraw result;
 
+	
+
 	result.firstPoint = dataForSolver.firstPoint;
 	result.secondPoint = dataForSolver.secondPoint;
 	result.radius = dataForSolver.radiusCircle;
+
+	// sort
+	if (result.firstPoint.x < result.secondPoint.x)
+	{
+		swap(result.firstPoint, result.secondPoint);
+	}
 
 	auto pointsIntersection = GetPointsIntersection(dataForSolver);
 
@@ -68,6 +76,7 @@ TaskCGW::DataForDraw TaskCGW::ExtractDataForDraw(const SDataForSolver & dataForS
 		result.tangentPointFromFirst = NOT_POINT;
 		result.tangentPointFromSecond = NOT_POINT;
 	}
+
 
 	return result;
 }
