@@ -57,6 +57,9 @@ protected:
 	SCoefficientForLineEquation		GetLineEquation(const SPoint & firstPosition, const SPoint & secondPosition);
 
 	std::pair<SPoint, SPoint>		GetPointsIntersection(const SDataForSolver & data);
+	bool							CheckIntersection(const SPoint & point
+													, const SPoint & startLine
+													, const SPoint & endLine);
 	float							GetLineLength(const SPoint & firstPosition, const SPoint & secondPosition);
 	float							GetLineLength(const std::pair<SPoint, SPoint> & pair);
 

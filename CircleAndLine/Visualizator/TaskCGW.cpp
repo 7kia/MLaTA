@@ -20,7 +20,7 @@ ListShape TaskCGW::GetRenderShape(const string & namedataFile)
 	AddCircle(result, dataForDraw);
 
 
-	if (dataForDraw.tangentPointFromFirst != SPoint())
+	if (dataForDraw.tangentPointFromFirst != NOT_POINT)
 	{
 		AddTangentLines(result, dataForDraw);
 		AddArc(result, dataForDraw);
@@ -52,13 +52,22 @@ TaskCGW::DataForDraw TaskCGW::ExtractDataForDraw(const SDataForSolver & dataForS
 	result.radius = dataForSolver.radiusCircle;
 
 	auto pointsIntersection = GetPointsIntersection(dataForSolver);
-	result.tangentPointFromFirst = GetPointTangent(result.firstPoint
-													, pointsIntersection.first
-													, result.radius);
 
-	result.tangentPointFromSecond = GetPointTangent(result.secondPoint
-													, pointsIntersection.second
-													, result.radius);
+	if (pointsIntersection != std::pair<SPoint, SPoint>(NOT_POINT, NOT_POINT))
+	{
+		result.tangentPointFromFirst = GetPointTangent(result.firstPoint
+			, pointsIntersection.first
+			, result.radius);
+
+		result.tangentPointFromSecond = GetPointTangent(result.secondPoint
+			, pointsIntersection.second
+			, result.radius);
+	}
+	else
+	{
+		result.tangentPointFromFirst = NOT_POINT;
+		result.tangentPointFromSecond = NOT_POINT;
+	}
 
 	return result;
 }

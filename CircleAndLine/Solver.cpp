@@ -4,6 +4,18 @@
 using namespace boost::numeric::ublas;
 using namespace std;
 
+template<typename T>
+bool IsBetween(T value, T first, T second)
+{
+	if (first > second)
+	{
+		T periphery = first;
+		first = second;
+		second = periphery;
+	}
+	return (second >= value) && (first <= value);
+}
+
 void CSolver::CheckAmountStrings()
 {
 	if (m_amountStrings < 1)
@@ -121,9 +133,32 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 		secomdPoint.y = -(lineEquation.A * secondRoot + lineEquation.C) / lineEquation.B;
 	}
 
+	if (!CheckIntersection(firstPoint, data.firstPoint, data.secondPoint)
+		|| !CheckIntersection(secomdPoint, data.firstPoint, data.secondPoint))
+	{
+		return  std::pair<SPoint, SPoint>(NOT_POINT, NOT_POINT);
+	}
+
 	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);// TOOD : event when points no
 }
 
+
+bool CSolver::CheckIntersection(const SPoint & point
+								, const SPoint & startLine
+								, const SPoint & endLine)
+{
+	SCoefficientForLineEquation lineEquation = GetLineEquation(startLine, endLine);
+
+	float result = (lineEquation.A * point.x) + (lineEquation.B * point.y) + lineEquation.C;
+
+
+	bool intersectX = IsBetween(point.x, startLine.x, endLine.x);
+	bool intersectY = IsBetween(point.y, startLine.y, endLine.y);
+
+	return (result == 0.f)
+		&& intersectY
+		&& intersectX;
+}
 
 float CSolver::GetLineLength(const SPoint & firstPosition, const SPoint & secondPosition)
 {
@@ -253,7 +288,7 @@ float CSolver::GetDistanseLineConectTwoPoints(const std::string & inputString)
 
 	float result = 0.f;
 
-	if ((pointsIntersection.first != SPoint()) && (pointsIntersection.second != SPoint()))
+	if ((pointsIntersection.first != NOT_POINT) && (pointsIntersection.second != NOT_POINT))
 	{
 		result += GetLineLength(data.firstPoint, firstPointTangent);
 		result += GetLineLength(data.secondPoint, secondPointTangent);

@@ -27,6 +27,8 @@ void CShapeConverter::Convert(const CLineSegment & data)
 		angle *= -1.f;
 	}
 
+
+
 	line->setRotation(angle);
 
 	m_convertShape = std::move(line);

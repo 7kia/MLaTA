@@ -64,6 +64,24 @@ BOOST_AUTO_TEST_CASE(length_without_intersection)
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
+
+
+BOOST_AUTO_TEST_CASE(line_is_right_low_corner)
+{
+	std::string nameInputFile = "input4.txt";
+	std::string nameOutputFile = "output4.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
+
+BOOST_AUTO_TEST_CASE(line_is_left_low_corner)
+{
+	std::string nameInputFile = "input5.txt";
+	std::string nameOutputFile = "output5.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
 /*
 BOOST_AUTO_TEST_CASE(Check_graph_with_several_loop)
 {
