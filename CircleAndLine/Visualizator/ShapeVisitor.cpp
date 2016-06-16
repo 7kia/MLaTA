@@ -8,10 +8,16 @@ void CShapeConverter::Convert(const CLineSegment & data)
 	line->setFillColor(data.GetFillColor());
 	line->setSize(sf::Vector2f(THIKNESS_LINE, data.GetPerimeter()));
 	line->setOrigin(ORIGIN_LINE);
-	line->setPosition(data.GetPositiionFirstPoint());
 
-	sf::Vector2f coordinateSecondPointInZeroSystemCoordinates = data.GetPositiionSecondPoint();//
-	coordinateSecondPointInZeroSystemCoordinates -= data.GetPositiionFirstPoint();
+
+	sf::Vector2f firstPos = { data.GetPositiionFirstPoint().x, -data.GetPositiionFirstPoint().y };
+	line->setPosition(firstPos);
+
+
+	sf::Vector2f secondPos = { data.GetPositiionSecondPoint().x, -data.GetPositiionSecondPoint().y };
+
+	sf::Vector2f coordinateSecondPointInZeroSystemCoordinates = secondPos;//
+	coordinateSecondPointInZeroSystemCoordinates -= firstPos;
 
 	float angle = (atan2(coordinateSecondPointInZeroSystemCoordinates.x,
 						coordinateSecondPointInZeroSystemCoordinates.y)) 

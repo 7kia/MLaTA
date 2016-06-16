@@ -19,9 +19,6 @@ public:
 	void				Run();
 
 private:
-	const int WIDTH_WINDOW = 600;
-	const int HEIGHT_WINDOW = 600;
-
 	const std::string TITLE_WINDOW = "CGW for lab \"Circle and line\"";
 
 private:

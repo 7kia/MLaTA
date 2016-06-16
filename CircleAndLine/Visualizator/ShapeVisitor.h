@@ -7,6 +7,10 @@
 #include "Shapes\IShape.h"
 #include "Shapes\LineSegment.h"
 
+// Neccessary for computing
+const int WIDTH_WINDOW = 600;
+const int HEIGHT_WINDOW = 600;
+
 
 typedef std::vector<std::shared_ptr<sf::Shape>> ListRenderShapes;
 
