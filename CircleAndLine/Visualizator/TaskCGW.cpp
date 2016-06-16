@@ -19,7 +19,6 @@ ListShape TaskCGW::GetRenderShape(const string & namedataFile)
 	DataForDraw dataForDraw = ExtractDataForDraw(namedataFile);
 	AddCircle(result, dataForDraw);
 
-
 	if (dataForDraw.tangentPointFromFirst != NOT_POINT)
 	{
 		AddTangentLines(result, dataForDraw);
@@ -29,7 +28,6 @@ ListShape TaskCGW::GetRenderShape(const string & namedataFile)
 	{
 		AddLine(result, dataForDraw);
 	}
-	//result.push_back(CreateRenderLine(dataForDraw.firstPoint, dataForDraw.tangentPointFromFirst));
 
 	return result;
 }

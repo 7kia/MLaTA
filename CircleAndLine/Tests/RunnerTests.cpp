@@ -82,24 +82,48 @@ BOOST_AUTO_TEST_CASE(line_is_left_low_corner)
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
-/*
-BOOST_AUTO_TEST_CASE(Check_graph_with_several_loop)
+
+BOOST_AUTO_TEST_CASE(line_is_left_high_corner)
 {
-	std::string nameInputFile = "input4.txt";
-	std::string nameOutputFile = "output4.txt";
+	std::string nameInputFile = "input6.txt";
+	std::string nameOutputFile = "output6.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
+BOOST_AUTO_TEST_CASE(line_with_arbitrary_angle_is_left_high_corner)
+{
+	std::string nameInputFile = "input7.txt";
+	std::string nameOutputFile = "output7.txt";
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
 
-BOOST_AUTO_TEST_CASE(Check_big_test_2)
+BOOST_AUTO_TEST_CASE(line_with_arbitrary_angle_is_left_low_corner)
 {
-	std::string nameInputFile = "inputBig.txt";
-	std::string nameOutputFile = "outputBig.txt";
+	std::string nameInputFile = "input8.txt";
+	std::string nameOutputFile = "output8.txt";
 	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
-*/
 
+
+BOOST_AUTO_TEST_CASE(line_with_arbitrary_angle_is_right_low_corner)
+{
+	std::string nameInputFile = "input9.txt";
+	std::string nameOutputFile = "output9.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
+
+
+BOOST_AUTO_TEST_CASE(line_with_arbitrary_angle_is_right_high_corner)
+{
+	std::string nameInputFile = "input10.txt";
+	std::string nameOutputFile = "output10.txt";
+	BOOST_CHECK(TestApplictation(nameInputFile, nameOutputFile));
+	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
