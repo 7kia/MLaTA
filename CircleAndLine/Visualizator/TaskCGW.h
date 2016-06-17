@@ -35,8 +35,8 @@ private:
 	const sf::Vector2f			ORIGIN_LINE = { THIKNESS_LINE / 2.f, 0.f };
 	const float					RADIUS_POINT = 2.f;
 
-	const sf::Color				INTERSECTION_COLOR = sf::Color(0, 255, 0, 255);
-	const sf::Color				NOT_INTERSECTION_COLOR = sf::Color(255, 0, 0, 255);
+	const sf::Color				INTERSECTION_COLOR = sf::Color(255, 255, 255, 255);
+	const sf::Color				NOT_INTERSECTION_COLOR = sf::Color(0, 0, 0, 255);
 	const int					AMOUNT_POINT_IN_ARC = 20;
 	const float					SCALING_FACTOR = 50.f;
 private:

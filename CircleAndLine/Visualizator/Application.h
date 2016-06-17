@@ -7,7 +7,7 @@
 static const int AMOUNT_ARGUMENTS = 3;
 static const std::string MESSAGE_INCORRECT_AMOUNT_ARGUMENTS = "Incorrect amount arguments! Must will be ";
 
-static const sf::Color CLEAR_DEFAULT_COLOR = sf::Color(0, 0, 120);
+static const sf::Color CLEAR_DEFAULT_COLOR = sf::Color(120, 120, 120);
 
 void CheckParametrs(int argc);
 
@@ -16,7 +16,7 @@ class CApplication
 public:
 	CApplication();
 
-	void				Run();
+	void							Run();
 
 private:
 	const std::string TITLE_WINDOW = "CGW for lab \"Circle and line\"";

@@ -126,4 +126,5 @@ BOOST_AUTO_TEST_CASE(line_with_arbitrary_angle_is_right_high_corner)
 	CompareFiles(nameOutputFile, PATH_RIGHT_DATA + nameOutputFile);
 }
 
+
 BOOST_AUTO_TEST_SUITE_END()

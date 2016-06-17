@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "main.h"
 
 using namespace std;

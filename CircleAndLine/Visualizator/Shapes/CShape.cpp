@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CShape.h"
 
 CShape::CShape(const std::string & type, sf::Color color)

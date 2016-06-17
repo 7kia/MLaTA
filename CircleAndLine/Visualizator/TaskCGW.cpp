@@ -62,12 +62,12 @@ TaskCGW::DataForDraw TaskCGW::ExtractDataForDraw(const SDataForSolver & dataForS
 	if (pointsIntersection != std::pair<SPoint, SPoint>(NOT_POINT, NOT_POINT))
 	{
 		result.tangentPointFromFirst = GetPointTangent(result.firstPoint
-			, pointsIntersection.first
-			, result.radius);
+														, pointsIntersection.first
+														, result.radius);
 
 		result.tangentPointFromSecond = GetPointTangent(result.secondPoint
-			, pointsIntersection.second
-			, result.radius);
+														, pointsIntersection.second
+														, result.radius);
 	}
 	else
 	{
@@ -122,7 +122,7 @@ void TaskCGW::AddArc(ListShape & list, const DataForDraw & dataForDraw)
 
 		sf::Vector2f endLine = Vector2f(currentX, currentY);
 
-		CLineSegment partArc(startLine  * SCALING_FACTOR//
+		CLineSegment partArc(startLine  * SCALING_FACTOR
 							, endLine * SCALING_FACTOR
 							, INTERSECTION_COLOR);
 
@@ -140,7 +140,7 @@ void TaskCGW::AddCircle(ListShape & list, const DataForDraw & dataForDraw)
 	circle->setRadius(dataForDraw.radius  * SCALING_FACTOR);
 	circle->setOutlineThickness(THIKNESS_LINE);
 
-	circle->setFillColor(sf::Color::Black);
+	circle->setFillColor(sf::Color(120, 120, 120, 255));
 	circle->setOutlineColor(NOT_INTERSECTION_COLOR);
 
 	circle->setPosition(sf::Vector2f());

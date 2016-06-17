@@ -120,10 +120,10 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 	{
 		float denumerator = 2.f * A;
 
-		firstRoot = -(B * B) + discriminant;
+		firstRoot = -(B ) + discriminant;
 		firstRoot /= denumerator;
 
-		secondRoot = -(B * B) - discriminant;
+		secondRoot = -(B ) - discriminant;
 		secondRoot /= denumerator;
 
 		firstPoint.x = firstRoot;
@@ -139,7 +139,7 @@ std::pair<SPoint, SPoint> CSolver::GetPointsIntersection(const SDataForSolver & 
 		return  std::pair<SPoint, SPoint>(NOT_POINT, NOT_POINT);
 	}
 
-	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);// TOOD : event when points no
+	return std::pair<SPoint, SPoint>(firstPoint, secomdPoint);
 }
 
 
@@ -241,7 +241,7 @@ SPoint CSolver::GetPointTangent(const SPoint & point, const SPoint & pointInters
 	float angleBetweenRAndCathtus = GetAngleBetweenCathetusAndHypotenuse(radius, hypotenuse);
 
 	// ïðîòèâ÷àñîâîé
-	bool consideredÑounterclockwise = point.x < 0.f;
+	bool consideredÑounterclockwise = point.x < pointIntersection.x;
 
 	matrix<float> vector(1, 2);
 	vector.at_element(0, 0) = pointIntersection.x;
